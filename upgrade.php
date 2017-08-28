@@ -1,3 +1,10 @@
+<?php
+session_start();
+    $role = $_SESSION['sess_userrole'];
+    if(!isset($_SESSION['sess_username']) && $role!="admin"){
+      header('Location: index.php?err=2');
+    }
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -35,7 +42,7 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-background-color="white" data-active-color="danger">
+    <div class="sidebar" data-background-color="black" data-active-color="danger">
 
     <!--
 		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
@@ -51,53 +58,53 @@
 
             <ul class="nav">
                 <li>
-                    <a href="dashboard.html">
+                    <a href="dashboard.php">
                         <i class="ti-panel"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a href="user.html">
+                    <a href="user.php">
                         <i class="ti-user"></i>
                         <p>User Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
                     </a>
                 </li>
                 <li>
-                    <a href="typography.html">
+                    <a href="typography.php">
                         <i class="ti-text"></i>
                         <p>Typography</p>
                     </a>
                 </li>
                 <li>
-                    <a href="icons.html">
+                    <a href="icons.php">
                         <i class="ti-pencil-alt2"></i>
                         <p>Icons</p>
                     </a>
                 </li>
                 <li>
-                    <a href="maps.html">
+                    <a href="maps.php">
                         <i class="ti-map"></i>
                         <p>Maps</p>
                     </a>
                 </li>
-                <li>
-                    <a href="notifications.html">
+                <!-- <li>
+                    <a href="notifications.php">
                         <i class="ti-bell"></i>
                         <p>Notifications</p>
                     </a>
-                </li>
-				<li class="active active-pro">
-                    <a href="upgrade.html">
+                </li> -->
+				<!-- <li class="active active-pro">
+                    <a href="upgrade.php">
                         <i class="ti-export"></i>
                         <p>Upgrade to PRO</p>
                     </a>
-                </li>
+                </li> -->
             </ul>
     	</div>
     </div>
@@ -226,7 +233,7 @@
         </div>
 
 
-        <footer class="footer">
+     <!--    <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
@@ -252,7 +259,7 @@
                     &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
                 </div>
             </div>
-        </footer>
+        </footer> -->
 
     </div>
 </div>

@@ -1,3 +1,18 @@
+<?php
+if(!empty($_POST["add_record"])) {
+    require_once("db.php");
+    $sql = "INSERT INTO UNITS ( UNITS ) VALUES ( :units )";
+    $pdo_statement = $DB_con->prepare( $sql );
+        
+    $result = $pdo_statement->execute( array( ':units'=>$_POST['units'] ) );
+    if (!empty($result) ){
+      header('location:unit.php');
+    }
+}
+?>
+<?php
+include_once 'db.php';
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -34,7 +49,7 @@
 <body>
 
 <div class="wrapper">
-	<div class="sidebar" data-background-color="white" data-active-color="danger">
+	<div class="sidebar" data-background-color="black" data-active-color="danger">
 
     <!--
 		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
@@ -43,60 +58,72 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
+                     Tracker
                 </a>
             </div>
 
             <ul class="nav">
                 <li>
-                    <a href="dashboard.html">
+                    <a href="dashboard.php">
                         <i class="ti-panel"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a href="user.html">
+                    <a href="categories.php">
                         <i class="ti-user"></i>
-                        <p>User Profile</p>
+                        <p>Categories</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
                     </a>
                 </li>
                 <li>
-                    <a href="typography.html">
+                    <a href="additem.php">
                         <i class="ti-text"></i>
-                        <p>Typography</p>
+                        <p>AddItem</p>
                     </a>
                 </li>
                 <li>
-                    <a href="icons.html">
+                    <a href="addaircraft.php">
                         <i class="ti-pencil-alt2"></i>
-                        <p>Icons</p>
+                        <p>Aircraft Type</p>
                     </a>
                 </li>
                 <li>
-                    <a href="maps.html">
+                    <a href="aircraftregnum.php">
                         <i class="ti-map"></i>
-                        <p>Maps</p>
+                        <p>Aircraft Reg Number</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="notifications.html">
+                    <a href="unit.php">
                         <i class="ti-bell"></i>
-                        <p>Notifications</p>
+                        <p>Add Unit</p>
                     </a>
                 </li>
-				<li class="active-pro">
-                    <a href="upgrade.html">
+                <li>
+                    <a href="parts_awaited.php">
+                        <i class="ti-bell"></i>
+                        <p>Parts Awaited</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="report.php">
+                       <i class="ti-pie-chart"></i>
+                        <p>Reports</p>
+                    </a>
+                </li>
+				<!-- <li class="active-pro">
+                    <a href="upgrade.php">
                         <i class="ti-export"></i>
                         <p>Upgrade to PRO</p>
                     </a>
-                </li>
+                </li> -->
             </ul>
     	</div>
     </div>
@@ -111,7 +138,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Notifications</a>
+                    <a class="navbar-brand" href="#">UNITS</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -137,7 +164,7 @@
                               </ul>
                         </li> -->
                         <li>
-                            <a href="#">
+                            <a href="logout.php">
                                 <i class="ti-settings"></i>
                                 <p>Logout</p>
                             </a>
@@ -149,96 +176,99 @@
         </nav>
 
 
-        <div class="content">
+         <div class="content">
             <div class="container-fluid">
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title">Notifications</h4>
-                        <p class="category">Handcrafted by our friend <a target="_blank" href="https://github.com/mouse0270">Robert McIntosh</a>. Please checkout the <a href="http://bootstrap-notify.remabledesigns.com/" target="_blank">full documentation.</a></p>
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">ADD UNIT</h4>
+                            </div>
+                            <div class="content">
+                                <form name="frmAdd" action="" method="POST">
+                                   
 
-                    </div>
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5>Notifications Style</h5>
-                                <div class="alert alert-info">
-                                    <span>This is a plain notification</span>
-                                </div>
-                                <div class="alert alert-info">
-                                    <button type="button" aria-hidden="true" class="close">×</button>
-                                    <span>This is a notification with close button.</span>
-                                </div>
-                                <div class="alert alert-info alert-with-icon" data-notify="container">
-                                    <button type="button" aria-hidden="true" class="close">×</button>
-                                    <span data-notify="icon" class="ti-bell"></span>
-                                    <span data-notify="message">This is a notification with close button and icon.</span>
-                                </div>
-                                <div class="alert alert-info alert-with-icon" data-notify="container">
-                                    <button type="button" aria-hidden="true" class="close">×</button>
-                                    <span data-notify="icon" class="ti-pie-chart"></span>
-                                    <span data-notify="message">This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h5>Notification states</h5>
-                                <div class="alert alert-info">
-                                    <button type="button" aria-hidden="true" class="close">×</button>
-                                    <span><b> Info - </b> This is a regular notification made with ".alert-info"</span>
-                                </div>
-                                <div class="alert alert-success">
-                                    <button type="button" aria-hidden="true" class="close">×</button>
-                                    <span><b> Success - </b> This is a regular notification made with ".alert-success"</span>
-                                </div>
-                                <div class="alert alert-warning">
-                                    <button type="button" aria-hidden="true" class="close">×</button>
-                                    <span><b> Warning - </b> This is a regular notification made with ".alert-warning"</span>
-                                </div>
-                                <div class="alert alert-danger">
-                                    <button type="button" aria-hidden="true" class="close">×</button>
-                                    <span><b> Danger - </b> This is a regular notification made with ".alert-danger"</span>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="places-buttons">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <h5>Notifications Places
-                                        <p class="category">Click to view notifications</p>
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <button class="btn btn-default btn-block" onclick="demo.showNotification('top','left')">Top Left</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn btn-default btn-block" onclick="demo.showNotification('top','center')">Top Center</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn btn-default btn-block" onclick="demo.showNotification('top','right')">Top Right</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <button class="btn btn-default btn-block" onclick="demo.showNotification('bottom','left')">Bottom Left</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn btn-default btn-block" onclick="demo.showNotification('bottom','center')">Bottom Center</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn btn-default btn-block" onclick="demo.showNotification('bottom','right')">Bottom Right</button>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>UNITS</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="units" placeholder="UNIT">
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+
+                                   
+                                    <div class="text-center">
+                                        <button  type="submit" name="add_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">ADD UNIT</button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- start of the second card-->
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">DISPLAY UNITS</h4>
+                            </div>
+                            <div class="content">
+                            <table class="tbl-qa table table table-bordered table-responsive ">
+                            <?php   
+    $pdo_statement = $DB_con->prepare("SELECT * FROM units ORDER BY id ASC");
+    $pdo_statement->execute();
+    $result = $pdo_statement->fetchAll();
+?>
+  <thead>
+    <tr>
+    <th class="table-header" width="20%">Id</th>
+      <th class="table-header" width="20%">UNITS</th>
+      <!-- <th class="table-header" width="40%">Description</th>
+      <th class="table-header" width="20%">Date</th>-->
+      <th class="table-header" width="5%">Actions</th> 
+    </tr>
+  </thead>
+  <tbody id="table-body">
+    <?php
+    if(!empty($result)) { 
+        foreach($result as $row) {
+    ?>
+      <tr class="table-row">
+      <td><?php echo $row["ID"]; ?></td>
+        <td><?php echo $row["UNITS"]; ?></td>
+        
+        <td><a class="ajax-action-links" href='editunit.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a> <a class="ajax-action-links" href='deleteunit.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a></td>
+      </tr>
+    <?php
+        }
+    }
+    ?>
+  </tbody>
+</table>
+
+   
+       
+
+                            <!-- this is the place for the content of the table aircraft types-->
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end of the secind card-->
+
+
                 </div>
             </div>
         </div>
 
 
-        <footer class="footer">
+     <!--    <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
@@ -264,7 +294,7 @@
                     &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
                 </div>
             </div>
-        </footer>
+        </footer> -->
 
     </div>
 </div>

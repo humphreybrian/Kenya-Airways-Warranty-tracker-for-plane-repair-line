@@ -1,3 +1,16 @@
+<?php
+require_once("db.php");
+if(!empty($_POST["save_record"])) {
+    $pdo_statement=$DB_con->prepare("update aircrafts set type='" . trim($_POST[ 'type' ]) . "'  where id=" . $_GET["id"]);
+    $result = $pdo_statement->execute();
+    if($result) {
+        header('location:addaircraft.php');
+    }
+}
+$pdo_statement = $DB_con->prepare("SELECT * FROM aircrafts where id=" . $_GET["id"]);
+$pdo_statement->execute();
+$result = $pdo_statement->fetchAll();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -35,7 +48,7 @@
 <body>
 
 <div class="wrapper">
-	<div class="sidebar" data-background-color="white" data-active-color="danger">
+	<div class="sidebar" data-background-color="black" data-active-color="danger">
 
     <!--
 		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
@@ -44,20 +57,12 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
+                     Tracker
                 </a>
             </div>
 
-            <ul class="nav">
-                <li class="active">
-                    <a href="dashboard.html">
-                        <i class="ti-pie-chart"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-
-            </ul>
+            <
     	</div>
     </div>
 
@@ -71,31 +76,11 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Template</a>
+                    <a class="navbar-brand" href="#">AIRCRAFT REGISTRATION NUMBER</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="ti-panel"></i>
-                                <p>Stats</p>
-                            </a>
-                        </li> -->
-                       <!--  <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="ti-bell"></i>
-                                    <p class="notification">5</p>
-                                    <p>Notifications</p>
-                                    <b class="caret"></b>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
-                              </ul>
-                        </li> -->
+                        
                         <li>
                             <a href="#">
                                 <i class="ti-settings"></i>
@@ -112,29 +97,44 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">EDIT AIRCRAFT REGISTRATION NUMBER</h4>
+                            </div>
+                            <div class="content">
+                                     <form name="frmAdd" action="" method="POST">
+                                   
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>AIRCRAFT REGITSRATION NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $result[0]['TYPE']; ?>" name="type" placeholder="AIRCRAFT TYPE" ></div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" name="save_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit" >SAVE CHANGES</button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- start of the second card-->
+
+                    
+
+                    <!-- end of the secind card-->
+
 
                 </div>
             </div>
         </div>
 
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-
-                        <li>
-                            <a href="#">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-				<div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
-                </div>
-            </div>
-        </footer>
 
     </div>
 </div>
@@ -164,5 +164,10 @@
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
 
+    <script>
+        $().ready(function(){
+            demo.initGoogleMaps();
+        });
+    </script>
 
 </html>

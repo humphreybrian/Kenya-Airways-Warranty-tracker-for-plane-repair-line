@@ -1,3 +1,18 @@
+<?php
+if(!empty($_POST["add_record"])) {
+    require_once("db.php");
+    $sql = "INSERT INTO AIRREGNUM ( REGNUM ) VALUES ( :regnum )";
+    $pdo_statement = $DB_con->prepare( $sql );
+        
+    $result = $pdo_statement->execute( array( ':regnum'=>$_POST['regnum'] ) );
+    if (!empty($result) ){
+      header('location:aircraftregnum.php');
+    }
+}
+?>
+<?php
+include_once 'db.php';
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -35,7 +50,7 @@
 <body>
 
 <div class="wrapper">
-	<div class="sidebar" data-background-color="white" data-active-color="danger">
+	<div class="sidebar" data-background-color="black" data-active-color="danger">
 
     <!--
 		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
@@ -44,60 +59,73 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
+                     Tracker
                 </a>
             </div>
 
             <ul class="nav">
                 <li>
-                    <a href="dashboard.html">
+                    <a href="dashboard.php">
                         <i class="ti-panel"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a href="user.html">
+                    <a href="categories.php">
                         <i class="ti-user"></i>
-                        <p>User Profile</p>
+                        <p>Categories</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
                     </a>
                 </li>
-                <li>
-                    <a href="typography.html">
+        
+                 <li >
+                    <a href="additem.php">
                         <i class="ti-text"></i>
-                        <p>Typography</p>
+                        <p>AddItem</p>
                     </a>
                 </li>
-                <li>
-                    <a href="icons.html">
+               <li>
+                    <a href="addaircraft.php">
                         <i class="ti-pencil-alt2"></i>
-                        <p>Icons</p>
+                        <p>Aircraft Type</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="maps.html">
+                    <a href="aircraftregnum.php">
                         <i class="ti-map"></i>
-                        <p>Maps</p>
+                        <p>Aircraft Reg Number</p>
+                    </a>
+                </li>
+               <li>
+                    <a href="unit.php">
+                        <i class="ti-bell"></i>
+                        <p>Add Unit</p>
                     </a>
                 </li>
                 <li>
-                    <a href="notifications.html">
+                    <a href="parts_awaited.php">
                         <i class="ti-bell"></i>
-                        <p>Notifications</p>
+                        <p>Parts Awaited</p>
                     </a>
                 </li>
-				<li class="active-pro">
-                    <a href="upgrade.html">
+                <li >
+                    <a href="report.php">
+                       <i class="ti-pie-chart"></i>
+                        <p>Reports</p>
+                    </a>
+                </li>
+				<!-- <li class="active-pro">
+                    <a href="upgrade.php">
                         <i class="ti-export"></i>
                         <p>Upgrade to PRO</p>
                     </a>
-                </li>
+                </li> -->
             </ul>
     	</div>
     </div>
@@ -112,7 +140,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Maps</a>
+                    <a class="navbar-brand" href="#">AIRCRAFT REGISTRATION NUMBER</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -138,7 +166,7 @@
                               </ul>
                         </li> -->
                         <li>
-                            <a href="#">
+                            <a href="logout.php">
                                 <i class="ti-settings"></i>
                                 <p>Logout</p>
                             </a>
@@ -149,7 +177,122 @@
             </div>
         </nav>
 
-		<div class="content">
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">ADD AIRCRAFT REGISTRATION NUMBER</h4>
+                            </div>
+                            <div class="content">
+                          <!--   <div style="margin:20px 0px;text-align:right;"><a href="table.php" class="button_link">Back to List</a></div> -->
+<!-- <div class="frm-add"> -->
+<!-- <h1 class="demo-form-heading">Add New Record</h1> -->
+<!-- <form name="frmAdd" action="" method="POST">
+  <div class="demo-form-row">
+      <label>Title: </label><br>
+      <input type="text" name="post_title" class="demo-form-field" required />
+  </div>
+  <div class="demo-form-row">
+      <label>Description: </label><br>
+      <textarea name="description" class="demo-form-field" rows="5" required ></textarea>
+  </div>
+  <div class="demo-form-row">
+      <label>Date: </label><br>
+      <input type="date" name="post_at" class="demo-form-field" required />
+  </div>
+  <div class="demo-form-row">
+      <input name="add_record" type="submit" value="Add" class="demo-form-submit">
+  </div>
+  </form> -->
+<!-- </div> -->
+                                <form name="frmAdd" action="" method="POST">
+                                   
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>AIRCRAFT REGITSRATION NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="regnum" placeholder="Aircraft registration number">
+                                            </div>
+                                        </div>
+                                         
+                                         
+                                       
+                                    </div>
+
+                                   
+                                    <div class="text-center">
+                                        <button type="submit" name="add_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit" >ADD AIRCRAFT REGISTRATION NUMBER</button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- start of the second card-->
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">MANAGE AIRCRAFT REGISTRATION NUMBER</h4>
+                            </div>
+                            <div class="content">
+                            <table class="tbl-qa table table table-bordered table-responsive ">
+                            <?php   
+    $pdo_statement = $DB_con->prepare("SELECT * FROM airregnum ORDER BY id ASC");
+    $pdo_statement->execute();
+    $result = $pdo_statement->fetchAll();
+?>
+  <thead>
+    <tr>
+    <th class="table-header" width="20%">Id</th>
+      <th class="table-header" width="20%">TYPE</th>
+      <!-- <th class="table-header" width="40%">Description</th>
+      <th class="table-header" width="20%">Date</th>-->
+      <th class="table-header" width="5%">Actions</th> 
+    </tr>
+  </thead>
+  <tbody id="table-body">
+    <?php
+    if(!empty($result)) { 
+        foreach($result as $row) {
+    ?>
+      <tr class="table-row">
+      <td><?php echo $row["ID"]; ?></td>
+        <td><?php echo $row["REGNUM"]; ?></td>
+        
+        <td><a class="ajax-action-links" href='editair_reg.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a> <a class="ajax-action-links" href='deleteair_reg.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a></td>
+      </tr>
+    <?php
+        }
+    }
+    ?>
+  </tbody>
+</table>
+
+   
+       
+
+                            <!-- this is the place for the content of the table aircraft types-->
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end of the secind card-->
+
+
+                </div>
+            </div>
+        </div>
+
+		<!-- <div class="content">
             <div class="container-fluid">
                 <div class="card card-map">
 					<div class="header">
@@ -160,9 +303,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
-		<footer class="footer">
+		<!-- <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
@@ -188,7 +331,7 @@
                     &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
                 </div>
             </div>
-        </footer>
+        </footer> -->
 
     </div>
 </div>
