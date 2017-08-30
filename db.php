@@ -15,6 +15,7 @@ $db_username = "warrantytracker";
 $db_password = "warranty#tracker";
 
 
+
 try
 {
  $DB_con = new PDO("oci:dbname=".$tns,$db_username,$db_password);

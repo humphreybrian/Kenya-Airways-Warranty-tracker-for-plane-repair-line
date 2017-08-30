@@ -1,26 +1,45 @@
 <?php
+ require_once("db.php");
 session_start();
     $role = $_SESSION['sess_userrole'];
     if(!isset($_SESSION['sess_username']) && $role!="admin"){
       header('Location: index.php?err=2');
     }
 ?>
+
+<?php
+// start session
+
+// check if username is admin
+if($_SESSION['sess_userrole'] !== 'admin'){
+    // isn't admin, redirect them to a different page
+    header("Location: dashboard.php");
+}
+?>
+
 <?php
 if(!empty($_POST["add_record"])) {
     $passhash = md5($_POST['password']);
-    require_once("db.php");
     $sql = "INSERT INTO TBL_USERS ( USERNAME, PASSWORD, ROLE ) VALUES ( :username, :password, :role )";
     $pdo_statement = $DB_con->prepare( $sql );
         
     $result = $pdo_statement->execute( array( ':username'=>$_POST['username'], ':password'=>$passhash, ':role'=>$_POST['role']) );
     if (!empty($result) ){
       header('location:manageusers.php');
-    }
+    } 
 }
-?>
-<?php
+
+        $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+        $query1 = $DB_con->prepare($q1);
+        $query1->execute(array(':username' => $_SESSION['sess_username']));
+        $row = $query1->fetch(PDO::FETCH_ASSOC);
+        extract($row);
+
 include_once 'db.php';
 ?>
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -73,7 +92,8 @@ include_once 'db.php';
             </div>
 
             <ul class="nav">
-               <!--  <li >
+               
+                <li>
                     <a href="dashboard.php">
                         <i class="ti-panel"></i>
                         <p>Dashboard</p>
@@ -81,46 +101,53 @@ include_once 'db.php';
                 </li>
                 <li>
                     <a href="categories.php">
-                        <i class="ti-user"></i>
+                        <i class="ti-briefcase"></i>
                         <p>Categories</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
                     </a>
                 </li>
-                <li>
+        
+                 <li >
                     <a href="additem.php">
-                        <i class="ti-text"></i>
+                        <i class="ti-save-alt"></i>
                         <p>AddItem</p>
                     </a>
                 </li>
-                <li>
+               <li>
                     <a href="addaircraft.php">
-                        <i class="ti-pencil-alt2"></i>
+                        <i class="ti-location-arrow"></i>
                         <p>Aircraft Type</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="aircraftregnum.php">
-                        <i class="ti-map"></i>
+                        <i class="ti-notepad"></i>
                         <p>Aircraft Reg Number</p>
                     </a>
                 </li>
-               <li>
+              <li>
                     <a href="unit.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-bag"></i>
                         <p>Add Unit</p>
                     </a>
                 </li>
                 <li >
-                    <a href="report.php">
-                       <i class="ti-pie-chart"></i>
+                    <a href="parts_awaited.php">
+                        <i class="ti-settings"></i>
+                        <p>Parts Awaited</p>
+                    </a>
+                </li>
+                <li >
+                   <a href="report.php">
+                       <i class="ti-stats-up"></i>
                         <p>Reports</p>
                     </a>
-                </li> -->
+                </li>
                 <li class="active">
                     <a href="manageusers.php">
                        <i class="ti-user"></i>
@@ -151,6 +178,12 @@ include_once 'db.php';
                         
 
 						<li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                                    <?php echo $USERNAME ?>
+                                </a>
+                        </li>
+                        <li>
                             <a href="logout.php">
                                 <i class="ti-settings"></i>
                                 <p>Logout</p>
@@ -220,7 +253,7 @@ include_once 'db.php';
                     <div class="col-md-12">
                     <div class="card">
                             <div class="header">
-                                <h4 class="title">MANAGE CATEGORIES</h4>
+                                <h4 class="title">MANAGE USERS</h4>
                                <!--  <p class="username">Here is a subtitle for this table</p> -->
                             </div>
                             <?php   

@@ -1,3 +1,18 @@
+<?php
+include_once 'db.php';
+?>
+<?php
+session_start();
+    if(!isset($_SESSION['sess_username'])){
+      header('Location: index.php?err=2');
+    }
+    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+        $query1 = $DB_con->prepare($q1);
+        $query1->execute(array(':username' => $_SESSION['sess_username']));
+        $row = $query1->fetch(PDO::FETCH_ASSOC);
+        extract($row);
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -49,8 +64,8 @@
                 </a>
             </div>
 
-            <ul class="nav">
-                <li >
+           <ul class="nav">
+                <li>
                     <a href="dashboard.php">
                         <i class="ti-panel"></i>
                         <p>Dashboard</p>
@@ -58,7 +73,7 @@
                 </li>
                 <li>
                     <a href="categories.php">
-                        <i class="ti-user"></i>
+                        <i class="ti-briefcase"></i>
                         <p>Categories</p>
                     </a>
                 </li>
@@ -68,42 +83,50 @@
                         <p>Table List</p>
                     </a>
                 </li>
-                <li>
+        
+                 <li >
                     <a href="additem.php">
-                        <i class="ti-text"></i>
+                        <i class="ti-save-alt"></i>
                         <p>AddItem</p>
                     </a>
                 </li>
-                <li>
+               <li>
                     <a href="addaircraft.php">
-                        <i class="ti-pencil-alt2"></i>
+                        <i class="ti-location-arrow"></i>
                         <p>Aircraft Type</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="aircraftregnum.php">
-                        <i class="ti-map"></i>
+                        <i class="ti-notepad"></i>
                         <p>Aircraft Reg Number</p>
                     </a>
                 </li>
-               <li>
+              <li>
                     <a href="unit.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-bag"></i>
                         <p>Add Unit</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="parts_awaited.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-settings"></i>
                         <p>Parts Awaited</p>
                     </a>
                 </li>
                 <li class="active" >
-                    <a href="report.php">
-                       <i class="ti-pie-chart"></i>
+                   <a href="report.php">
+                       <i class="ti-stats-up"></i>
                         <p>Reports</p>
                     </a>
                 </li>
+                <li >
+                    <a href="manageusers.php">
+                       <i class="ti-user"></i>
+                        <p>Manage Users</p>
+                    </a>
+                </li>
+                
             </ul>
     	</div>
     </div>
@@ -143,6 +166,12 @@
                                 <li><a href="#">Another notification</a></li>
                               </ul>
                         </li> -->
+                        <li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                                    <?php echo $USERNAME ?>
+                                </a>
+                        </li>
                         <li>
                             <a href="logout.php">
                                 <i class="ti-settings"></i>

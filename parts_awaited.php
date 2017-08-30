@@ -1,17 +1,29 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO CATEGORIES ( CATEGORY, TAG, DEPARTMENT ) VALUES ( :category, :tag, :department )";
+    $sql = "INSERT INTO POSTS ( PART_NUM, DESCRIPTION, REQUISITION_NUM, REQUISITION_DATE, INSPECTION_NUM, REMARKS, ENGINNER, STORES_COMMENTS, QUANTITY, USERNAME) VALUES ( :part_num, :description, :requisition_num, :requisition_date, :inspection_num, :remarks, :enginner, :stores_comments, :quantity, :username)";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':category'=>$_POST['category'], ':tag'=>$_POST['tag'], ':department'=>$_POST['department']) );
+    $result = $pdo_statement->execute( array( ':part_num'=>$_POST['part_num'], ':description'=>$_POST['description'], ':requisition_num'=>$_POST['requisition_num'], ':requisition_date'=>$_POST['requisition_date'], ':inspection_num'=>$_POST['inspection_num'], ':remarks'=>$_POST['remarks'], ':enginner'=>$_POST['enginner'], ':stores_comments'=>$_POST['stores_comments'], ':quantity'=>$_POST['quantity'], ':username'=>$_POST['username'] ) );
     if (!empty($result) ){
-      header('location:categories.php');
+      header('location:parts_awaited.php');
     }
 }
 ?>
 <?php
 include_once 'db.php';
+?>
+<?php
+session_start();
+    if(!isset($_SESSION['sess_username'])){
+      header('Location: index.php?err=2');
+    }
+    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+        $query1 = $DB_con->prepare($q1);
+        $query1->execute(array(':username' => $_SESSION['sess_username']));
+        $row = $query1->fetch(PDO::FETCH_ASSOC);
+        extract($row);
+
 ?>
 
 <html lang="en">
@@ -70,7 +82,7 @@ include_once 'db.php';
                 </li>
                 <li>
                     <a href="categories.php">
-                        <i class="ti-user"></i>
+                        <i class="ti-briefcase"></i>
                         <p>Categories</p>
                     </a>
                 </li>
@@ -83,38 +95,44 @@ include_once 'db.php';
         
                  <li >
                     <a href="additem.php">
-                        <i class="ti-text"></i>
+                        <i class="ti-save-alt"></i>
                         <p>AddItem</p>
                     </a>
                 </li>
                <li>
                     <a href="addaircraft.php">
-                        <i class="ti-pencil-alt2"></i>
+                        <i class="ti-location-arrow"></i>
                         <p>Aircraft Type</p>
                     </a>
                 </li>
                 <li >
                     <a href="aircraftregnum.php">
-                        <i class="ti-map"></i>
+                        <i class="ti-notepad"></i>
                         <p>Aircraft Reg Number</p>
                     </a>
                 </li>
               <li>
                     <a href="unit.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-bag"></i>
                         <p>Add Unit</p>
                     </a>
                 </li>
                 <li class="active">
                     <a href="parts_awaited.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-settings"></i>
                         <p>Parts Awaited</p>
                     </a>
                 </li>
                 <li >
                    <a href="report.php">
-                       <i class="ti-pie-chart"></i>
+                       <i class="ti-stats-up"></i>
                         <p>Reports</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="manageusers.php">
+                       <i class="ti-user"></i>
+                        <p>Manage Users</p>
                     </a>
                 </li>
 				
@@ -137,6 +155,12 @@ include_once 'db.php';
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                        
+                        <li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                                    <?php echo $USERNAME ?>
+                                </a>
+                        </li>
                         <li>
                             <a href="logout.php">
                                 <i class="ti-settings"></i>
@@ -167,26 +191,19 @@ include_once 'db.php';
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>PART NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="category" placeholder="CATEGORY">
+                                                <input type="text" class="form-control border-input demo-form-field" name="part_num" placeholder="PART NUMBER">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>DESCRIPTION</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                                <input type="text" class="form-control border-input demo-form-field" name="description" placeholder="DESCRIPTION">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION NUMBER</label>
-                                               
-  <select title="department" name="department" id="department"  class="form-control" required="required">
-                                            <!-- <option >Select below</option> -->
-                                            <option value="avionics">avionics</option>
-                                            <option value="mechanical">mechanical</option>
-                                            <option value="NDT">NDT</option>
-                                        </select>
-  
+                                               <input type="text" class="form-control border-input demo-form-field" name="requisition_num" placeholder="REQUISITION NUMBER"> 
                                             </div>
                                         </div>
                                         <!-- <div class="col-md-4">
@@ -221,29 +238,23 @@ include_once 'db.php';
                                                 <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
                                             </div>
                                         </div> -->
-                                        <div class="col-md-4">
+                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION DATE</label>
-                                               
-  <select title="department" name="department" id="department"  class="form-control" required="required">
-                                            <!-- <option >Select below</option> -->
-                                            <option value="avionics">avionics</option>
-                                            <option value="mechanical">mechanical</option>
-                                            <option value="NDT">NDT</option>
-                                        </select>
-  
+                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
+                                               <input type="date" class="form-control border-input demo-form-field" name="requisition_date" placeholder="DATE RECEIVED" required="required">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>INSPECTION NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                                <input type="text" class="form-control border-input demo-form-field" name="inspection_num" placeholder="INSPECTION NUMBER">
                                             </div>
                                         </div>
                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REMARKS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                                <input type="text" class="form-control border-input demo-form-field" name="remarks" placeholder="REMARKS">
                                             </div>
                                         </div>
                                          
@@ -255,13 +266,13 @@ include_once 'db.php';
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>ENGINEER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="category" placeholder="CATEGORY">
+                                                <input type="text" class="form-control border-input demo-form-field" name="enginner" placeholder="ENGINEER">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>STORES COMMENTS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                                <input type="text" class="form-control border-input demo-form-field" name="stores_comments" placeholder="STORES COMMENTS">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -270,6 +281,7 @@ include_once 'db.php';
                                                 <input type="number" class="form-control border-input demo-form-field" name="quantity" placeholder="QUANTITY" required="number">
                                             </div>
                                         </div>
+
                                         <!-- <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION DATE</label>
@@ -284,6 +296,15 @@ include_once 'db.php';
                                         </div> -->
                                          
                                         
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>USER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
+                                            </div>
+                                        </div>
                                     </div>
 
                                     
@@ -302,11 +323,11 @@ include_once 'db.php';
                     <div class="col-md-12">
                     <div class="card">
                             <div class="header">
-                                <h4 class="title">MANAGE CATEGORIES</h4>
+                                <h4 class="title">PARTS AWAITED DATA</h4>
                                <!--  <p class="category">Here is a subtitle for this table</p> -->
                             </div>
                             <?php   
-    $pdo_statement = $DB_con->prepare("SELECT * FROM Categories ORDER BY id ASC");
+    $pdo_statement = $DB_con->prepare("SELECT * FROM POSTS ORDER BY id ASC");
     $pdo_statement->execute();
     $result = $pdo_statement->fetchAll();
 ?>
@@ -319,15 +340,15 @@ include_once 'db.php';
   <thead>
     <tr>
 
-    <th class="table-header" width="20%">ID</th>
-      <th class="table-header" width="20%">CATEGORY</th>
-      <th class="table-header" width="20%">TAG</th>
-      <th class="table-header" width="20%">DEPARTMENT</th>
-      <!-- <th class="table-header" width="20%">POSITION</th>
+    <!-- <th class="table-header" width="20%">ID</th> -->
+      <th class="table-header" width="20%">PART_NUM</th>
+      <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
+      <th class="table-header" width="20%">REQ_NUMBER</th>
+       <th class="table-header" width="20%">REQ_DATE</th>
+      <th class="table-header" width="20%">INSPECTION_NUM</th>
+      <th class="table-header" width="20%">REMARKS</th>
+      <th class="table-header" width="20%">ENGINNER</th>
       <th class="table-header" width="20%">QUANTITY</th>
-      <th class="table-header" width="20%">DEFECT</th>
-      <th class="table-header" width="20%">QUANT_POS</th>
-      <th class="table-header" width="20%">STATE</th>-->
       <th class="table-header" width="5%">Actions</th> 
     </tr>
   </thead>
@@ -337,14 +358,21 @@ include_once 'db.php';
         foreach($result as $row) {
     ?>
       <tr class="table-row">
-      <td><?php echo $row["ID"]; ?></td>
-        <td><?php echo $row["CATEGORY"]; ?></td>
-        <td><?php echo $row["TAG"]; ?></td>
-        <td><?php echo $row["DEPARTMENT"]; ?></td>
+      
+        <td><?php echo $row["PART_NUM"]; ?></td>
+        
+        <td><?php echo $row["REQUISITION_NUM"]; ?></td>
+        <td><?php echo $row["REQUISITION_DATE"]; ?></td>
+        <td><?php echo $row["INSPECTION_NUM"]; ?></td>
+        <td><?php echo $row["REMARKS"]; ?></td>
+        <td><?php echo $row["ENGINNER"]; ?></td>
+      
+        <td><?php echo $row["QUANTITY"]; ?></td>
        
         <td>
-            <a class="ajax-action-links" href='editcat.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a>
-            <a class="ajax-action-links" href='deletecat.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a>
+            <a class="ajax-action-links" href='editpart_awaited.php?id=<?php echo $row['ID']; ?>'><!-- <i class="ti-pencil-alt" title="EDIT"></i> --><img src="crud-icon/edit.png" title="Edit" /></a>
+            &nbsp&nbsp&nbsp
+            <a class="ajax-action-links" href='deleteparts_awaited.php?id=<?php echo $row['ID']; ?>'><!-- <i class="ti-close" title="DELETE"></i> --><img src="crud-icon/delete.png" title="Delete" /></a>
          </td>
       </tr>
     <?php

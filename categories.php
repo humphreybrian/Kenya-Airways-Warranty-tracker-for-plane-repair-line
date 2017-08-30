@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO CATEGORIES ( CATEGORY, TAG, DEPARTMENT ) VALUES ( :category, :tag, :department )";
+    $sql = "INSERT INTO CATEGORIES ( CATEGORY, TAG, DEPARTMENT, USERNAME ) VALUES ( :category, :tag, :department, :username )";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':category'=>$_POST['category'], ':tag'=>$_POST['tag'], ':department'=>$_POST['department']) );
+    $result = $pdo_statement->execute( array( ':category'=>$_POST['category'], ':tag'=>$_POST['tag'], ':department'=>$_POST['department'], ':username'=>$_POST['username']) );
     if (!empty($result) ){
       header('location:categories.php');
     }
@@ -12,6 +12,18 @@ if(!empty($_POST["add_record"])) {
 ?>
 <?php
 include_once 'db.php';
+?>
+<?php
+session_start();
+    if(!isset($_SESSION['sess_username'])){
+      header('Location: index.php?err=2');
+    }
+    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+        $query1 = $DB_con->prepare($q1);
+        $query1->execute(array(':username' => $_SESSION['sess_username']));
+        $row = $query1->fetch(PDO::FETCH_ASSOC);
+        extract($row);
+
 ?>
 
 <html lang="en">
@@ -61,7 +73,7 @@ include_once 'db.php';
                 </a>
             </div>
 
-            <ul class="nav">
+           <ul class="nav">
                 <li>
                     <a href="dashboard.php">
                         <i class="ti-panel"></i>
@@ -70,11 +82,11 @@ include_once 'db.php';
                 </li>
                 <li class="active">
                     <a href="categories.php">
-                        <i class="ti-user"></i>
+                        <i class="ti-briefcase"></i>
                         <p>Categories</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
@@ -83,41 +95,47 @@ include_once 'db.php';
         
                  <li >
                     <a href="additem.php">
-                        <i class="ti-text"></i>
+                        <i class="ti-save-alt"></i>
                         <p>AddItem</p>
                     </a>
                 </li>
                <li>
                     <a href="addaircraft.php">
-                        <i class="ti-pencil-alt2"></i>
+                        <i class="ti-location-arrow"></i>
                         <p>Aircraft Type</p>
                     </a>
                 </li>
                 <li >
                     <a href="aircraftregnum.php">
-                        <i class="ti-map"></i>
+                        <i class="ti-notepad"></i>
                         <p>Aircraft Reg Number</p>
                     </a>
                 </li>
               <li>
                     <a href="unit.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-bag"></i>
                         <p>Add Unit</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="parts_awaited.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-settings"></i>
                         <p>Parts Awaited</p>
                     </a>
                 </li>
                 <li >
                    <a href="report.php">
-                       <i class="ti-pie-chart"></i>
+                       <i class="ti-stats-up"></i>
                         <p>Reports</p>
                     </a>
                 </li>
-				
+                <li >
+                    <a href="manageusers.php">
+                       <i class="ti-user"></i>
+                        <p>Manage Users</p>
+                    </a>
+                </li>
+                
             </ul>
     	</div>
     </div>
@@ -137,6 +155,12 @@ include_once 'db.php';
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                        
+                        <li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                                    <?php echo $USERNAME ?>
+                                </a>
+                        </li>
                         <li>
                             <a href="logout.php">
                                 <i class="ti-settings"></i>
@@ -164,19 +188,25 @@ include_once 'db.php';
                                    
 
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>CATEGORY</label>
                                                 <input type="text" class="form-control border-input demo-form-field" name="category" placeholder="CATEGORY">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>TAG</label>
                                                 <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        
+                                        
+                                    </div>
+
+                                    <div class="row">
+
+                                     <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>DEPARTMENT</label>
                                                
@@ -190,6 +220,12 @@ include_once 'db.php';
                                             </div>
                                         </div>
                                         
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>USER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
+                                            </div>
+                                        </div>
                                     </div>
 
                                     

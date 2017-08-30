@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO UNITS ( UNITS ) VALUES ( :units )";
+    $sql = "INSERT INTO UNITS ( UNITS, USERNAME ) VALUES ( :units, :username )";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':units'=>$_POST['units'] ) );
+    $result = $pdo_statement->execute( array( ':units'=>$_POST['units'], ':username'=>$_POST['username'] ) );
     if (!empty($result) ){
       header('location:unit.php');
     }
@@ -12,6 +12,18 @@ if(!empty($_POST["add_record"])) {
 ?>
 <?php
 include_once 'db.php';
+?>
+<?php
+session_start();
+    if(!isset($_SESSION['sess_username'])){
+      header('Location: index.php?err=2');
+    }
+    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+        $query1 = $DB_con->prepare($q1);
+        $query1->execute(array(':username' => $_SESSION['sess_username']));
+        $row = $query1->fetch(PDO::FETCH_ASSOC);
+        extract($row);
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -72,58 +84,60 @@ include_once 'db.php';
                 </li>
                 <li>
                     <a href="categories.php">
-                        <i class="ti-user"></i>
+                        <i class="ti-briefcase"></i>
                         <p>Categories</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
                     </a>
                 </li>
-                <li>
+        
+                 <li >
                     <a href="additem.php">
-                        <i class="ti-text"></i>
+                        <i class="ti-save-alt"></i>
                         <p>AddItem</p>
                     </a>
                 </li>
-                <li>
+               <li>
                     <a href="addaircraft.php">
-                        <i class="ti-pencil-alt2"></i>
+                        <i class="ti-location-arrow"></i>
                         <p>Aircraft Type</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="aircraftregnum.php">
-                        <i class="ti-map"></i>
+                        <i class="ti-notepad"></i>
                         <p>Aircraft Reg Number</p>
                     </a>
                 </li>
-                <li class="active">
+              <li class="active">
                     <a href="unit.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-bag"></i>
                         <p>Add Unit</p>
                     </a>
                 </li>
-                <li>
+                <li >
                     <a href="parts_awaited.php">
-                        <i class="ti-bell"></i>
+                        <i class="ti-settings"></i>
                         <p>Parts Awaited</p>
                     </a>
                 </li>
                 <li >
-                    <a href="report.php">
-                       <i class="ti-pie-chart"></i>
+                   <a href="report.php">
+                       <i class="ti-stats-up"></i>
                         <p>Reports</p>
                     </a>
                 </li>
-				<!-- <li class="active-pro">
-                    <a href="upgrade.php">
-                        <i class="ti-export"></i>
-                        <p>Upgrade to PRO</p>
+                <li >
+                    <a href="manageusers.php">
+                       <i class="ti-user"></i>
+                        <p>Manage Users</p>
                     </a>
-                </li> -->
+                </li>
+                
             </ul>
     	</div>
     </div>
@@ -164,6 +178,12 @@ include_once 'db.php';
                               </ul>
                         </li> -->
                         <li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                                    <?php echo $USERNAME ?>
+                                </a>
+                        </li>
+                        <li>
                             <a href="logout.php">
                                 <i class="ti-settings"></i>
                                 <p>Logout</p>
@@ -196,7 +216,16 @@ include_once 'db.php';
                                                 <input type="text" class="form-control border-input demo-form-field" name="units" placeholder="UNIT">
                                             </div>
                                         </div>
-                                       
+                                        
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>USER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
+                                            </div>
+                                        </div>
                                     </div>
 
                                    
