@@ -1,13 +1,13 @@
 <?php
 require_once("db.php");
 if(!empty($_POST["save_record"])) {
-	$pdo_statement=$DB_con->prepare("update posts set part_num='" . trim($_POST[ 'part_num' ]) . "', description='" . trim($_POST[ 'description' ]) . "', requisition_num='" . trim($_POST[ 'requisition_num' ]) . "',requisition_date='" . trim($_POST[ 'requisition_date' ]) . "', inspection_num='" . trim($_POST[ 'inspection_num' ]) . "', remarks='" . trim($_POST[ 'remarks' ]) . "', enginner='" . trim($_POST[ 'enginner' ]) . "', stores_comments='" . trim($_POST[ 'stores_comments' ]) . "', quantity='" . trim($_POST[ 'quantity' ]) . "', where id=" . $_GET["id"]);
+	$pdo_statement=$DB_con->prepare("update posts set part_num='" . trim($_POST[ 'part_num' ]) . "', description='" . trim($_POST[ 'description' ]) . "', requisition_num='" . trim($_POST[ 'requisition_num' ]) . "',requisition_date='" . trim($_POST[ 'requisition_date' ]) . "', inspection_num='" . trim($_POST[ 'inspection_num' ]) . "', remarks='" . trim($_POST[ 'remarks' ]) . "', enginner='" . trim($_POST[ 'enginner' ]) . "', stores_comments='" . trim($_POST[ 'stores_comments' ]) . "', quantity='" . trim($_POST[ 'quantity' ]) . "' where id='" . $_GET["id"]."'");
 	$result = $pdo_statement->execute();
 	if($result) {
 		header('location:parts_awaited.php');
 	}
 }
-$pdo_statement = $DB_con->prepare("SELECT * FROM posts where id=" . $_GET["id"]);
+$pdo_statement = $DB_con->prepare("SELECT * FROM posts where id='" . $_GET["id"]."'");
 $pdo_statement->execute();
 $result = $pdo_statement->fetchAll();
 ?>
@@ -98,7 +98,7 @@ $result = $pdo_statement->fetchAll();
                     <div class=" col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">EDIT CATEGORY</h4>
+                                <h4 class="title">EDIT PARTS AWAITED</h4>
                             </div>
                             <div class="content">
                                <form name="frmAdd" action="" method="POST">

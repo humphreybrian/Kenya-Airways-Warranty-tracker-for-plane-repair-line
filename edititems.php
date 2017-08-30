@@ -2,12 +2,12 @@
 require_once("db.php");
 if(!empty($_POST["save_record"])) {
 	$pdo_statement=$pdo_conn->prepare("update items set category='" . $_POST[ 'category' ] . "',  repair_ord_num='" . $_POST[ 'repair_ord_num' ]. "',  unit='" . $_POST[ 'unit' ]. "',  parts_num='" . $_POST[ 'parts_num' ]. "',  serial_num='" . $_POST[ 'serial_num' ]. "',  date_rev='" . $_POST[ 'date_rev' ]. "',  date_rm='" . $_POST[ 'date_rm' ]. "',  air_type='" . $_POST[ 'air_type' ]. "',  air_reg='" . $_POST[ 'air_reg' ]. "', position='" . $_POST[ 'position' ]. "',  hours_run='" . $_POST[ 'hours_run' ]. "',  quantity='" . $_POST[ 'quantity' ]. "',  defect='" . $_POST[ 'defect' ]. "',  mod_status='" . $_POST[ 'mod_status' ]. "',  parts_awaited='" . $_POST[ 'parts_awaited' ]. "',  quant_pos='" . $_POST[ 'quant_pos' ]. "',  state='" . $_POST[ 'state' ]. "'  where id=" . $_GET["id"]);
-	$result2 = $pdo_statement->execute();
-	if($result2) {
+	$result = $pdo_statement->execute();
+	if($result) {
 		header('location:table.php');
 	}
 }
-$pdo_statement = $DB_con->prepare("SELECT * FROM items where id=" . $_GET["id"]);
+$pdo_statement = $DB_con->prepare("SELECT * FROM items where id=" . $_GET["id"]"");
 $pdo_statement->execute();
 $result1 = $pdo_statement->fetchAll();
 ?>
