@@ -87,7 +87,7 @@ include_once 'db.php';
     	<div class="sidebar-wrapper">
            <div class="logo">
                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
-                     Tracker
+                     Workshop
                 </a>
             </div>
 

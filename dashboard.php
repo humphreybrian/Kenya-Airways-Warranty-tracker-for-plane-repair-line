@@ -73,7 +73,7 @@ session_start();
     	<div class="sidebar-wrapper">
             <div class="logo">
                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
-                     Tracker
+                     Workshop
                 </a>
             </div>
 
@@ -183,29 +183,158 @@ session_start();
 
         <div class="content">
             <div class="container-fluid">
-                
-                <div class="row">
 
-                    <div class="col-md-12">
+           <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-info text-center">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>USERS</p>
+                                            10
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-reload"></i> Updated now
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-info text-center">
+                                            <i class="ti-rocket"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>Avionics</p>
+                                            15
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-reload"></i> Updated now
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-danger text-center">
+                                            <i class="ti-ruler-pencil"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>Mechanical</p>
+                                            23
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-reload"></i> Updated now
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-warning text-center">
+                                            <i class="ti-plug"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>NDT</p>
+                                            45
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-reload"></i> Updated now
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">ITEMS </h4>
-                                <!-- <p class="category">24 Hours performance</p> -->
+                                <h4 class="title">Department Stats on daily basis</h4>
+                                <p class="category">Items percentge per department</p>
                             </div>
-                            <?php   
-    $pdo_statement = $DB_con->prepare("SELECT * FROM items ORDER BY id ASC");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
-                          <!--   <div class="content"> -->
-                           
-                            <div class="container">
-                                 <table id="table_view"></table>
-                            </div>  
+                            <div class="content">
+                                <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
 
-                     
-                                
-                            <!-- </div> -->
+                                <div class="footer">
+                                    <div class="chart-legend">
+                                        <i class="fa fa-circle text-info"></i> Avioncs
+                                        <i class="fa fa-circle text-danger"></i> Mechanical
+                                        <i class="fa fa-circle text-warning"></i> NDT
+                                    </div>
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="ti-reload"></i> Data fetched 1 hours ago
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card ">
+                            <div class="header">
+                                <h4 class="title">Graphical representation of Department per year</h4>
+                                <p class="category">Departments</p>
+                            </div>
+                            <div class="content">
+                                <div id="chartActivity" class="ct-chart"></div>
+
+                                <div class="footer">
+                                    <div class="chart-legend">
+                                        <i class="fa fa-circle text-info"></i> Avioncs
+                                        <i class="fa fa-circle text-danger"></i> Mechanical
+                                        <i class="fa fa-circle text-warning"></i> NDT
+                                    </div>
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="ti-reload"></i> Data fetched 10 hours ago
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -238,23 +367,22 @@ session_start();
                  extract($row);
         ?>
 
-       ["<?php echo $ID; ?>","<?php echo $UNIT; ?>","<?php echo $PARTS_NUM; ?>","<?php echo $SERIAL_NUM; ?>","<?php echo $DATE_REV; ?>","<?php echo $DATE_RM; ?>","<?php echo $AIR_TYPE; ?>","<?php echo $AIR_REG; ?>","<?php echo $POSITION; ?>","<?php echo $QUANTITY; ?>"],
+       ["<?php echo $UNIT; ?>","<?php echo $PARTS_NUM; ?>","<?php echo $SERIAL_NUM; ?>","<?php echo $DATE_REV; ?>","<?php echo $DATE_RM; ?>","<?php echo $AIR_TYPE; ?>","<?php echo $AIR_REG; ?>","<?php echo $POSITION; ?>","<?php echo $QUANTITY; ?>"],
        
     <?php }
             }
         ?>
        ],
             "columns": [
-                { "title": "ID" },
-                { "title": "UNIT" },
-                { "title": "PART NUMBER" },
-                { "title": "SERIAL NUMBER" },
-                { "title": "DATE RECIEVED" },
-                { "title": "DATE REMOVED" },
-                { "title": "AC TYPE" },
-                { "title": "AC REG" },
-                { "title": "POSITION" },
-                { "title": "QUANTITY" }
+                { "title": "Unit" },
+                { "title": "Part number" },
+                { "title": "Serial number" },
+                { "title": "Date recieved" },
+                { "title": "Date removed" },
+                { "title": "Ac type" },
+                { "title": "Ac reg" },
+                { "title": "Position" },
+                { "title": "Quantity" }
             ]
         } );   
     });
@@ -288,21 +416,24 @@ session_start();
 
     <!-- this is the script that welcomes the user into the page after login-->
 
-	<!-- <script type="text/javascript">
+	<script type="text/javascript">
     	$(document).ready(function(){
 
         	demo.initChartist();
 
-        	$.notify({
-            	icon: 'ti-gift',
-            	message: "Welcome to <b>Paper Dashboard</b> - a beautiful Bootstrap freebie for your next project."
+        	// $.notify({
+         //    	icon: 'ti-panel',
+         //    	message: "DASHBOARD"
 
-            },{
-                type: 'success',
-                timer: 4000
-            });
+         //    }  ,
+
+
+         //    {
+         //        type: 'success',
+         //        timer: 4000
+         //    });
 
     	});
-	</script> --> <!-- this is the end of the script that welcomes the user into the login page-->
+	</script> <!-- this is the end of the script that welcomes the user into the login page-->
 
 </html>

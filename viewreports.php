@@ -279,7 +279,7 @@ session_start();
                                    <div class="row">
                                    <div class="col-md-6">
                                     <div class="text-center">
-                                        <a href="viewports.php"><button  type="submit" name="add_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">SEARCH REPORTS</button></a>
+                                        <button  type="submit" name="add_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">SEARCH REPORTS</button>
                                     </div>
                                     </div>
 

@@ -42,11 +42,11 @@ session_start();
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 </head>
 
-<body background="img/kq.png">
-  
+<body >
+  <!-- background="img/kq.png" -->
 <div class="containera">
   <div class="info">
-    <h1>KENYA AIRWAYS TRACKER SYSTEM</h1><!-- <span>Made with <i class="fa fa-heart"></i> by <a href="http://andytran.me">Andy Tran</a></span> -->
+    <h1>KENYA AIRWAYS WORKSHOP SYSTEM</h1><!-- <span>Made with <i class="fa fa-heart"></i> by <a href="http://andytran.me">Andy Tran</a></span> -->
   </div>
 </div>
 <div class="form">

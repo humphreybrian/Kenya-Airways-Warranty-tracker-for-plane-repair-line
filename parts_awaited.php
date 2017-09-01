@@ -69,7 +69,7 @@ session_start();
     	<div class="sidebar-wrapper">
             <div class="logo">
                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
-                     Tracker
+                     Workshop
                 </a>
             </div>
 
@@ -301,8 +301,8 @@ session_start();
                                         
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>USER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
+                                                <!-- <label>USER</label> -->
+                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
                                             </div>
                                         </div>
                                     </div>
@@ -341,14 +341,14 @@ session_start();
     <tr>
 
     <!-- <th class="table-header" width="20%">ID</th> -->
-      <th class="table-header" width="20%">PART_NUM</th>
+      <th class="table-header" width="20%">Part_num</th>
       <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
-      <th class="table-header" width="20%">REQ_NUMBER</th>
-       <th class="table-header" width="20%">REQ_DATE</th>
-      <th class="table-header" width="20%">INSPECTION_NUM</th>
-      <th class="table-header" width="20%">REMARKS</th>
-      <th class="table-header" width="20%">ENGINNER</th>
-      <th class="table-header" width="20%">QUANTITY</th>
+      <th class="table-header" width="20%">Req_number</th>
+       <th class="table-header" width="20%">Req_date</th>
+      <th class="table-header" width="20%">Inspection_num</th>
+      <th class="table-header" width="20%">Remarks</th>
+      <th class="table-header" width="20%">Enginner</th>
+      <th class="table-header" width="20%">Quantity</th>
       <th class="table-header" width="5%">Actions</th> 
     </tr>
   </thead>

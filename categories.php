@@ -69,7 +69,7 @@ session_start();
     	<div class="sidebar-wrapper">
             <div class="logo">
                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
-                     Tracker
+                     Workshop
                 </a>
             </div>
 
@@ -222,8 +222,8 @@ session_start();
                                         
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>USER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
+                                                <!-- <label>USER</label> -->
+                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
                                             </div>
                                         </div>
                                     </div>
@@ -262,9 +262,9 @@ session_start();
     <tr>
 
     <th class="table-header" width="20%">ID</th>
-      <th class="table-header" width="20%">CATEGORY</th>
-      <th class="table-header" width="20%">TAG</th>
-      <th class="table-header" width="20%">DEPARTMENT</th>
+      <th class="table-header" width="20%">Category</th>
+      <th class="table-header" width="20%">Tag</th>
+      <th class="table-header" width="20%">Department</th>
       <!-- <th class="table-header" width="20%">POSITION</th>
       <th class="table-header" width="20%">QUANTITY</th>
       <th class="table-header" width="20%">DEFECT</th>

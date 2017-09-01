@@ -1,17 +1,10 @@
 <?php
-if(!empty($_POST["add_record"])) {
-    require_once("db.php");
-    $sql = "INSERT INTO AIRCRAFTS ( TYPE, USERNAME ) VALUES ( :type, :username )";
-    $pdo_statement = $DB_con->prepare( $sql );
-        
-    $result = $pdo_statement->execute( array( ':type'=>$_POST['type'], ':username'=>$_POST['username'] ) );
-    if (!empty($result) ){
-      header('location:addaircraft.php');
-    }
-}
+
+include_once 'db.php';
 ?>
 <?php
-include_once 'db.php';
+
+require_once('db.php');
 ?>
 <?php
 session_start();
@@ -29,14 +22,14 @@ session_start();
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-    <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
-    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>KQ Tracker System.</title>
+	<title>KQ Tracker System.</title>
 
-    <!-- <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" /> -->
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
 
 
     <!-- Bootstrap core CSS     -->
@@ -48,10 +41,8 @@ session_start();
     <!--  Paper Dashboard core CSS    -->
     <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
 
-
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="assets/css/demo.css" rel="stylesheet" />
-
 
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -71,7 +62,8 @@ session_start();
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-               <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
+
+                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
                      Workshop
                 </a>
             </div>
@@ -89,7 +81,7 @@ session_start();
                         <p>Categories</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
@@ -102,7 +94,7 @@ session_start();
                         <p>AddItem</p>
                     </a>
                 </li>
-               <li class="active">
+               <li>
                     <a href="addaircraft.php">
                         <i class="ti-location-arrow"></i>
                         <p>Aircraft Type</p>
@@ -153,12 +145,12 @@ session_start();
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">AIRCRAFT TYPE</a>
+                    <a class="navbar-brand" href="#">DATA TABLES</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                      
-                        <li>
+                        
+						<li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i><p>Hello</p>
                                     <?php echo $USERNAME ?>
@@ -177,70 +169,39 @@ session_start();
         </nav>
 
 
-       <div class="content">
+        <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">ADD AIRCRAFT TYPE</h4>
+                                <h4 class="title">MANAGE ITEMS </h4>
+                               <!--  <p class="category">Here is a subtitle for this table</p> -->
                             </div>
-                            <div class="content">
-                                <form name="frmAdd" action="" method="POST">
-                                   
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>AIRCRAFT TYPE</label>
-                                                <input type="text" name="type" class="form-control border-input demo-form-field"  placeholder="Aircraft type">
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-                                    <div class="row">
-                                        
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                               <!--  <label>USER</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                   
-                                    <div class="text-center">
-                                        <button type="submit" name="add_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit"">ADD AIRCRAFT TYPE</button>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- start of the second card-->
-
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">MANAGE AIRCRAFT TYPES</h4>
-                            </div>
-                            <div class="content">
-                            <table class="tbl-qa table table table-bordered table-responsive ">
                             <?php   
-    $pdo_statement = $DB_con->prepare("SELECT * FROM aircrafts ORDER BY id ASC");
+    $pdo_statement = $DB_con->prepare("SELECT * FROM items ORDER BY id ASC");
     $pdo_statement->execute();
     $result = $pdo_statement->fetchAll();
 ?>
+
+                            <div class="content table-responsive table-full-width">
+                                <div class="container">
+     <!-- <table class='table table-bordered table-responsive'> -->
+    
+<table class="tbl-qa table table table-bordered table-responsive " cellpadding="2" cellspacing="1">
   <thead>
     <tr>
-    <th class="table-header" width="20%">Id</th>
-      <th class="table-header" width="20%">Type</th>
-      <!-- <th class="table-header" width="40%">Description</th>
-      <th class="table-header" width="20%">Date</th>-->
-      <th class="table-header" width="5%">Actions</th> 
+
+    <th class="table-header" width="20%">ID</th>
+      <th class="table-header" width="20%">Category</th>
+      <th class="table-header" width="20%">Serial_num</th>
+      <th class="table-header" width="20%">Date_rev</th>
+      <th class="table-header" width="20%">Position</th>
+      <th class="table-header" width="20%">Quantity</th>
+      <th class="table-header" width="20%">Defect</th>
+      <th class="table-header" width="20%">Quant_pos</th>
+      <th class="table-header" width="20%">State</th>
+      <th class="table-header" width="5%">Actions</th>
     </tr>
   </thead>
   <tbody id="table-body">
@@ -250,9 +211,15 @@ session_start();
     ?>
       <tr class="table-row">
       <td><?php echo $row["ID"]; ?></td>
-        <td><?php echo $row["TYPE"]; ?></td>
-        
-        <td><a class="ajax-action-links" href='editair_type.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a> <a class="ajax-action-links" href='deleteair_type.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a></td>
+        <td><?php echo $row["CATEGORY"]; ?></td>
+        <td><?php echo $row["SERIAL_NUM"]; ?></td>
+        <td><?php echo $row["DATE_REV"]; ?></td>
+       <td><?php echo $row["POSITION"]; ?></td>
+        <td><?php echo $row["QUANTITY"]; ?></td>
+        <td><?php echo $row["DEFECT"]; ?></td>
+        <td><?php echo $row["QUANT_POS"]; ?></td>
+        <td><?php echo $row["STATE"]; ?></td>
+        <td><a class="ajax-action-links" href='edititems.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a> <a class="ajax-action-links" href='deleteitems.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a></td>
       </tr>
     <?php
         }
@@ -261,23 +228,25 @@ session_start();
   </tbody>
 </table>
 
+    
    
        
+</div>
 
-                            <!-- this is the place for the content of the table aircraft types-->
-                                
                             </div>
+
                         </div>
                     </div>
 
-                    <!-- end of the secind card-->
+
+                   
 
 
                 </div>
             </div>
         </div>
 
-      
+     
 
     </div>
 </div>

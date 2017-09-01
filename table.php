@@ -5,7 +5,9 @@ include_once 'db.php';
 <?php
 
 require_once('db.php');
+
 ?>
+
 <?php
 session_start();
     if(!isset($_SESSION['sess_username'])){
@@ -18,18 +20,19 @@ session_start();
         extract($row);
 
 ?>
+
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
 
-	<title>KQ Tracker System.</title>
+    <title>KQ Tracker System.</title>
 
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
+    <!-- <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" /> -->
 
 
     <!-- Bootstrap core CSS     -->
@@ -41,35 +44,41 @@ session_start();
     <!--  Paper Dashboard core CSS    -->
     <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
 
+
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="assets/css/demo.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css"/>
+
 
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+
 </head>
 <body>
 
 <div class="wrapper">
-	<div class="sidebar" data-background-color="black" data-active-color="danger">
+    <div class="sidebar" data-background-color="black" data-active-color="danger">
 
     <!--
-		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-	-->
+        Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+        Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+    -->
 
-    	<div class="sidebar-wrapper">
+        <div class="sidebar-wrapper">
             <div class="logo">
-
-                <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
-                     Tracker
+               <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
+                     Workshop
                 </a>
             </div>
 
-            <ul class="nav">
-                <li>
+           <ul class="nav">
+                <li >
                     <a href="dashboard.php">
                         <i class="ti-panel"></i>
                         <p>Dashboard</p>
@@ -124,7 +133,7 @@ session_start();
                         <p>Reports</p>
                     </a>
                 </li>
-                <li >
+                 <li >
                     <a href="manageusers.php">
                        <i class="ti-user"></i>
                         <p>Manage Users</p>
@@ -132,11 +141,11 @@ session_start();
                 </li>
                 
             </ul>
-    	</div>
+        </div>
     </div>
 
     <div class="main-panel">
-		<nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
@@ -145,12 +154,14 @@ session_start();
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">DATA TABLES</a>
+                    <a class="navbar-brand" href="#">DATA TABLE</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         
-						<li>
+                        
+
+                        <li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i><p>Hello</p>
                                     <?php echo $USERNAME ?>
@@ -162,6 +173,7 @@ session_start();
                                 <p>Logout</p>
                             </a>
                         </li>
+                        
                     </ul>
 
                 </div>
@@ -171,82 +183,41 @@ session_start();
 
         <div class="content">
             <div class="container-fluid">
+                
                 <div class="row">
+
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">MANAGE ITEMS </h4>
-                               <!--  <p class="category">Here is a subtitle for this table</p> -->
+                                <h4 class="title">ITEMS </h4>
+                                <!-- <p class="category">24 Hours performance</p> -->
                             </div>
                             <?php   
     $pdo_statement = $DB_con->prepare("SELECT * FROM items ORDER BY id ASC");
     $pdo_statement->execute();
     $result = $pdo_statement->fetchAll();
 ?>
+                          <!--   <div class="content"> -->
+                           
+                            <div class="container">
+                                 <table id="table_view"></table>
+                            </div>  
 
-                            <div class="content table-responsive table-full-width">
-                                <div class="container">
-     <!-- <table class='table table-bordered table-responsive'> -->
-    
-<table class="tbl-qa table table table-bordered table-responsive " cellpadding="2" cellspacing="1">
-  <thead>
-    <tr>
-
-    <th class="table-header" width="20%">ID</th>
-      <th class="table-header" width="20%">CATEGORY</th>
-      <th class="table-header" width="20%">SERIAL_NUM</th>
-      <th class="table-header" width="20%">DATE_REV</th>
-      <th class="table-header" width="20%">POSITION</th>
-      <th class="table-header" width="20%">QUANTITY</th>
-      <th class="table-header" width="20%">DEFECT</th>
-      <th class="table-header" width="20%">QUANT_POS</th>
-      <th class="table-header" width="20%">STATE</th>
-      <th class="table-header" width="5%">Actions</th>
-    </tr>
-  </thead>
-  <tbody id="table-body">
-    <?php
-    if(!empty($result)) { 
-        foreach($result as $row) {
-    ?>
-      <tr class="table-row">
-      <td><?php echo $row["ID"]; ?></td>
-        <td><?php echo $row["CATEGORY"]; ?></td>
-        <td><?php echo $row["SERIAL_NUM"]; ?></td>
-        <td><?php echo $row["DATE_REV"]; ?></td>
-       <td><?php echo $row["POSITION"]; ?></td>
-        <td><?php echo $row["QUANTITY"]; ?></td>
-        <td><?php echo $row["DEFECT"]; ?></td>
-        <td><?php echo $row["QUANT_POS"]; ?></td>
-        <td><?php echo $row["STATE"]; ?></td>
-        <td><a class="ajax-action-links" href='edititems.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a> <a class="ajax-action-links" href='deleteitems.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a></td>
-      </tr>
-    <?php
-        }
-    }
-    ?>
-  </tbody>
-</table>
-
-    
-   
-       
-</div>
-
-                            </div>
-
+                     
+                                
+                            <!-- </div> -->
                         </div>
                     </div>
-
-
-                   
-
-
                 </div>
+
+
+
+                
             </div>
         </div>
 
-     
+
+      
 
     </div>
 </div>
@@ -255,14 +226,52 @@ session_start();
 </body>
 
     <!--   Core JS Files   -->
-    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script> -->
+    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--  Checkbox, Radio & Switch Plugins -->
-	<script src="assets/js/bootstrap-checkbox-radio.js"></script>
+    <script type="text/javascript" src="assets/js/datatables.min.js"></script>
 
-	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() 
+    {
+     $('#table_view').dataTable( {
+            "aaData": [
+    <?php if(!empty($result)) { 
+                foreach($result as $row) {
+                 extract($row);
+        ?>
+
+       ["<?php echo $UNIT; ?>","<?php echo $PARTS_NUM; ?>","<?php echo $SERIAL_NUM; ?>","<?php echo $DATE_REV; ?>","<?php echo $DATE_RM; ?>","<?php echo $AIR_TYPE; ?>","<?php echo $AIR_REG; ?>","<?php echo $POSITION; ?>","<?php echo $QUANTITY; ?>"],
+       
+    <?php }
+            }
+        ?>
+       ],
+            "columns": [
+                { "title": "Unit" },
+                { "title": "Part number" },
+                { "title": "Serial number" },
+                { "title": "Date recieved" },
+                { "title": "Date removed" },
+                { "title": "Ac type" },
+                { "title": "Ac reg" },
+                { "title": "Position" },
+                { "title": "Quantity" }
+            ]
+        } );   
+    });
+    </script>
+            
+    <script type="text/javascript">
+         $('#table_view')
+        .addClass('table table-bordered table-striped');
+    </script>
+
+    <!--  Checkbox, Radio & Switch Plugins -->
+    <script src="assets/js/bootstrap-checkbox-radio.js"></script>
+
+    <!--  Charts Plugin -->
+    <script src="assets/js/chartist.min.js"></script>
 
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
@@ -271,10 +280,34 @@ session_start();
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
-	<script src="assets/js/paper-dashboard.js"></script>
+    <script src="assets/js/paper-dashboard.js"></script>
 
-	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-	<script src="assets/js/demo.js"></script>
+    <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+    <script src="assets/js/demo.js"></script>
 
+
+
+
+    <!-- this is the script that welcomes the user into the page after login-->
+
+    <!-- <script type="text/javascript">
+        $(document).ready(function(){
+
+            demo.initChartist();
+
+            $.notify({
+                icon: 'ti-panel',
+                message: "DASHBOARD"
+
+            }  ,
+
+
+            {
+                type: 'success',
+                timer: 4000
+            });
+
+        });
+    </script> --> <!-- this is the end of the script that welcomes the user into the login page-->
 
 </html>
