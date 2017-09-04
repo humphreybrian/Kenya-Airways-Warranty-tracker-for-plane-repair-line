@@ -2,7 +2,7 @@
  require_once("db.php");
 session_start();
     $role = $_SESSION['sess_userrole'];
-    if(!isset($_SESSION['sess_username']) && $role!="admin"){
+    if(!isset($_SESSION['sess_username']) && $role!="brian.ochieng@kenya-airways.com"){
       header('Location: index.php?err=2');
     }
 ?>
@@ -29,11 +29,11 @@ if(!empty($_POST["add_record"])) {
     } 
 }
 
-        $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-        $query1 = $DB_con->prepare($q1);
-        $query1->execute(array(':username' => $_SESSION['sess_username']));
-        $row = $query1->fetch(PDO::FETCH_ASSOC);
-        extract($row);
+        // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+        // $query1 = $DB_con->prepare($q1);
+        // $query1->execute(array(':username' => $_SESSION['sess_username']));
+        // $row = $query1->fetch(PDO::FETCH_ASSOC);
+        // extract($row);
 
 include_once 'db.php';
 ?>
@@ -179,8 +179,8 @@ include_once 'db.php';
 
 						<li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i><p>Hello</p>
-                                    <?php echo $USERNAME ?>
+                            <i class="ti-user">&nbsp;</i><p>Hello</p>
+                                    <?php echo $_SESSION['mail'],$_SESSION['displayname']; ?>
                                 </a>
                         </li>
                         <li>

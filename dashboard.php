@@ -13,11 +13,11 @@ session_start();
     if(!isset($_SESSION['sess_username'])){
       header('Location: index.php?err=2');
     }
-    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-        $query1 = $DB_con->prepare($q1);
-        $query1->execute(array(':username' => $_SESSION['sess_username']));
-        $row = $query1->fetch(PDO::FETCH_ASSOC);
-        extract($row);
+    // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+    //     $query1 = $DB_con->prepare($q1);
+    //     $query1->execute(array(':username' => $_SESSION['sess_username']));
+    //     $row = $query1->fetch(PDO::FETCH_ASSOC);
+    //     extract($row);
 
 ?>
 
@@ -163,8 +163,8 @@ session_start();
 
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i><p>Hello</p>
-                                    <?php echo $USERNAME ?>
+                            <i class="ti-user">&nbsp;</i><p>Hello</p>
+                                    <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
                         <li>
