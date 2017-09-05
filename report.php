@@ -6,17 +6,24 @@ session_start();
     if(!isset($_SESSION['sess_username'])){
       header('Location: index.php?err=2');
     }
-    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-        $query1 = $DB_con->prepare($q1);
-        $query1->execute(array(':username' => $_SESSION['sess_username']));
-        $row = $query1->fetch(PDO::FETCH_ASSOC);
-        extract($row);
+    // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+    //     $query1 = $DB_con->prepare($q1);
+    //     $query1->execute(array(':username' => $_SESSION['sess_username']));
+    //     $row = $query1->fetch(PDO::FETCH_ASSOC);
+    //     extract($row);
 
 ?>
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet" /> 
+    
+    <script src="jquery/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap-datepicker.js"></script>
     <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
@@ -149,7 +156,7 @@ session_start();
                         <li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i><p>Hello</p>
-                                    <?php echo $USERNAME ?>
+                                    <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
                         <li>
@@ -259,7 +266,7 @@ session_start();
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
+                                <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>FROM</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
@@ -349,16 +356,22 @@ session_start();
 	<script src="assets/js/chartist.min.js"></script>
 
     <!--  Notifications Plugin    -->
-    <script src="assets/js/bootstrap-notify.js"></script>
+   <!--  <script src="assets/js/bootstrap-notify.js"></script> -->
 
     <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script> -->
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="assets/js/paper-dashboard.js"></script>
 
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
+    <script type="text/javascript">
+     $('.datepicker').datepicker({
+         weekStart:1,
+         color: 'red'
+     });
+    </script>
 
 
 </html>

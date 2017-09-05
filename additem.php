@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO ITEMS ( CATEGORY, REPAIR_ORD_NUM, UNIT, PARTS_NUM, SERIAL_NUM, DATE_REV, DATE_RM, AIR_TYPE, AIR_REG, POSITION, HOURS_RUN, QUANTITY, DEFECT, MOD_STATUS, PARTS_AWAITED, QUANT_POS, STATE, USERNAME ) VALUES ( :category, :repair_ord_num, :unit, :parts_num, :serial_num, :date_rev, :date_rm, :air_type, :air_reg, :position, :hours_run, :quantity, :defect, :mod_status, :parts_awaited, :quant_pos, :state, :username)";
+    $sql = "INSERT INTO ITEMS ( CATEGORY, REPAIR_ORD_NUM, UNIT, PARTS_NUM, SERIAL_NUM, DATE_REV, DATE_RM, AIR_TYPE, AIR_REG, POSITION, HOURS_RUN, QUANTITY, DEFECT, MOD_STATUS, PARTS_AWAITED, QUANT_POS, STATE, TECHNICIAN ) VALUES ( :category, :repair_ord_num, :unit, :parts_num, :serial_num, :date_rev, :date_rm, :air_type, :air_reg, :position, :hours_run, :quantity, :defect, :mod_status, :parts_awaited, :quant_pos, :state, :technician)";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':category'=>$_POST['category'], ':repair_ord_num'=>$_POST['repair_ord_num'], ':unit'=>$_POST['unit'], ':parts_num'=>$_POST['parts_num'], ':serial_num'=>$_POST['serial_num'], ':date_rev'=>$_POST['date_rev'], ':date_rm'=>$_POST['date_rm'], 'air_type'=>$_POST['air_type'], ':air_reg'=>$_POST['air_reg'], ':position'=>$_POST['position'], ':hours_run'=>$_POST['hours_run'], ':quantity'=>$_POST['quantity'], ':defect'=>$_POST['defect'], ':mod_status'=>$_POST['mod_status'], ':parts_awaited'=>$_POST['parts_awaited'], ':quant_pos'=>$_POST['quant_pos'], ':state'=>$_POST['state'], ':username'=>$_POST['username'] ) );
+    $result = $pdo_statement->execute( array( ':category'=>$_POST['category'], ':repair_ord_num'=>$_POST['repair_ord_num'], ':unit'=>$_POST['unit'], ':parts_num'=>$_POST['parts_num'], ':serial_num'=>$_POST['serial_num'], ':date_rev'=>$_POST['date_rev'], ':date_rm'=>$_POST['date_rm'], 'air_type'=>$_POST['air_type'], ':air_reg'=>$_POST['air_reg'], ':position'=>$_POST['position'], ':hours_run'=>$_POST['hours_run'], ':quantity'=>$_POST['quantity'], ':defect'=>$_POST['defect'], ':mod_status'=>$_POST['mod_status'], ':parts_awaited'=>$_POST['parts_awaited'], ':quant_pos'=>$_POST['quant_pos'], ':state'=>$_POST['state'], ':technician'=>$_POST['technician'] ) );
     if (!empty($result) ){
       header('location:table.php');
     }
@@ -18,11 +18,11 @@ session_start();
     if(!isset($_SESSION['sess_username'])){
       header('Location: index.php?err=2');
     }
-    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-        $query1 = $DB_con->prepare($q1);
-        $query1->execute(array(':username' => $_SESSION['sess_username']));
-        $row = $query1->fetch(PDO::FETCH_ASSOC);
-        extract($row);
+    // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+    //     $query1 = $DB_con->prepare($q1);
+    //     $query1->execute(array(':username' => $_SESSION['sess_username']));
+    //     $row = $query1->fetch(PDO::FETCH_ASSOC);
+    //     extract($row);
 
 ?>
 
@@ -182,7 +182,7 @@ session_start();
                         <li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i><p>Hello</p>
-                                    <?php echo $USERNAME ?>
+                                    <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
                         <li>
@@ -412,12 +412,18 @@ session_start();
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <!-- <label>USER</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
+                                                <label>TECHNICIAN</label>
+                                               <input  class="form-control border-input demo-form-field" value="<?php echo $_SESSION['displayname']; ?>" readonly="" name="technician" placeholder="TECHNICIAN">
                                             </div>
-                                        </div></div>
+                                        </div>
+                                        <!-- <div class="col-md-4">
+                                       
+                                            <div class="form-group">
+                                                <!- <label>USER</label> -->
+                                            <!--     <input  class="form-control border-input demo-form-field" value=readonly="" name="username" placeholder="USERNAME">
+                                            </div>
+                                        </div> --> 
                                        <!--  <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>PARTS AWAITED</label>

@@ -110,13 +110,14 @@ if (isset($_POST['btnLogin'])) {
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body >
   <!-- background="img/kq.png" -->
 <div class="containera">
   <div class="info">
-    <h1>KENYA AIRWAYS WORKSHOP SYSTEM</h1><!-- <span>Made with <i class="fa fa-heart"></i> by <a href="http://andytran.me">Andy Tran</a></span> -->
+    <h1 class="h1" style="font-family: 'Lato', sans-serif; font-weight: 700; font-style: italic; ">Kenya Airways Workshop System</h1><!-- <span>Made with <i class="fa fa-heart"></i> by <a href="http://andytran.me">Andy Tran</a></span> -->
   </div>
 </div>
 <div class="form">

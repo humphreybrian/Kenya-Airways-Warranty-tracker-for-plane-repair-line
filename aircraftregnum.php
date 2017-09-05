@@ -18,11 +18,11 @@ session_start();
     if(!isset($_SESSION['sess_username'])){
       header('Location: index.php?err=2');
     }
-    $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-        $query1 = $DB_con->prepare($q1);
-        $query1->execute(array(':username' => $_SESSION['sess_username']));
-        $row = $query1->fetch(PDO::FETCH_ASSOC);
-        extract($row);
+    // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+    //     $query1 = $DB_con->prepare($q1);
+    //     $query1->execute(array(':username' => $_SESSION['sess_username']));
+    //     $row = $query1->fetch(PDO::FETCH_ASSOC);
+    //     extract($row);
 
 ?>
 <!doctype html>
@@ -181,7 +181,7 @@ session_start();
                         <li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i><p>Hello</p>
-                                    <?php echo $USERNAME ?>
+                                    <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
                         <li>
@@ -247,7 +247,7 @@ session_start();
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <!-- <label>USER</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $USERNAME ?>" readonly="" name="username" placeholder="USERNAME">
+                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $_SESSION['displayname']; ?>" readonly="" name="username" placeholder="USERNAME">
                                             </div>
                                         </div>
                                     </div>
