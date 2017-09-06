@@ -80,6 +80,17 @@ if (isset($_POST['btnLogin'])) {
 <!DOCTYPE html>
 <html >
 <head>
+<style>
+        img.smallscreen { display: none; }
+        @media only screen and (max-width: 320px) {
+            img { 
+                display: none; 
+            }
+            img.smallscreen { 
+                display: inline; 
+            }
+        }
+        </style>
   <meta charset="utf-8" />
   <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
   <link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
@@ -113,8 +124,8 @@ if (isset($_POST['btnLogin'])) {
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 </head>
 
-<body >
-  <!-- background="img/kq.png" -->
+<body background="assets/img/kenya-airways.jpg">
+  
 <div class="containera">
   <div class="info">
     <h1 class="h1" style="font-family: 'Lato', sans-serif; font-weight: 700; font-style: italic; ">Kenya Airways Workshop System</h1><!-- <span>Made with <i class="fa fa-heart"></i> by <a href="http://andytran.me">Andy Tran</a></span> -->
