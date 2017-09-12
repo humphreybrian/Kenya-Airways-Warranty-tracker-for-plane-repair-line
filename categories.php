@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO CATEGORIES ( CATEGORY, TAG, DEPARTMENT, USERNAME ) VALUES ( :category, :tag, :department, :username )";
+    $sql = "INSERT INTO CATEGORIES (   DEPARTMENT, CATEGORY, TAG, DELETED, CREATEDBY, CREATEDON, LASTEDITEDBY, LASTEDITEDON, LASTEDITED ) VALUES ( :department, :category, :tag, :deleted, :createdby, :createdon, :lasteditedby, :lasteditedon, :lastedited )";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':category'=>$_POST['category'], ':tag'=>$_POST['tag'], ':department'=>$_POST['department'], ':username'=>$_POST['username']) );
+    $result = $pdo_statement->execute( array( ':department'=>$_POST['department'], ':category'=>$_POST['category'], ':tag'=>$_POST['tag'], ':deleted'=>$_POST['deleted'], ':createdby'=>$_POST['createdby'], ':createdon'=>$_POST['createdon'], ':lasteditedby'=>$_POST['lasteditedby'], ':lasteditedon'=>$_POST['lasteditedon'], ':lastedited'=>$_POST['lastedited'] ) );
     if (!empty($result) ){
       header('location:categories.php');
     }

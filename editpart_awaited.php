@@ -1,13 +1,13 @@
 <?php
 require_once("db.php");
 if(!empty($_POST["save_record"])) {
-	$pdo_statement=$DB_con->prepare("update posts set part_num='" . trim($_POST[ 'part_num' ]) . "', description='" . trim($_POST[ 'description' ]) . "', requisition_num='" . trim($_POST[ 'requisition_num' ]) . "',requisition_date='" . trim($_POST[ 'requisition_date' ]) . "', inspection_num='" . trim($_POST[ 'inspection_num' ]) . "', remarks='" . trim($_POST[ 'remarks' ]) . "', enginner='" . trim($_POST[ 'enginner' ]) . "', stores_comments='" . trim($_POST[ 'stores_comments' ]) . "', quantity='" . trim($_POST[ 'quantity' ]) . "' where id='" . $_GET["id"]."'");
+	$pdo_statement=$DB_con->prepare("update partsawaited set sparepartnumber='" . trim($_POST[ 'sparepartnumber' ]) . "', description='" . trim($_POST[ 'description' ]) . "', reqnumber='" . trim($_POST[ 'reqnumber' ]) . "',dateofreq='" . trim($_POST[ 'dateofreq' ]) . "', engineer='" . trim($_POST[ 'engineer' ]) . "', quantity='" . trim($_POST[ 'quantity' ]) . "', storescomment='" . trim($_POST[ 'storescomment' ]) . "', dateofentry='" . trim($_POST[ 'dateofentry' ]) . "', remarks='" . trim($_POST[ 'remarks' ]) . "' , inspectionno='" . trim($_POST[ 'inspectionno' ]) . "' where id='" . $_GET["id"]."'");
 	$result = $pdo_statement->execute();
 	if($result) {
 		header('location:parts_awaited.php');
 	}
 }
-$pdo_statement = $DB_con->prepare("SELECT * FROM posts where id='" . $_GET["id"]."'");
+$pdo_statement = $DB_con->prepare("SELECT * FROM partsawaited where id='" . $_GET["id"]."'");
 $pdo_statement->execute();
 $result = $pdo_statement->fetchAll();
 ?>
@@ -107,10 +107,11 @@ $result = $pdo_statement->fetchAll();
                                   
 
                                     <div class="row">
+                                       
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>PART NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="part_num" value="<?php echo $result[0]['PART_NUM']; ?>" placeholder="PART NUMBER" >
+                                                <input type="text" class="form-control border-input demo-form-field" name="sparepartnumber" value="<?php echo $result[0]['SPAREPARTNUMBER']; ?>" placeholder="PART NUMBER">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -122,7 +123,7 @@ $result = $pdo_statement->fetchAll();
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION NUMBER</label>
-                                               <input type="text" class="form-control border-input demo-form-field" name="requisition_num" value="<?php echo $result[0]['REQUISITION_NUM']; ?>" placeholder="REQUISITION NUMBER"> 
+                                               <input type="text" class="form-control border-input demo-form-field" name="reqnumber" value="<?php echo $result[0]['REQNUMBER']; ?>" placeholder="REQUISITION NUMBER"> 
                                             </div>
                                         </div>
                                        
@@ -131,50 +132,69 @@ $result = $pdo_statement->fetchAll();
                                     </div>
 
                                      <div class="row">
-                                        
-                                         <div class="col-md-4">
+                                     
+                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION DATE</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="requisition_date" value="<?php echo $result[0]['REQUISITION_DATE']; ?>" placeholder="DATE RECEIVED" required="required">
+                                               <input type="date" class="form-control border-input demo-form-field" name="dateofreq" value="<?php echo $result[0]['DATEOFREQ']; ?>" placeholder="DATE RECEIVED" required="required">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>INSPECTION NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="inspection_num" value="<?php echo $result[0]['INSPECTION_NUM']; ?>" placeholder="INSPECTION NUMBER">
-                                            </div>
-                                        </div>
-                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>REMARKS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="remarks" value="<?php echo $result[0]['REMARKS']; ?>" placeholder="REMARKS">
-                                            </div>
-                                        </div>
-                                         
-                                        
-                                    </div>
 
-                                    <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>ENGINEER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="enginner" value="<?php echo $result[0]['ENGINNER']; ?>" placeholder="ENGINEER">
+                                                <input type="text" class="form-control border-input demo-form-field" name="engineer" value="<?php echo $result[0]['ENGINEER']; ?>" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>STORES COMMENTS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="stores_comments" value="<?php echo $result[0]['STORES_COMMENTS']; ?>" placeholder="STORES COMMENTS">
-                                            </div>
-                                        </div>
+
+                                        
+
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>QUANTITY</label>
                                                 <input type="number" class="form-control border-input demo-form-field" name="quantity" value="<?php echo $result[0]['QUANTITY']; ?>" placeholder="QUANTITY" required="number">
                                             </div>
                                         </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
                                        
+                                       <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>STORES COMMENTS</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="storescomment" value="<?php echo $result[0]['STORESCOMMENT']; ?>" placeholder="STORES COMMENTS">
+                                            </div>
+                                        </div>
+
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>DATE OF ENTRY</label>
+                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
+                                               <input type="date" class="form-control border-input demo-form-field" name="dateofentry" value="<?php echo $result[0]['DATEOFENTRY']; ?>" placeholder="DATE OF ENTRY" required="required">
+                                            </div>
+                                        </div> 
+                                        
+
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>REMARKS</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="remarks" value="<?php echo $result[0]['REMARKS']; ?>" placeholder="REMARKS">
+                                            </div>
+                                        </div>  
+                                        
+                                    </div>
+                                     <div class="row">
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>INSPECTION NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="inspectionno" value="<?php echo $result[0]['INSPECTIONNO']; ?>" placeholder="INSPECTION NUMBER">
+                                            </div>
+                                        </div>
+
+                                        
                                          
                                         
                                     </div>

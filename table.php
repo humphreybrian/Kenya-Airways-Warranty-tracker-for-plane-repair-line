@@ -187,7 +187,7 @@ session_start();
                 <div class="row">
 
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card" >
                             <div class="header">
                                 <h4 class="title">ITEMS </h4>
                                 <!-- <p class="category">24 Hours performance</p> -->
@@ -241,7 +241,7 @@ session_start();
                  extract($row);
         ?>
 
-       ["<?php echo $UNIT; ?>","<?php echo $PARTS_NUM; ?>","<?php echo $SERIAL_NUM; ?>","<?php echo $DATE_REV; ?>","<?php echo $DATE_RM; ?>","<?php echo $AIR_TYPE; ?>","<?php echo $AIR_REG; ?>","<?php echo $POSITION; ?>","<?php echo $QUANTITY; ?>"],
+       ["<?php echo $UNIT; ?>","<?php echo $PARTNUMBER; ?>","<?php echo $SERIALNUMBER; ?>","<?php echo $DATERCD; ?>","<?php echo $DATERMVD; ?>","<?php echo $ACTYPE; ?>","<?php echo $ACREG; ?>","<?php echo $TECH; ?>","<?php echo $POS; ?>","<?php echo $QTY; ?>"],
        
     <?php }
             }
@@ -255,6 +255,7 @@ session_start();
                 { "title": "Date removed" },
                 { "title": "Ac type" },
                 { "title": "Ac reg" },
+                { "title": "Engineer" },
                 { "title": "Position" },
                 { "title": "Quantity" }
             ]

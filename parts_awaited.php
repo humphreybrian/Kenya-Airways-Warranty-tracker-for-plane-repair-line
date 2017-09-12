@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO POSTS ( PART_NUM, DESCRIPTION, REQUISITION_NUM, REQUISITION_DATE, INSPECTION_NUM, REMARKS, ENGINNER, STORES_COMMENTS, QUANTITY, USERNAME) VALUES ( :part_num, :description, :requisition_num, :requisition_date, :inspection_num, :remarks, :enginner, :stores_comments, :quantity, :username)";
+    $sql = "INSERT INTO PARTSAWAITED (SPAREPARTNUMBER, DESCRIPTION, REQNUMBER, DATEOFREQ, ENGINEER, QUANTITY, STORESCOMMENT, DATEOFENTRY, REMARKS, INSPECTIONNO) VALUES ( :sparepartnumber, :description, :reqnumber, :dateofreq, :engineer, :quantity, :storescomment, :dateofentry, :remarks, :inspectionno)";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':part_num'=>$_POST['part_num'], ':description'=>$_POST['description'], ':requisition_num'=>$_POST['requisition_num'], ':requisition_date'=>$_POST['requisition_date'], ':inspection_num'=>$_POST['inspection_num'], ':remarks'=>$_POST['remarks'], ':enginner'=>$_POST['enginner'], ':stores_comments'=>$_POST['stores_comments'], ':quantity'=>$_POST['quantity'], ':username'=>$_POST['username'] ) );
+    $result = $pdo_statement->execute( array( ':sparepartnumber'=>$_POST['sparepartnumber'], ':description'=>$_POST['description'], ':reqnumber'=>$_POST['reqnumber'], ':dateofreq'=>$_POST['dateofreq'], ':engineer'=>$_POST['engineer'], ':quantity'=>$_POST['quantity'], ':storescomment'=>$_POST['storescomment'], ':dateofentry'=>$_POST['dateofentry'], ':remarks'=>$_POST['remarks'], ':inspectionno'=>$_POST['inspectionno'] ) );
     if (!empty($result) ){
       header('location:parts_awaited.php');
     }
@@ -191,7 +191,7 @@ session_start();
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>PART NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="part_num" placeholder="PART NUMBER">
+                                                <input type="text" class="form-control border-input demo-form-field" name="sparepartnumber" placeholder="PART NUMBER">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -203,7 +203,7 @@ session_start();
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION NUMBER</label>
-                                               <input type="text" class="form-control border-input demo-form-field" name="requisition_num" placeholder="REQUISITION NUMBER"> 
+                                               <input type="text" class="form-control border-input demo-form-field" name="reqnumber" placeholder="REQUISITION NUMBER"> 
                                             </div>
                                         </div>
                                         <!-- <div class="col-md-4">
@@ -242,39 +242,19 @@ session_start();
                                             <div class="form-group">
                                                 <label>REQUISITION DATE</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="requisition_date" placeholder="DATE RECEIVED" required="required">
+                                               <input type="date" class="form-control border-input demo-form-field" name="dateofreq" placeholder="DATE RECEIVED" required="required">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>INSPECTION NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="inspection_num" placeholder="INSPECTION NUMBER">
-                                            </div>
-                                        </div>
-                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>REMARKS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="remarks" placeholder="REMARKS">
-                                            </div>
-                                        </div>
-                                         
-                                        
-                                    </div>
 
-
-                                    <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>ENGINEER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="enginner" placeholder="ENGINEER">
+                                                <input type="text" class="form-control border-input demo-form-field" name="engineer" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>STORES COMMENTS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="stores_comments" placeholder="STORES COMMENTS">
-                                            </div>
-                                        </div>
+
+                                        
+
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>QUANTITY</label>
@@ -282,36 +262,50 @@ session_start();
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>REQUISITION DATE</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
-                                            </div>
                                         </div>
+
+                                        <div class="row">
+
                                          <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>INSPECTION NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                                <label>STORES COMMENTS</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="storescomment" placeholder="STORES COMMENTS">
                                             </div>
-                                        </div> -->
+                                        </div>
+
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>DATE OF ENTRY</label>
+                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
+                                               <input type="date" class="form-control border-input demo-form-field" name="dateofentry" placeholder="DATE OF ENTRY" required="required">
+                                            </div>
+                                        </div> 
+                                        
+
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>REMARKS</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="remarks" placeholder="REMARKS">
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>INSPECTION NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="inspectionno" placeholder="INSPECTION NUMBER">
+                                            </div>
+                                        </div>
+
+                                        
+                                        
                                          
                                         
                                     </div>
-                                    <div class="row">
-                                        
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <!-- <label>USER</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $_SESSION['displayname']; ?>" readonly="" name="username" placeholder="USERNAME">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                        <div class="form-group">
-                                                <label>DATE OF ENTRY</label>
-                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="requisition_date" placeholder="DATE RECEIVED" required="required">
-                                            </div></div>
-                                    </div>
+
+                                   
 
                                     
                                     <div class="text-center">
@@ -333,7 +327,7 @@ session_start();
                                <!--  <p class="category">Here is a subtitle for this table</p> -->
                             </div>
                             <?php   
-    $pdo_statement = $DB_con->prepare("SELECT * FROM POSTS ORDER BY id ASC");
+    $pdo_statement = $DB_con->prepare("SELECT * FROM PARTSAWAITED ORDER BY id ASC");
     $pdo_statement->execute();
     $result = $pdo_statement->fetchAll();
 ?>
@@ -351,10 +345,10 @@ session_start();
       <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
       <th class="table-header" width="20%">Req_number</th>
        <th class="table-header" width="20%">Req_date</th>
-      <th class="table-header" width="20%">Inspection_num</th>
-      <th class="table-header" width="20%">Remarks</th>
       <th class="table-header" width="20%">Enginner</th>
       <th class="table-header" width="20%">Quantity</th>
+      <th class="table-header" width="20%">DateofEnq</th>
+      <th class="table-header" width="20%">InspectionNum</th>
       <th class="table-header" width="5%">Actions</th> 
     </tr>
   </thead>
@@ -365,15 +359,14 @@ session_start();
     ?>
       <tr class="table-row">
       
-        <td><?php echo $row["PART_NUM"]; ?></td>
-        
-        <td><?php echo $row["REQUISITION_NUM"]; ?></td>
-        <td><?php echo $row["REQUISITION_DATE"]; ?></td>
-        <td><?php echo $row["INSPECTION_NUM"]; ?></td>
-        <td><?php echo $row["REMARKS"]; ?></td>
-        <td><?php echo $row["ENGINNER"]; ?></td>
-      
+        <td><?php echo $row["SPAREPARTNUMBER"]; ?></td>
+        <td><?php echo $row["REQNUMBER"]; ?></td>
+        <td><?php echo $row["DATEOFREQ"]; ?></td>
+        <td><?php echo $row["ENGINEER"]; ?></td>
         <td><?php echo $row["QUANTITY"]; ?></td>
+        <td><?php echo $row["DATEOFENTRY"]; ?></td>
+        <td><?php echo $row["INSPECTIONNO"]; ?></td>
+    
        
         <td>
             <a class="ajax-action-links" href='editpart_awaited.php?id=<?php echo $row['ID']; ?>'><!-- <i class="ti-pencil-alt" title="EDIT"></i> --><img src="crud-icon/edit.png" title="Edit" /></a>

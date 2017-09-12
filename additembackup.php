@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO ITEMS ( INSPECNO, WORKORDER, UNIT, PARTNUMBER, SERIALNUMBER, DATERCD, DATERMVD, ACTYPE, ACREG, POS, HOURSRUN, QTY, DEFECT, INSPECNO_OLD, WORKDONE, TECH, DATECOMPLETED, AUTHORITY, SENTTO, DELETED, LASTUSERUPDATE, LASTDATEUPDATE, LASTACTIONUPDATE, SCRAPPED, SECTOR, CATEGORY, BLR, DEACTIVATEREASON, QUARANTINE, MODSTATUS, MANHOURS) VALUES ( :inspecno, :workorder, :unit, :partnumber, :serialnumber, :datercd, :datermvd, :actype, :acreg, :pos, :hoursrun, :qty, :defect, :inspecno_old, :workdone, :tech, :datecompleted, :authority, :sentto, :deleted, :lastuserupdate, :lastdateupdate, :lastactionupdate, :scrapped, :sector, :category, :blr, :deactivatereason, :quarantine, :modstatus, :manhours)";
+    $sql = "INSERT INTO ITEMS ( INSPECNO, WORKORDER, UNIT, PARTNUMBER, SERIALNUMBER, DATECD, DATEMVD, ACTYPE, ACREG, POS, HOURSRUN, QTY, DEFECT, INSPECNO_OLD, WORKDONE, TECH, DATECOMPLETED, AUTHORITY, SENTTO, DELETED, LASTUSERUPDATE, LASTDATEUPDATE, LASTACTIONUPDATE, SCRAPPED, SECTOR, CATEGORY, BLR, DEACTIVATEREASON, QUARANTINE, MODSTATUS, MANHOURS) VALUES ( :inspecno, :workorder, :unit, :partnumber, :serialnumber, :datecd, :datemvd, :actype, :acreg, :pos, :hoursrun, :qty, :defect, :inspecno_old, :workdone, :tech, :datecompleted, :authority, :sentto, :deleted, :lastuserupdate, :lastdateupdate, :lastactionupdate, :scrapped, :sector, :category, :blr, :deactivatereason, :quarantine, :modstatus, :manhours)";
     $pdo_DATECOMPLETEDment = $DB_con->prepare( $sql );
         
-    $result = $pdo_DATECOMPLETEDment->execute( array( ':inspecno'=>$_POST['inspecno'], ':workorder'=>$_POST['workorder'], ':unit'=>$_POST['unit'], ':partnumber'=>$_POST['partnumber'], ':serialnumber'=>$_POST['serialnumber'], ':datercd'=>$_POST['datercd'], ':datermvd'=>$_POST['datermvd'], 'actype'=>$_POST['actype'], ':acreg'=>$_POST['acreg'], ':pos'=>$_POST['pos'], ':hoursrun'=>$_POST['hoursrun'], ':qty'=>$_POST['qty'], ':defect'=>$_POST['defect'], ':inspecno_old'=>$_POST['inspecno_old'], ':workdone'=>$_POST['workdone'], ':tech'=>$_POST['tech'], ':datecompleted'=>$_POST['datecompleted'], ':authority'=>$_POST['authority'], ':sentto'=>$_POST['sentto'], ':deleted'=>$_POST['deleted'], ':lastuserupdate'=>$_POST['lastuserupdate'], ':lastdateupdate'=>$_POST['lastdateupdate'], ':lastactionupdate'=>$_POST['lastactionupdate'], ':scrapped'=>$_POST['scrapped'], ':sector'=>$_POST['sector'], ':category'=>$_POST['category'], ':blr'=>$_POST['blr'], ':deactivatereason'=>$_POST['deactivatereason'], ':quarantine'=>$_POST['quarantine'], ':modstatus'=>$_POST['modstatus'], ':manhours'=>$_POST['manhours'] ) );
+    $result = $pdo_DATECOMPLETEDment->execute( array( ':inspecno'=>$_POST['inspecno'], ':workorder'=>$_POST['workorder'], ':unit'=>$_POST['unit'], ':partnumber'=>$_POST['partnumber'], ':serialnumber'=>$_POST['serialnumber'], ':datecd'=>$_POST['datecd'], ':datemvd'=>$_POST['datemvd'], 'actype'=>$_POST['actype'], ':acreg'=>$_POST['acreg'], ':pos'=>$_POST['pos'], ':hoursrun'=>$_POST['hoursrun'], ':qty'=>$_POST['qty'], ':defect'=>$_POST['defect'], ':INSPECNO_OLD'=>$_POST['inspecno_old'], ':workdone'=>$_POST['workdone'], ':tech'=>$_POST['tech'], ':datecompleted'=>$_POST['datecompleted'], ':authority'=>$_POST['authority'], ':hoursrun'=>$_POST['hoursrun'], ':qty'=>$_POST['qty'], ':defect'=>$_POST['defect'], ':INSPECNO_OLD'=>$_POST['INSPECNO_OLD'], ':WORKDONE'=>$_POST['WORKDONE'], ':tech'=>$_POST['tech'], ':datecompleted'=>$_POST['datecompleted'], ':authority'=>$_POST['authority'], ':sentto'=>$_POST['sentto'], ':deleted'=>$_POST['deleted'], ':lastuserupdate'=>$_POST['lastuserupdate'], ':lastdateupdate'=>$_POST['lastdateupdate'], ':lastactionupdate'=>$_POST['lastactionupdate'], ':scrapped'=>$_POST['scrapped'], ':sector'=>$_POST['sector'], ':category'=>$_POST['category'], ':blr'=>$_POST['blr'], ':deactivatereason'=>$_POST['deactivatereason'], ':quarantine'=>$_POST['quarantine'], ':modstatus'=>$_POST['modstatus'], ':manhours'=>$_POST['manhours'] ) );
     if (!empty($result) ){
       header('location:table.php');
     }
@@ -29,7 +29,7 @@ session_start();
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+	<meta charset="utf-8" />
     <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
@@ -63,14 +63,14 @@ session_start();
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-background-color="black" data-active-color="danger">
+	<div class="sidebar" data-background-color="black" data-active-color="danger">
 
-    <!--
-        Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-        Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-    -->
+	<!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
 
-        <div class="sidebar-wrapper">
+		<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
                      Workshop
@@ -141,11 +141,11 @@ session_start();
                 </li>
                 
             </ul>
-        </div>
+    	</div>
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default">
+		<nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
@@ -196,16 +196,16 @@ session_start();
 
                                     <div class="row">
 
-                                    <!-- <div class="col-md-4"> -->
+                                    <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>INSPECTION NUMBER</label> -->
-                                                <input  type="hidden" class="form-control border-input demo-form-field" name='inspecno' placeholder="INSPECTION NUMBER" required="required"> </div>
-                                       <!--  </div> -->
-                                        <!-- <div class="col-md-4"> -->
+                                                <label>INSPECTION NUMBER</label>
+                                                <input  type="text" class="form-control border-input demo-form-field" name='WORKORDER' placeholder="INSPECTION NUMBER" required="required"> </div>
+                                        </div> -->
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>wORK ORDER NUMBER</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" name='workorder' placeholder="WORK ORDER NUMBER" required="required"> </div>
-                                        <!-- </div> -->
+                                                <label>wORK ORDER NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name='WORKORDER' placeholder="WORK ORDER NUMBER" required="required"> </div>
+                                        </div> -->
                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>UNIT</label>
@@ -244,14 +244,14 @@ session_start();
                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>DATE RECEIVED</label>
-                                                <input type="date" class="form-control border-input demo-form-field" name="datercd" placeholder="DATE RECEIVED" required="required">
+                                                <input type="date" class="form-control border-input demo-form-field" name="datecd" placeholder="DATE RECEIVED" required="required">
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>DATE REMOVED</label>
-                                                <input type="date" class="form-control border-input demo-form-field" name="datermvd" placeholder="DATE REMOVED" required="required">
+                                                <input type="date" class="form-control border-input demo-form-field" name="datemvd" placeholder="DATE REMOVED" required="required">
                                             </div>
                                         </div>
 
@@ -265,7 +265,7 @@ session_start();
 ?>
 
                                                
-  <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="actype" id="DATECOMPLETED" placeholder="AIRCRAFT TYPE" required="required">
+  <select name="ACTYPE" id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="actype" id="DATECOMPLETED" placeholder="AIRCRAFT TYPE" required="required">
 <?php foreach ($result as $row): ?>
     <option><?=$row["TYPE"]?></option>
 <?php endforeach ?>
@@ -287,7 +287,7 @@ session_start();
 ?>
 
                                                
-  <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="acreg" id="DATECOMPLETED" placeholder="AIRCRAFT REGISTRATION NUMBER" required="required">
+  <select name="ACREG" id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="acreg" id="DATECOMPLETED" placeholder="AIRCRAFT REGISTRATION NUMBER" required="required">
 <?php foreach ($result as $row): ?>
     <option><?=$row["REGNUM"]?></option>
 <?php endforeach ?>
@@ -327,87 +327,81 @@ session_start();
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-md-4"> -->
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                               <!--  <label>INSPECTNUM_OLD</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" name="inspecno_old" placeholder="DEFECT" required="required">
+                                                <label>INSPECTNUM_OLD</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="defect" placeholder="DEFECT" required="required">
                                             </div>
-                                      <!--   </div> -->
-                                      </div>
-
-                                      <div class="row">
-                                        <!-- <div class="col-md-4"> -->
+                                        </div> -->
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>WORKDONE</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" name="workdone" placeholder="DEFECT" required="required">
+                                                <label>WORKDONE</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="defect" placeholder="DEFECT" required="required">
                                             </div>
-                                     <!--    </div> -->
+                                        </div> -->
 
                                         <!-- <div class="col-md-4"> -->
                                             <div class="form-group">
                                                <!--  <label>TECHNICIAN</label> -->
                                                 <input type="hidden" class="form-control border-input demo-form-field" name="tech" value="<?php echo $_SESSION['displayname']; ?>" placeholder="DEFECT" required="required" readonly>
                                             </div>
-                                            <!-- </div> -->
+                                            </div>
                                         <!-- </div> -->
 
-                                        <!-- <div class="col-md-4"> -->
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>DATE COMPLETED</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="datecompleted" placeholder="DATE REMOVED" required="required">
+                                                <label>DATE COMPLETED</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
                                             </div>
-                                        <!-- </div> -->
+                                        </div> -->
+                                        <!-- <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>AUTHORITY</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>SENTTO</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>DELETED</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
+                                            </div>
+                                        </div> -->
+                                       <!--  <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>LASTUSERUPDATE</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                       <!--  <div class="col-md-4"> -->
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                               <!--  <label>AUTHORITY</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="authority" placeholder="DATE REMOVED" required="required">
+                                                <label>LASTDATEUPDATE</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
                                             </div>
-                                       <!--  </div> -->
-                                        <!-- <div class="col-md-4"> -->
-                                            <div class="form-group">
-                                               <!--  <label>SENTTO</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="sentto" placeholder="DATE REMOVED" required="required">
-                                            </div>
-                                        <!-- </div> -->
-                                        <!-- <div class="col-md-4"> -->
-                                            <div class="form-group">
-                                                <!-- <label>DELETED</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="deleted" placeholder="DATE REMOVED" required="required">
-                                            </div>
-                                        <!-- </div> -->
                                         </div>
-                                        <!-- <div class="col-md-4"> -->
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>LASTUSERUPDATE</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="lastuserupdate" placeholder="DATE REMOVED" required="required">
+                                                <label>LASTACTIONUPDATE</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
                                             </div>
-                                        <!-- </div> -->
-                                        <!-- <div class="col-md-4"> -->
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>LASTDATEUPDATE</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="lastdateupdate" placeholder="DATE REMOVED" required="required">
+                                                <label>SCRAPPED</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
                                             </div>
-                                        <!-- </div> -->
-                                        <!-- <div class="col-md-4"> -->
+                                        </div> -->
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                               <!--  <label>LASTACTIONUPDATE</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="lastactionupdate" placeholder="DATE REMOVED" required="required">
+                                                <label>SECTOR</label>
+                                                <input type="text" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
                                             </div>
-                                        <!-- </div> -->
-                                        <!-- <div class="col-md-4"> -->
-                                            <div class="form-group">
-                                                <!-- <label>SCRAPPED</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="scrapped" placeholder="DATE REMOVED" required="required">
-                                            </div>
-                                        <!-- </div> -->
-                                        <!-- <div class="col-md-4"> -->
-                                            <div class="form-group">
-                                               <!--  <label>SECTOR</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="sector" placeholder="DATE REMOVED" required="required">
-                                            </div>
-                                        <!-- </div> -->
+                                        </div> -->
                                         <div class="row">
 
                                         <div class="col-md-4">
@@ -420,7 +414,7 @@ session_start();
     ?>
 
                                                
-  <select name="category" id="category" title="department" class="form-control border-input demo-form-field" id="DATECOMPLETED" placeholder="CATEGORY" required="required">
+  <select name="CATEGORY" id="category" title="department" class="form-control border-input demo-form-field" id="DATECOMPLETED" placeholder="CATEGORY" required="required">
 <?php foreach ($result as $row): ?>
     <option><?=$row["CATEGORY"]?></option>
 <?php endforeach ?>
@@ -442,12 +436,12 @@ session_start();
   
                                             </div>
                                         </div>
-                                        <!-- <div class="col-md-4"> -->
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>DEACTIVATIONREASON</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="deactivatereason" placeholder="DATE REMOVED" required="required">
+                                                <label>DEACTIVATIONREASON</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
                                             </div>
-                                       <!--  </div> -->
+                                        </div> -->
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>QUARANTINE POSITION</label>
@@ -465,12 +459,12 @@ session_start();
                                             </div>
                                         </div>
                                         </div>
-                                        <!-- <div class="col-md-4"> -->
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group">
-                                                <!-- <label>MANHOURS</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="manhours" placeholder="DATE REMOVED" required="required">
+                                                <label>MANHOURS</label>
+                                                <input type="date" class="form-control border-input demo-form-field datepicke" name="DATEMVD" placeholder="DATE REMOVED" required="required">
                                             </div>
-                                        <!-- </div> -->
+                                        </div> -->
 
                                     </div>
 
@@ -498,13 +492,13 @@ session_start();
 
     <!--   Core JS Files   -->
     <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <!--  Checkbox, Radio & Switch Plugins -->
-    <script src="assets/js/bootstrap-checkbox-radio.js"></script>
+	<!--  Checkbox, Radio & Switch Plugins -->
+	<script src="assets/js/bootstrap-checkbox-radio.js"></script>
 
-    <!--  Charts Plugin -->
-    <script src="assets/js/chartist.min.js"></script>
+	<!--  Charts Plugin -->
+	<script src="assets/js/chartist.min.js"></script>
 
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
@@ -513,9 +507,9 @@ session_start();
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
-    <script src="assets/js/paper-dashboard.js"></script>
+	<script src="assets/js/paper-dashboard.js"></script>
 
-    <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    <script src="assets/js/demo.js"></script>
+	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+	<script src="assets/js/demo.js"></script>
 
 </html>
