@@ -179,7 +179,7 @@ include_once 'db.php';
 
 						<li>
                             <a href="#">
-                            <i class="ti-user">&nbsp;</i><p>Hello</p>
+                            <i class="ti-user">&nbsp;</i>
                                     <?php echo $_SESSION['mail'],$_SESSION['displayname']; ?>
                                 </a>
                         </li>

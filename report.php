@@ -155,7 +155,7 @@ session_start();
                      
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                            <i class="ti-user">&nbsp</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
@@ -247,32 +247,16 @@ session_start();
 
 
                                     <div class="row">
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>TECHNICIAN</label>
-                                                <?php   
-    $pdo_statement = $DB_con->prepare("SELECT USERNAME FROM tbl_users");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
 
-                                               
-  <select name="category" id="category" title="department" class="form-control border-input demo-form-field" name="state" id="state" placeholder="CATEGORY" required="required">
-<?php foreach ($result as $row): ?>
-    <option><?=$row["USERNAME"]?></option>
-<?php endforeach ?>
-</select>
-  
-                                            </div>
-                                        </div>
-
-                                <div class="col-md-4">
-                                            <div class="form-group">
+                                         
+                                                <div class="col-md-4">
+                                                <div class="form-group">
                                                 <label>FROM</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
                                                <input type="date" class="form-control border-input demo-form-field" name="requisition_date" placeholder="DATE RECEIVED" required="required">
-                                            </div>
-                                        </div>
+                                                </div>
+                                                 </div>
+
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>TO</label>
@@ -280,6 +264,14 @@ session_start();
                                                <input type="date" class="form-control border-input demo-form-field" name="requisition_date" placeholder="DATE RECEIVED" required="required">
                                             </div>
                                         </div>
+
+                                         <div class="col-md-4">
+                                            <!-- <div class="form-group"> -->
+                                                <!-- <label>TECHNICIAN</label> -->
+                                               <input type="hidden" class="form-control border-input demo-form-field" name="requisition_date" value=" <?php echo $_SESSION['displayname']; ?>" placeholder="DATE RECEIVED" required="required" readonly>
+                                           <!--  </div> -->
+                                        </div>
+
 
                                     </div>
 

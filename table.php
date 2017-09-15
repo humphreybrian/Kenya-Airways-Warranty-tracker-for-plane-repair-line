@@ -163,7 +163,7 @@ session_start();
 
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                            <i class="ti-user">&nbsp</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
@@ -241,7 +241,7 @@ session_start();
                  extract($row);
         ?>
 
-       ["<?php echo $UNIT; ?>","<?php echo $PARTNUMBER; ?>","<?php echo $SERIALNUMBER; ?>","<?php echo $DATERCD; ?>","<?php echo $DATERMVD; ?>","<?php echo $ACTYPE; ?>","<?php echo $ACREG; ?>","<?php echo $TECH; ?>","<?php echo $POS; ?>","<?php echo $QTY; ?>"],
+       ["<?php echo $UNIT; ?>","<?php echo $PARTNUMBER; ?>","<?php echo $SERIALNUMBER; ?>","<?php echo $DATERCD; ?>","<?php echo $DATERMVD; ?>","<?php echo $ACTYPE; ?>","<?php echo $ACREG; ?>","<?php echo $TECH; ?>","<?php echo $POS; ?>","<?php echo $QTY; ?>","<a class='ajax-action-links' href='edititems.php?id=<?php echo $ID; ?>'><img src='crud-icon/edit.png' title='Edit' /></a><a class='ajax-action-links'  href='javascript:delete_id(<?php echo $ID; ?>)' ><img src='crud-icon/delete.png' title='Delete' /></a>"],
        
     <?php }
             }
@@ -251,13 +251,15 @@ session_start();
                 { "title": "Unit" },
                 { "title": "Part number" },
                 { "title": "Serial number" },
+                // { "title": "Description" },
                 { "title": "Date recieved" },
                 { "title": "Date removed" },
                 { "title": "Ac type" },
                 { "title": "Ac reg" },
                 { "title": "Engineer" },
                 { "title": "Position" },
-                { "title": "Quantity" }
+                { "title": "Quantity" },
+                { "title": "Actions" }
             ]
         } );   
     });
@@ -286,7 +288,15 @@ session_start();
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
     <script src="assets/js/demo.js"></script>
 
-
+<script type="text/javascript">
+function delete_id(id)
+{
+     if(confirm('Sure To Remove This Record ?'))
+     {
+        window.location.href='deleteitems.php?id='+id;
+     }
+}
+</script>
 
 
     <!-- this is the script that welcomes the user into the page after login-->

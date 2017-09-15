@@ -163,7 +163,7 @@ session_start();
 
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp;</i><p>Hello</p>
+                            <i class="ti-user">&nbsp;</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
@@ -184,7 +184,7 @@ session_start();
         <div class="content">
             <div class="container-fluid">
 
-           <div class="row">
+           <!-- <div class="row">
                     <div class="col-lg-3 col-sm-6">
                         <div class="card">
                             <div class="content">
@@ -285,7 +285,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 
                 
 

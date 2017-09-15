@@ -149,7 +149,7 @@ session_start();
                      
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                            <i class="ti-user">&nbsp</i>
                                     <?php echo $USERNAME ?>
                                 </a>
                         </li>

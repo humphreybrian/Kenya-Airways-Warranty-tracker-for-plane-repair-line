@@ -1,3 +1,4 @@
+
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
@@ -180,7 +181,7 @@ session_start();
                         </li> -->
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i><p>Hello</p>
+                            <i class="ti-user">&nbsp</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
