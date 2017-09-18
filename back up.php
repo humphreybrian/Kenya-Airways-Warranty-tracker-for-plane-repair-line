@@ -44,9 +44,7 @@ session_start();
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="assets/css/demo.css" rel="stylesheet" />
 
-    <!-- <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css"/> -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-
+    <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css"/>
 
 
     <!--  Fonts and icons     -->
@@ -55,7 +53,7 @@ session_start();
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>
-    <!-- <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script> -->
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
 
 </head>
 <body>
@@ -185,36 +183,26 @@ session_start();
                 <div class="row">
 
                     <div class="col-md-12">
-                        <!-- <div class="card" > -->
+                        <div class="card" >
                             <div class="header">
                                 <h4 class="title">ITEMS </h4>
                                 <!-- <p class="category">24 Hours performance</p> -->
-                            </div>                           
+                            </div>
+                            <?php   
+    $pdo_statement = $DB_con->prepare("SELECT * FROM items ORDER BY inspecno ASC");
+    $pdo_statement->execute();
+    $result = $pdo_statement->fetchAll();
+?>
+                          <!--   <div class="content"> -->
+                           
                             <div class="container">
-                                <table cellpadding="1" class="table table-striped table-bordered" cellspacing="1" id="table_data" class="display" width="100%">
-                                    <thead>
-                                    <tr>
-                                     
-                                        <th>Unit</th>
-                                        <th>Part number</th>
-                                        <th>Serial number</th>
-                                        <th>Date recieved</th>
-                                        <th>Date removed</th>
-                                       <!--  <th>Ac type</th>
-                                        <th>Ac reg</th>
-                                        <th>Engineer</th>
-                                        <th>Position</th>
-                                        <th>Quantity</th> -->
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                </table>
+                                 <table id="table_view"></table>
                             </div>  
 
                      
                                 
                             <!-- </div> -->
-                        <!-- </div> -->
+                        </div>
                     </div>
                 </div>
 
@@ -234,40 +222,48 @@ session_start();
 </body>
 
     <!--   Core JS Files   -->
-    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+    <!-- <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script> -->
     <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <!-- <script type="text/javascript" src="assets/js/datatables.min.js"></script> -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/datatables.min.js"></script>
 
-    <script type="text/javascript" language="javascript" >
-            $(document).ready(function() {
-                $('#table_data').dataTable( {
-                    "bProcessing": true,
-                    "bServerSide": true,
-                    "sAjaxSource": "server_side.php",
-                    "aoColumns": [
-                          { "sName": "UNIT" },
-                            { "sName": "PARTNUMBER" },
-                            { "sName": "SERIALNUMBER" },
-                            { "sName": "DATERCD" },
-                            { "sName": "DATERMVD" },
-
-
-
-                    ],
-                     "columnDefs": [
-                            { 
-                                "targets": 5,
-                                "render": function(data, type, row, meta){
-                                   return '<a href="edititems.php?id=' + row[5] + '"><img src="crud-icon/edit.png" class="ajax-action-links" title="Edit" /></a><a class="ajax-action-links"  href="javascript:delete_id('+ row[5] +')" ><img src="crud-icon/delete.png" title="Delete" /></a>';  
-                                }
-                            }            
-                        ]        
-                } );
-            } );
-        </script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() 
+    {
+     $('#table_view').dataTable( {
+            "aaData": [
+    <?php if(!empty($result)) { 
+                foreach($result as $row) {
+                 extract($row);
+        ?>
+       ["<?php echo $UNIT; ?>","<?php echo $PARTNUMBER; ?>","<?php echo $SERIALNUMBER; ?>","<?php echo $DATERCD; ?>","<?php echo $DATERMVD; ?>","<?php echo $ACTYPE; ?>","<?php echo $ACREG; ?>","<?php echo $TECH; ?>","<?php echo $POS; ?>","<?php echo $QTY; ?>","<a class='ajax-action-links' href='edititems.php?id=<?php echo $ID; ?>'><img src='crud-icon/edit.png' title='Edit' /></a><a class='ajax-action-links'  href='javascript:delete_id(<?php echo $ID; ?>)' ><img src='crud-icon/delete.png' title='Delete' /></a>"],
+       
+    <?php }
+            }
+        ?>
+       ],
+            "columns": [
+                { "title": "Unit" },
+                { "title": "Part number" },
+                { "title": "Serial number" },
+                // { "title": "Description" },
+                { "title": "Date recieved" },
+                { "title": "Date removed" },
+                { "title": "Ac type" },
+                { "title": "Ac reg" },
+                { "title": "Engineer" },
+                { "title": "Position" },
+                { "title": "Quantity" },
+                { "title": "Actions" }
+            ]
+        } );   
+    });
+    </script>
+            
+    <script type="text/javascript">
+         $('#table_view')
+        .addClass('table table-bordered table-striped');
+    </script>
 
     <!--  Checkbox, Radio & Switch Plugins -->
     <script src="assets/js/bootstrap-checkbox-radio.js"></script>
@@ -279,7 +275,7 @@ session_start();
     <script src="assets/js/bootstrap-notify.js"></script>
 
     <!--  Google Maps Plugin    -->
-    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script> -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
     <script src="assets/js/paper-dashboard.js"></script>

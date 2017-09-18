@@ -21,7 +21,7 @@ session_start();
 
 ?>
 
-<!doctype html>
+
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -48,7 +48,7 @@ session_start();
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="assets/css/demo.css" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css"/>
+  <!--   <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css"/> -->
 
 
     <!--  Fonts and icons     -->
@@ -56,7 +56,7 @@ session_start();
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/> -->
     <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
 
 </head>

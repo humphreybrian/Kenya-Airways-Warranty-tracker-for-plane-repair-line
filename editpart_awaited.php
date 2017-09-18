@@ -144,7 +144,7 @@ $result = $pdo_statement->fetchAll();
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>ENGINEER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="engineer" value="<?php echo $result[0]['ENGINEER']; ?>" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
+                                                <input type="text" readonly="readonly" class="form-control border-input demo-form-field" name="engineer" value="<?php echo $result[0]['ENGINEER']; ?>" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
                                             </div>
                                         </div>
 
