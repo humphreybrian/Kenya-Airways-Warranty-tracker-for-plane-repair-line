@@ -176,7 +176,7 @@
     //If there is still no where clause - set a general - always true where clause
     if ( $sWhere == "" )
     {
-        $sWhere = " WHERE signoff = 0 OR signoff is null";
+        $sWhere = " WHERE signoff = 1";
     }
      
      

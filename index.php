@@ -77,6 +77,15 @@ if (isset($_POST['btnLogin'])) {
     }
         
 ?>
+<?php 
+// date_default_timezone_set("UTC"); 
+// echo "UTC:".time(); 
+// echo "<br>"; 
+
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
 <!DOCTYPE html>
 <html >
 <head>

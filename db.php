@@ -1,21 +1,8 @@
 <?php
 $tns = "  
- (DESCRIPTION=
-    (ADDRESS=
-      (PROTOCOL=TCP)
-      (HOST=10.2.2.50)
-      (PORT=1521)
-    )
-    (CONNECT_DATA=
-      (SERVICE_NAME=dwhdev)
-    )
-  )
-       ";
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.2.2.50)(PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=dwhdev)))  ";
 $db_username = "warrantytracker";
 $db_password = "warranty#tracker";
-
-
-
 try
 {
  $DB_con = new PDO("oci:dbname=".$tns,$db_username,$db_password);

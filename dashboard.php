@@ -13,14 +13,35 @@ session_start();
     if(!isset($_SESSION['sess_username'])){
       header('Location: index.php?err=2');
     }
-    // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-    //     $query1 = $DB_con->prepare($q1);
-    //     $query1->execute(array(':username' => $_SESSION['sess_username']));
-    //     $row = $query1->fetch(PDO::FETCH_ASSOC);
-    //     extract($row);
-
+  
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
+<?php
+$sql = "SELECT count(*) FROM items "; 
+$result = $DB_con->prepare($sql); 
+$result->execute(); 
+// echo $number_of_rows = $result->fetchColumn(); 
 ?>
-
+<?php
+$sql = "SELECT count(CATEGORY) FROM Categories "; 
+$result1 = $DB_con->prepare($sql); 
+$result1->execute(); 
+// echo $number_of_rows = $result->fetchColumn(); 
+?>
+<?php
+$sql = "SELECT count(UNITS) FROM units "; 
+$result2 = $DB_con->prepare($sql); 
+$result2->execute(); 
+// echo $number_of_rows = $result->fetchColumn(); 
+?>
+<?php
+$sql = "SELECT count(*) FROM PARTSAWAITED "; 
+$result3 = $DB_con->prepare($sql); 
+$result3->execute(); 
+// echo $number_of_rows = $result->fetchColumn(); 
+?>
 
 <html lang="en">
 <head>
@@ -163,6 +184,12 @@ session_start();
 
                         <li>
                             <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="#">
                             <i class="ti-user">&nbsp;</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
@@ -183,30 +210,30 @@ session_start();
 
         <div class="content">
             <div class="container-fluid">
-
-           <!-- <div class="row">
-                    <div class="col-lg-3 col-sm-6">
+            <div class="col-md-12">
+           <div class="row">
+                    <div class="col-md-3">
                         <div class="card">
                             <div class="content">
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-info text-center">
-                                            <i class="ti-user"></i>
+                                            <i class="ti-shopping-cart-full"></i>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>USERS</p>
-                                            10
+                                            <p>TOTAL ITEMS</p>
+                                            <?php echo $number_of_rows = $result->fetchColumn(); ?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                                <!-- <div class="footer">
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i> Updated now
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -221,17 +248,17 @@ session_start();
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Avionics</p>
-                                            15
+                                            <p>CATEGORIES</p>
+                                            <?php echo $number_of_rows = $result1->fetchColumn(); ?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                               <!--  <div class="footer">
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i> Updated now
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -246,17 +273,17 @@ session_start();
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Mechanical</p>
-                                            23
+                                            <p>UNITS</p>
+                                            <?php echo $number_of_rows = $result2->fetchColumn(); ?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                               <!--  <div class="footer">
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i> Updated now
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -271,21 +298,23 @@ session_start();
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>NDT</p>
-                                            45
+                                            <p>PARTS AWAITED</p>
+                                            <?php echo $number_of_rows = $result3->fetchColumn(); ?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                                <!-- <div class="footer">
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i> Updated now
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
-                </div> -->
+                   
+                </div>
+                </div>
                 
                 
 

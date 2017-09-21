@@ -11,6 +11,20 @@ $pdo_statement = $DB_con->prepare("SELECT * FROM items where id='$_GET[id]'");
 $pdo_statement->execute();
 $result1 = $pdo_statement->fetchAll();
 ?>
+<?php 
+
+date_default_timezone_set("Africa/Nairobi"); 
+
+?>
+<?php
+session_start();
+    if(!isset($_SESSION['sess_username'])){
+      header('Location: index.php?err=2');
+    }
+
+
+?>
+
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -57,6 +71,63 @@ $result1 = $pdo_statement->fetchAll();
                      Workshop
                 </a>
             </div>
+            <ul class="nav">
+                <li>
+                    <a href="dashboard.php">
+                        <i class="ti-panel"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="categories.php">
+                        <i class="ti-briefcase"></i>
+                        <p>Categories</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="table.php">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Table List</p>
+                    </a>
+                </li>
+        
+                 <li >
+                    <a href="additem.php">
+                        <i class="ti-save-alt"></i>
+                        <p>AddItem</p>
+                    </a>
+                </li>
+               <li>
+                    <a href="addaircraft.php">
+                        <i class="ti-location-arrow"></i>
+                        <p>Aircraft Type</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="aircraftregnum.php">
+                        <i class="ti-notepad"></i>
+                        <p>Aircraft Reg Number</p>
+                    </a>
+                </li>
+              <li >
+                    <a href="unit.php">
+                        <i class="ti-bag"></i>
+                        <p>Add Unit</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="parts_awaited.php">
+                        <i class="ti-settings"></i>
+                        <p>Parts Awaited</p>
+                    </a>
+                </li>
+                <li >
+                   <a href="report.php">
+                       <i class="ti-stats-up"></i>
+                        <p>Reports</p>
+                    </a>
+                </li>               
+            </ul>
 
            
     	</div>
@@ -77,6 +148,18 @@ $result1 = $pdo_statement->fetchAll();
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                        
+                        <li>
+                            <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp</i>
+                                    <?php echo $_SESSION['displayname']; ?>
+                                </a>
+                        </li>
                         <li>
                             <a href="#">
                                 <i class="ti-settings"></i>
@@ -110,17 +193,9 @@ $result1 = $pdo_statement->fetchAll();
                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>UNIT</label>
-                                                <?php   
-    $pdo_DATECOMPLETEDment = $DB_con->prepare("SELECT UNITS FROM UNITs");
-    $pdo_DATECOMPLETEDment->execute();
-    $result = $pdo_DATECOMPLETEDment->fetchAll();
-?>
+                                                
+                                               <input name="unit" id="UNIT" title="department" value="<?php echo $result1[0]['UNIT']; ?>" class="form-control border-input demo-form-field" placeholder="UNIT" required="required" readonly>
 
-                                               <select name="unit" id="UNIT" title="department" value="<?php echo $result[0]['UNITS']; ?>" class="form-control border-input demo-form-field" placeholder="UNIT" required="required">
-<?php foreach ($result as $row): ?>
-    <option><?=$row["UNITS"]?></option>
-<?php endforeach ?>
-</select> 
 
                                             </div>
                                         </div>
@@ -128,14 +203,14 @@ $result1 = $pdo_statement->fetchAll();
                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>PARTS NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $result1[0]['PARTNUMBER']; ?>" name="partnumber" placeholder="PARTS NUMBER" required="required">
+                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $result1[0]['PARTNUMBER']; ?>" name="partnumber" placeholder="PARTS NUMBER" required="required" readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>SERIAL NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="serialnumber" value="<?php echo $result1[0]['SERIALNUMBER']; ?>" placeholder="SERIAL NUMBER" required="required">
+                                                <input type="text" class="form-control border-input demo-form-field" name="serialnumber" value="<?php echo $result1[0]['SERIALNUMBER']; ?>" placeholder="SERIAL NUMBER" required="required" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -144,33 +219,22 @@ $result1 = $pdo_statement->fetchAll();
                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>DATE RECEIVED</label>
-                                                <input type="date" class="form-control border-input demo-form-field" name="datercd" value="<?php echo $result1[0]['DATERCD']; ?>" placeholder="DATE RECEIVED" required="required">
+                                                <input type="text" class="form-control border-input demo-form-field" name="datercd" value="<?php echo $result1[0]['DATERCD']; ?>" placeholder="DATE RECEIVED" required="required" readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>DATE REMOVED</label>
-                                                <input type="date" class="form-control border-input demo-form-field" value="<?php echo $result1[0]['DATERMVD']; ?>" name="datermvd" placeholder="DATE REMOVED" required="required">
+                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $result1[0]['DATERMVD']; ?>" name="datermvd" placeholder="DATE REMOVED" required="required" readonly>
                                             </div>
                                         </div>
 
                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>AIRCRAFT TYPE</label>
-                                                <?php   
-    $pdo_DATECOMPLETEDment = $DB_con->prepare("SELECT TYPE FROM aircrafts");
-    $pdo_DATECOMPLETEDment->execute();
-    $result = $pdo_DATECOMPLETEDment->fetchAll();
-?>
-
-                                               
-  <select  title="department" class="form-control border-input demo-form-field" name="actype" value="<?php echo $result1[0]['ACTYPE']; ?>" id="DATECOMPLETED" placeholder="AIRCRAFT TYPE" required="required">
-<?php foreach ($result as $row): ?>
-    <option><?=$row["TYPE"]?></option>
-<?php endforeach ?>
-</select>
-  
+                                                                        
+  <input  title="department" class="form-control border-input demo-form-field" name="actype" value="<?php echo $result1[0]['ACTYPE']; ?>" id="DATECOMPLETED" placeholder="AIRCRAFT TYPE" required="required" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -179,33 +243,22 @@ $result1 = $pdo_statement->fetchAll();
                                      <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>AIRCRAFT REGISTRATION NUMBER</label>
-                                                <?php   
-    $pdo_DATECOMPLETEDment = $DB_con->prepare("SELECT REGNUM FROM airregnum");
-    $pdo_DATECOMPLETEDment->execute();
-    $result = $pdo_DATECOMPLETEDment->fetchAll();
-?>
-
-                                               
-  <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="acreg" value="<?php echo $result1[0]['ACREG']; ?>" id="DATECOMPLETED" placeholder="AIRCRAFT REGISTRATION NUMBER" required="required">
-<?php foreach ($result as $row): ?>
-    <option><?=$row["REGNUM"]?></option>
-<?php endforeach ?>
-</select>
-  
+                                                                       
+  <input id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="acreg" value="<?php echo $result1[0]['ACREG']; ?>" id="DATECOMPLETED" placeholder="AIRCRAFT REGISTRATION NUMBER" required="required" readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>POSITION</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="pos" value="<?php echo $result1[0]['POS']; ?>" placeholder="POSITION" required="required">
+                                                <input type="text" class="form-control border-input demo-form-field" name="pos" value="<?php echo $result1[0]['POS']; ?>" placeholder="POSITION" required="required" readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>HOURS RUN</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="hoursrun" value="<?php echo $result1[0]['HOURSRUN']; ?>" placeholder="HOURS RUN" required="required">
+                                                <input type="text" class="form-control border-input demo-form-field" name="hoursrun" value="<?php echo $result1[0]['HOURSRUN']; ?>" placeholder="HOURS RUN" required="required" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -214,32 +267,20 @@ $result1 = $pdo_statement->fetchAll();
                                       <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>QUATITY</label>
-                                                <input type="number" class="form-control border-input demo-form-field" name="qty" value="<?php echo $result1[0]['QTY']; ?>" placeholder="QUATITY" required="number">
+                                                <input type="number" class="form-control border-input demo-form-field" name="qty" value="<?php echo $result1[0]['QTY']; ?>" placeholder="QUATITY" required="number" readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>DEFECT</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="defect" value="<?php echo $result1[0]['DEFECT']; ?>" placeholder="DEFECT" required="required">
+                                                <input type="text" class="form-control border-input demo-form-field" name="defect" value="<?php echo $result1[0]['DEFECT']; ?>" placeholder="DEFECT" required="required" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>CATEGORY</label>
-                                                <?php   
-    $pdo_DATECOMPLETEDment = $DB_con->prepare("SELECT CATEGORY FROM categories");
-    $pdo_DATECOMPLETEDment->execute();
-    $result = $pdo_DATECOMPLETEDment->fetchAll();
-    ?>
-
-                                               
-  <select name="category" value="<?php echo $result1[0]['CATEGORY']; ?>" id="category" title="department" class="form-control border-input demo-form-field" id="DATECOMPLETED" placeholder="CATEGORY" required="required">
-<?php foreach ($result as $row): ?>
-    <option><?=$row["CATEGORY"]?></option>
-<?php endforeach ?>
-</select>
-  
+                                                <label>CATEGORY</label>                                    
+  <input name="category" value="<?php echo $result1[0]['CATEGORY']; ?>" id="category" title="department" class="form-control border-input demo-form-field" id="DATECOMPLETED" placeholder="CATEGORY" required="required" readonly>  
                                             </div>
                                         </div>
                                     </div>
@@ -249,12 +290,8 @@ $result1 = $pdo_statement->fetchAll();
                                             <div class="form-group">
                                                 <label>BEYOND LOCAL REPAIR</label>
                                                
-  <select title="department" class="form-control border-input demo-form-field" name="blr" value="<?php echo $result1[0]['BLR']; ?>" id="DATECOMPLETED" placeholder="BEYOND LOCAL REPAIR" required="required">
-                                            <option >Select below</option>
-                                            <option value="reparable">reparable</option>
-                                            <option value="beyond repair">beyond repair</option>
-                                            
-                                        </select>
+  <input title="department" class="form-control border-input demo-form-field" name="blr" value="<?php echo $result1[0]['BLR']; ?>" id="DATECOMPLETED" placeholder="BEYOND LOCAL REPAIR" required="required" readonly>
+                                           
   
                                             </div>
                                         </div>
@@ -331,12 +368,15 @@ $result1 = $pdo_statement->fetchAll();
                                             </div>
                                         <!-- </div> -->
 
-                                        <!-- <div class="col-md-4"> -->
+                                         <div class="row">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <!-- <label>LASTDATEUPDATE</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="lastdateupdate" value="<?php echo $result1[0]['LASTDATEUPDATE']; ?>" placeholder="DATE REMOVED" required="required">
+                                                <!-- <label>lastdateupdate</label> -->
+                                                <input type="hidden" value="<?php echo date("d-M-Y"); ?>" class="form-control border-input demo-form-field" name="lastdateupdate" placeholder="UNIT">
                                             </div>
-                                        <!-- </div> -->
+                                        </div>
+                                        
+                                    </div>
 
                                         <!-- <div class="col-md-4"> -->
                                             <div class="form-group">
@@ -397,6 +437,7 @@ $result1 = $pdo_statement->fetchAll();
                                                 <input type="text" class="form-control border-input demo-form-field datepicke" name="manhours" value="<?php echo $result1[0]['MANHOURS']; ?>" placeholder="MANHOURS" required="required">
                                             </div>
                                         </div>
+                                       
 
                                         </div>
 

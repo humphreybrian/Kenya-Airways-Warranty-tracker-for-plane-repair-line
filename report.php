@@ -6,13 +6,10 @@ session_start();
     if(!isset($_SESSION['sess_username'])){
       header('Location: index.php?err=2');
     }
-    // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-    //     $query1 = $DB_con->prepare($q1);
-    //     $query1->execute(array(':username' => $_SESSION['sess_username']));
-    //     $row = $query1->fetch(PDO::FETCH_ASSOC);
-    //     extract($row);
-
-?>
+   ?>
+<?php 
+date_default_timezone_set("Africa/Nairobi"); 
+?> 
 <!doctype html>
 <html lang="en">
 <head>
@@ -155,6 +152,12 @@ session_start();
                      
                         <li>
                             <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="#">
                             <i class="ti-user">&nbsp</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
@@ -179,10 +182,10 @@ session_start();
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">FILTER REPORT BY</h4>
+                                <h4 class="title">FILTER REPORT BY:</h4>
                             </div>
                             <div class="content">
-                                <form name="frmAdd" action="" method="POST">
+                                <form name="frmAdd" action="displayreports.php" method="GET">
                                    
                                          <div class="row">
                                           <div class="col-md-4">
@@ -195,7 +198,8 @@ session_start();
 ?>
 
                                                
-  <select name="category" id="category" title="department" class="form-control border-input demo-form-field" name="state" id="state" placeholder="CATEGORY" required="required">
+  <select name="category" id="category" title="department" class="form-control border-input demo-form-field" placeholder="CATEGORY" required="required">
+        <option value="">Select Category</option>
 <?php foreach ($result as $row): ?>
     <option><?=$row["CATEGORY"]?></option>
 <?php endforeach ?>
@@ -214,29 +218,10 @@ session_start();
 ?>
 
                                                
-  <select name="air_reg" id="category" title="department" class="form-control border-input demo-form-field" name="state" id="state" placeholder="AIRCRAFT TYPE" required="required">
+  <select name="air_reg" id="category" title="department" class="form-control border-input demo-form-field" placeholder="AIRCRAFT TYPE" >
+    <option value="">Select A Reg No</option>
 <?php foreach ($result as $row): ?>
     <option><?=$row["REGNUM"]?></option>
-<?php endforeach ?>
-</select>
-  
-                                            </div>
-                                        </div>
-
-                                        
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>WORKSHOP/DEPARTMENT</label>
-                                                <?php   
-    $pdo_statement = $DB_con->prepare("SELECT DEPARTMENT FROM categories ");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
-
-                                               
-  <select name="category" id="category" title="department" class="form-control border-input demo-form-field" name="state" id="state" placeholder="CATEGORY" required="required">
-<?php foreach ($result as $row): ?>
-    <option><?=$row["DEPARTMENT"]?></option>
 <?php endforeach ?>
 </select>
   
@@ -248,44 +233,27 @@ session_start();
 
                                     <div class="row">
 
-                                         
                                                 <div class="col-md-4">
                                                 <div class="form-group">
                                                 <label>FROM</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="requisition_date" placeholder="DATE RECEIVED" required="required">
+                                               <input type="date" class="form-control border-input demo-form-field" name="date1" placeholder="DATE RECEIVED" required="required">
                                                 </div>
                                                  </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>TO</label>
-                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="requisition_date" placeholder="DATE RECEIVED" required="required">
+                                               <input type="date" class="form-control border-input demo-form-field" name="date2" placeholder="DATE RECEIVED" required="required">
                                             </div>
                                         </div>
 
-                                         <div class="col-md-4">
-                                            <!-- <div class="form-group"> -->
-                                                <!-- <label>TECHNICIAN</label> -->
-                                               <input type="hidden" class="form-control border-input demo-form-field" name="requisition_date" value=" <?php echo $_SESSION['displayname']; ?>" placeholder="DATE RECEIVED" required="required" readonly>
-                                           <!--  </div> -->
-                                        </div>
-
-
-                                    </div>
+                                         </div>
 
                                    <div class="row">
-                                   <div class="col-md-6">
+                                     <div class="col-md-6 col-md-offset-3">
                                     <div class="text-center">
-                                        <a href="viewports.php"><button  type="submit" name="add_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">SEARCH REPORTS</button></a>
-                                    </div>
-                                    </div>
-
-
- <div class="col-md-6">
-                                    <div class="text-center">
-                                        <button  type="submit" name="add_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">VIEW ALL REPORTS</button>
+                                        <button  type="submit" name="search_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">VIEW REPORTS</button>
                                     </div>
                                     </div>
                                     </div>
@@ -295,15 +263,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- start of the second card-->
-
-                    
-
-                    <!-- end of the secind card-->
-
-
+       
                 </div>
             </div>
         </div>
@@ -313,23 +273,7 @@ session_start();
         </div>
 
 
-        <!-- <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
 
-                        <li>
-                            <a href="#">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-				<div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
-                </div>
-            </div>
-        </footer> -->
 
     </div>
 </div>

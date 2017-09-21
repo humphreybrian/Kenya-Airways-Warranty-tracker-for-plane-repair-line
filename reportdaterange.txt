@@ -1,0 +1,2 @@
+https://stackoverflow.com/questions/22699180/date-range-report-in-php-using-mysql-database
+https://stackoverflow.com/questions/17606704/how-make-reports-with-specific-range-of-dates-in-mysql

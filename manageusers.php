@@ -37,6 +37,15 @@ if(!empty($_POST["add_record"])) {
 
 include_once 'db.php';
 ?>
+<?php 
+// date_default_timezone_set("UTC"); 
+// echo "UTC:".time(); 
+// echo "<br>"; 
+
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
 
 
 
@@ -178,6 +187,12 @@ include_once 'db.php';
                         
 
 						<li>
+                            <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
                             <a href="#">
                             <i class="ti-user">&nbsp;</i>
                                     <?php echo $_SESSION['mail'],$_SESSION['displayname']; ?>

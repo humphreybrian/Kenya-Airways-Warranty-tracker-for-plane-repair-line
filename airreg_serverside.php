@@ -12,13 +12,13 @@
     /* Array of database columns which should be read and sent back to DataTables. Use a space where
      * you want to insert a non-database field (for example a counter or static image)
      */
-    $aColumns = array( 'UNIT', 'PARTNUMBER', 'SERIALNUMBER', 'DATERCD', 'DATERMVD','ID' );
+    $aColumns = array( 'REGNUM', 'ID' );
      
     /* Indexed column (used for fast and accurate table cardinality) */
     $sIndexColumn = "ID";
      
     /* DB table to use */
-    $sTable = "ITEMS";
+    $sTable = "AIRREGNUM";
      
     /* Database connection information */
     $gaSql['user']     = "warrantytracker";
@@ -176,7 +176,7 @@
     //If there is still no where clause - set a general - always true where clause
     if ( $sWhere == "" )
     {
-        $sWhere = " WHERE signoff = 0 OR signoff is null";
+        $sWhere = "WHERE 1=1";
     }
      
      

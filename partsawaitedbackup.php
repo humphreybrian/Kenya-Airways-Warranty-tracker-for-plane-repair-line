@@ -1,15 +1,17 @@
 <?php
-require_once("db.php");
-if(!empty($_POST["save_record"])) {
-	$pdo_statement=$DB_con->prepare("update partsawaited set sparepartnumber='" . trim($_POST[ 'sparepartnumber' ]) . "', description='" . trim($_POST[ 'description' ]) . "', reqnumber='" . trim($_POST[ 'reqnumber' ]) . "',dateofreq='" . trim($_POST[ 'dateofreq' ]) . "', engineer='" . trim($_POST[ 'engineer' ]) . "', quantity='" . trim($_POST[ 'quantity' ]) . "', storescomment='" . trim($_POST[ 'storescomment' ]) . "', dateofentry='" . trim($_POST[ 'dateofentry' ]) . "', remarks='" . trim($_POST[ 'remarks' ]) . "' , inspectionno='" . trim($_POST[ 'inspectionno' ]) . "', updateddate='" . trim($_POST[ 'updateddate' ]) . "' where id='" . $_GET["id"]."'");
-	$result = $pdo_statement->execute();
-	if($result) {
-		header('location:parts_awaited.php');
-	}
+if(!empty($_POST["add_record"])) {
+    require_once("db.php");
+    $sql = "INSERT INTO PARTSAWAITED (SPAREPARTNUMBER, DESCRIPTION, REQNUMBER, DATEOFREQ, ENGINEER, QUANTITY, STORESCOMMENT, DATEOFENTRY, REMARKS, INSPECTIONNO) VALUES ( :sparepartnumber, :description, :reqnumber, :dateofreq, :engineer, :quantity, :storescomment, :dateofentry, :remarks, :inspectionno)";
+    $pdo_statement = $DB_con->prepare( $sql );
+        
+    $result = $pdo_statement->execute( array( ':sparepartnumber'=>$_POST['sparepartnumber'], ':description'=>$_POST['description'], ':reqnumber'=>$_POST['reqnumber'], ':dateofreq'=>$_POST['dateofreq'], ':engineer'=>$_POST['engineer'], ':quantity'=>$_POST['quantity'], ':storescomment'=>$_POST['storescomment'], ':dateofentry'=>$_POST['dateofentry'], ':remarks'=>$_POST['remarks'], ':inspectionno'=>$_POST['inspectionno'] ) );
+    if (!empty($result) ){
+      header('location:parts_awaited.php');
+    }
 }
-$pdo_statement = $DB_con->prepare("SELECT * FROM partsawaited where id='" . $_GET["id"]."'");
-$pdo_statement->execute();
-$result = $pdo_statement->fetchAll();
+?>
+<?php
+include_once 'db.php';
 ?>
 <?php
 session_start();
@@ -22,16 +24,6 @@ session_start();
     //     $row = $query1->fetch(PDO::FETCH_ASSOC);
     //     extract($row);
 
-?>
-
-<?php 
-// date_default_timezone_set("UTC"); 
-// echo "UTC:".time(); 
-// echo "<br>"; 
-
-date_default_timezone_set("Africa/Nairobi"); 
-// echo "Europe/Helsinki:".time(); 
-// echo "<br>"; 
 ?>
 
 <html lang="en">
@@ -76,10 +68,11 @@ date_default_timezone_set("Africa/Nairobi");
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-               <a href="dashboard.php" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
+               <a href="#" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
                      Workshop
                 </a>
             </div>
+
             <ul class="nav">
                 <li>
                     <a href="dashboard.php">
@@ -93,7 +86,7 @@ date_default_timezone_set("Africa/Nairobi");
                         <p>Categories</p>
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
@@ -118,13 +111,13 @@ date_default_timezone_set("Africa/Nairobi");
                         <p>Aircraft Reg Number</p>
                     </a>
                 </li>
-              <li >
+              <li>
                     <a href="unit.php">
                         <i class="ti-bag"></i>
                         <p>Add Unit</p>
                     </a>
                 </li>
-                <li >
+                <li class="active">
                     <a href="parts_awaited.php">
                         <i class="ti-settings"></i>
                         <p>Parts Awaited</p>
@@ -142,10 +135,8 @@ date_default_timezone_set("Africa/Nairobi");
                         <p>Manage Users</p>
                     </a>
                 </li>
-                
+				
             </ul>
-
-           
     	</div>
     </div>
 
@@ -159,17 +150,11 @@ date_default_timezone_set("Africa/Nairobi");
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">EDIT CATEGORIES</a>
+                    <a class="navbar-brand" href="#">PARTS AWAITED</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                        
-                        <li>
-                            <a href="#">
-                            <i class="ti-alarm-clock">&nbsp</i>
-                                    <?php echo date("d-M-Y h:i:s a"); ?>
-                                </a>
-                        </li>
                         <li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i>
@@ -177,7 +162,7 @@ date_default_timezone_set("Africa/Nairobi");
                                 </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="logout.php">
                                 <i class="ti-settings"></i>
                                 <p>Logout</p>
                             </a>
@@ -196,53 +181,75 @@ date_default_timezone_set("Africa/Nairobi");
                     <div class=" col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">EDIT PARTS AWAITED</h4>
+                                <h4 class="title">PARTS AWAITED</h4>
                             </div>
                             <div class="content">
                                <form name="frmAdd" action="" method="POST">
                                    
 
-                                  
-
                                     <div class="row">
-                                       
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>PART NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="sparepartnumber" value="<?php echo $result[0]['SPAREPARTNUMBER']; ?>" placeholder="PART NUMBER">
+                                                <input type="text" class="form-control border-input demo-form-field" name="sparepartnumber" placeholder="PART NUMBER">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>DESCRIPTION</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="description" value="<?php echo $result[0]['DESCRIPTION']; ?>" placeholder="DESCRIPTION">
+                                                <input type="text" class="form-control border-input demo-form-field" name="description" placeholder="DESCRIPTION">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION NUMBER</label>
-                                               <input type="text" class="form-control border-input demo-form-field" name="reqnumber" value="<?php echo $result[0]['REQNUMBER']; ?>" placeholder="REQUISITION NUMBER"> 
+                                               <input type="text" class="form-control border-input demo-form-field" name="reqnumber" placeholder="REQUISITION NUMBER"> 
                                             </div>
                                         </div>
-                                       
+                                        <!-- <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>REQUISITION DATE</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>INSPECTION NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                            </div>
+                                        </div> -->
                                          
                                         
                                     </div>
 
-                                     <div class="row">
-                                     
-                                          <div class="col-md-4">
+
+
+
+                                    <div class="row">
+                                        <!-- <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>PART NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="category" placeholder="CATEGORY">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>DESCRIPTION</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="TAG">
+                                            </div>
+                                        </div> -->
+                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REQUISITION DATE</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="dateofreq" value="<?php echo $result[0]['DATEOFREQ']; ?>" placeholder="DATE RECEIVED" required="required">
+                                               <input type="date" class="form-control border-input demo-form-field" name="dateofreq" placeholder="DATE RECEIVED" required="required">
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>ENGINEER</label>
-                                                <input type="text" readonly="readonly" class="form-control border-input demo-form-field" name="engineer" value="<?php echo $result[0]['ENGINEER']; ?>" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
+                                                <input type="text" class="form-control border-input demo-form-field" name="engineer" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
                                             </div>
                                         </div>
 
@@ -251,64 +258,159 @@ date_default_timezone_set("Africa/Nairobi");
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>QUANTITY</label>
-                                                <input type="number" class="form-control border-input demo-form-field" name="quantity" value="<?php echo $result[0]['QUANTITY']; ?>" placeholder="QUANTITY" required="number">
+                                                <input type="number" class="form-control border-input demo-form-field" name="quantity" placeholder="QUANTITY" required="number">
                                             </div>
                                         </div>
-                                        
-                                    </div>
 
-                                    <div class="row">
-                                       
-                                       <div class="col-md-4">
+                                        </div>
+
+                                        <div class="row">
+
+                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>STORES COMMENTS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="storescomment" value="<?php echo $result[0]['STORESCOMMENT']; ?>" placeholder="STORES COMMENTS">
+                                                <input type="text" class="form-control border-input demo-form-field" name="storescomment" placeholder="STORES COMMENTS">
                                             </div>
                                         </div>
 
                                          <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>INSPECTION NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="inspectionno" value="<?php echo $result[0]['INSPECTIONNO']; ?>" placeholder="INSPECTION NUMBER">
+                                                <label>DATE OF ENTRY</label>
+                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
+                                               <input type="date" class="form-control border-input demo-form-field" name="dateofentry" placeholder="DATE OF ENTRY" required="required">
                                             </div>
-                                        </div>
+                                        </div> 
                                         
 
                                          <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REMARKS</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="remarks" value="<?php echo $result[0]['REMARKS']; ?>" placeholder="REMARKS">
-                                            </div>
-                                        </div>  
-                                        
-                                    </div>
-                                     <div class="row">
-
-                                        
-                                        <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <!-- <label>DATEPOSTED</label> -->
-                                                <input type="hidden" value="<?php echo date("d-M-Y"); ?>" class="form-control border-input demo-form-field" name="updateddate" placeholder="UNIT">
+                                                <input type="text" class="form-control border-input demo-form-field" name="remarks" placeholder="REMARKS">
                                             </div>
                                         </div>
-                                        
-                                    </div>
+                                        </div>
 
+                                        <div class="row">
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>INSPECTION NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="inspectionno" placeholder="INSPECTION NUMBER">
+                                            </div>
+                                        </div>
+
+                                        
                                         
                                          
                                         
                                     </div>
 
+                                   
+
                                     
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-danger btn-fill btn-wd demo-form-submit" value="Add" name="save_record">SAVE CHANGES</button>
+                                        <button type="submit" class="btn btn-danger btn-fill btn-wd demo-form-submit" value="Add" name="add_record">SAVE</button>
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- start of the second card-->
+
+                    <div class="col-md-12">
+                    <div class="card">
+                            <div class="header">
+                                <h4 class="title">PARTS AWAITED DATA</h4>
+                               <!--  <p class="category">Here is a subtitle for this table</p> -->
+                            </div>
+                            <?php   
+    $pdo_statement = $DB_con->prepare("SELECT * FROM PARTSAWAITED ORDER BY id ASC");
+    $pdo_statement->execute();
+    $result = $pdo_statement->fetchAll();
+?>
+
+                            <div class="content table-responsive table-full-width">
+                                <div class="container">
+     <!-- <table class='table table-bordered table-responsive'> -->
+    
+<table class="tbl-qa table table table-bordered table-responsive ">
+  <thead>
+    <tr>
+
+    <!-- <th class="table-header" width="20%">ID</th> -->
+      <th class="table-header" width="20%">Part_num</th>
+      <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
+      <th class="table-header" width="20%">Req_number</th>
+       <th class="table-header" width="20%">Req_date</th>
+      <th class="table-header" width="20%">Enginner</th>
+      <th class="table-header" width="20%">Quantity</th>
+      <th class="table-header" width="20%">DateofEnq</th>
+      <th class="table-header" width="20%">InspectionNum</th>
+      <th class="table-header" width="5%">Actions</th> 
+    </tr>
+  </thead>
+  <tbody id="table-body">
+    <?php
+    if(!empty($result)) { 
+        foreach($result as $row) {
+    ?>
+      <tr class="table-row">
+      
+        <td><?php echo $row["SPAREPARTNUMBER"]; ?></td>
+        <td><?php echo $row["REQNUMBER"]; ?></td>
+        <td><?php echo $row["DATEOFREQ"]; ?></td>
+        <td><?php echo $row["ENGINEER"]; ?></td>
+        <td><?php echo $row["QUANTITY"]; ?></td>
+        <td><?php echo $row["DATEOFENTRY"]; ?></td>
+        <td><?php echo $row["INSPECTIONNO"]; ?></td>
+    
+       
+        <td>
+            <a class="ajax-action-links" href='editpart_awaited.php?id=<?php echo $row['ID']; ?>'><!-- <i class="ti-pencil-alt" title="EDIT"></i> --><img src="crud-icon/edit.png" title="Edit" /></a>
+            &nbsp&nbsp&nbsp
+            <a class="ajax-action-links" href='deleteparts_awaited.php?id=<?php echo $row['ID']; ?>'><!-- <i class="ti-close" title="DELETE"></i> --><img src="crud-icon/delete.png" title="Delete" /></a>
+         </td>
+      </tr>
+    <?php
+        }
+    }
+    ?>
+  </tbody>
+</table>
+
+    <!--  <tr>
+     <th>#</th>
+     <th>First Name</th>
+     <th>Last Name</th>
+     <th>E - mail ID</th>
+     <th>Contact No</th>
+     <th colspan="2" align="center">Actions</th>
+     </tr>
+    
+ 
+</table> -->
+   
+       
+</div>
+
+                            </div>
+
+                        </div>
+                        <!-- <div class="card">
+                            <div class="header">
+                                <h4 class="title">DISPLAY CATEGORIES</h4>
+                            </div>
+                            <div class="content">
+                               
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <!-- end of the secind card-->
+
 
                 </div>
             </div>

@@ -11,6 +11,15 @@ $pdo_statement = $DB_con->prepare("SELECT * FROM categories where id=" . $_GET["
 $pdo_statement->execute();
 $result = $pdo_statement->fetchAll();
 ?>
+<?php
+session_start();
+    if(!isset($_SESSION['sess_username'])){
+      header('Location: index.php?err=2');
+    }
+ 
+date_default_timezone_set("Africa/Nairobi"); 
+
+?> 
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -57,6 +66,63 @@ $result = $pdo_statement->fetchAll();
                      Workshop
                 </a>
             </div>
+            <ul class="nav">
+                <li>
+                    <a href="dashboard.php">
+                        <i class="ti-panel"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="categories.php">
+                        <i class="ti-briefcase"></i>
+                        <p>Categories</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="table.php">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Table List</p>
+                    </a>
+                </li>
+        
+                 <li >
+                    <a href="additem.php">
+                        <i class="ti-save-alt"></i>
+                        <p>AddItem</p>
+                    </a>
+                </li>
+               <li>
+                    <a href="addaircraft.php">
+                        <i class="ti-location-arrow"></i>
+                        <p>Aircraft Type</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="aircraftregnum.php">
+                        <i class="ti-notepad"></i>
+                        <p>Aircraft Reg Number</p>
+                    </a>
+                </li>
+              <li >
+                    <a href="unit.php">
+                        <i class="ti-bag"></i>
+                        <p>Add Unit</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="parts_awaited.php">
+                        <i class="ti-settings"></i>
+                        <p>Parts Awaited</p>
+                    </a>
+                </li>
+                <li >
+                   <a href="report.php">
+                       <i class="ti-stats-up"></i>
+                        <p>Reports</p>
+                    </a>
+                </li>               
+            </ul>
 
            
     	</div>
@@ -77,6 +143,18 @@ $result = $pdo_statement->fetchAll();
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                        
+                        <li>
+                            <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp</i>
+                                    <?php echo $_SESSION['displayname']; ?>
+                                </a>
+                        </li>
                         <li>
                             <a href="#">
                                 <i class="ti-settings"></i>
@@ -120,7 +198,7 @@ $result = $pdo_statement->fetchAll();
                                             <div class="form-group">
                                                 <label>DEPARTMENT</label>
                                                
-  <select title="department" name="department" value="<?php echo $result[0]['DEPARTMENT']; ?>" id="department"  class="form-control" required>
+  <select title="department" name="department" value="<?php echo $result[0]['DEPARTMENT']; ?>" id="department"  class="form-control border-input" required>
                                             <option >Select below</option>
                                             <option value="avionics">avionics</option>
                                             <option value="mechanical">mechanical</option>

@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO UNITS ( UNITS, USERNAME ) VALUES ( :units, :username )";
+    $sql = "INSERT INTO UNITS ( UNITS, USERNAME, POSTEDAT ) VALUES ( :units, :username, :postedat )";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':units'=>$_POST['units'], ':username'=>$_POST['username'] ) );
+    $result = $pdo_statement->execute( array( ':units'=>$_POST['units'], ':username'=>$_POST['username'],':postedat'=>$_POST['postedat'] ) );
     if (!empty($result) ){
       header('location:unit.php');
     }
@@ -25,6 +25,16 @@ session_start();
     //     extract($row);
 
 ?>
+
+<?php 
+// date_default_timezone_set("UTC"); 
+// echo "UTC:".time(); 
+// echo "<br>"; 
+
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
 <!doctype html>
 <html lang="en">
 <head>
@@ -179,6 +189,12 @@ session_start();
                         </li> -->
                         <li>
                             <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="#">
                             <i class="ti-user">&nbsp</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
@@ -227,6 +243,15 @@ session_start();
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <!-- <label>DATEPOSTED</label> -->
+                                                <input type="hidden" value="<?php echo date("d-M-Y"); ?>" class="form-control border-input demo-form-field" name="postedat" placeholder="UNIT">
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
 
                                    
                                     <div class="text-center">
@@ -241,44 +266,28 @@ session_start();
 
                     <!-- start of the second card-->
 
-                    <div class="col-md-6">
+                     <div class="col-md-6">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">DISPLAY UNITS</h4>
+                                <h4 class="title">MANAGE UNITS</h4>
                             </div>
                             <div class="content">
-                            <table class="tbl-qa table table table-bordered table-responsive ">
-                            <?php   
-    $pdo_statement = $DB_con->prepare("SELECT * FROM units ORDER BY id ASC");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
-  <thead>
-    <tr>
-    <th class="table-header" width="20%">Id</th>
-      <th class="table-header" width="20%">Units</th>
-      <!-- <th class="table-header" width="40%">Description</th>
-      <th class="table-header" width="20%">Date</th>-->
-      <th class="table-header" width="5%">Actions</th> 
-    </tr>
-  </thead>
-  <tbody id="table-body">
-    <?php
-    if(!empty($result)) { 
-        foreach($result as $row) {
-    ?>
-      <tr class="table-row">
-      <td><?php echo $row["ID"]; ?></td>
-        <td><?php echo $row["UNITS"]; ?></td>
-        
-        <td><a class="ajax-action-links" href='editunit.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a> <a class="ajax-action-links" href='deleteunit.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a></td>
-      </tr>
-    <?php
-        }
-    }
-    ?>
-  </tbody>
-</table>
+                            <table cellpadding="1" class="table table-striped table-bordered" cellspacing="1" id="table_data" class="display" width="100%">
+                                    <thead>
+                                    <tr>
+                                     
+                                        <th >UNIT</th>
+                                      <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
+                                      <!-- <th class="table-header" width="20%">CATEGORY</th>
+                                       <th class="table-header" width="20%">TAG</th> -->
+                                      <!-- <th class="table-header" width="20%">STORESCOMMENT</th> -->
+                                      <!-- <th >DATEOFENTRY</th> -->
+                                      <!-- <th class="table-header" width="20%">DateofEnq</th>
+                                      <th class="table-header" width="20%">InspectionNum</th> -->
+                                      <th >Actions</th> 
+                                    </tr>
+                                    </thead>
+                                </table>
 
    
        
@@ -289,41 +298,12 @@ session_start();
                         </div>
                     </div>
 
-                    <!-- end of the secind card-->
+
 
 
                 </div>
             </div>
         </div>
-
-
-     <!--    <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-
-                        <li>
-                            <a href="http://www.creative-tim.com">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                               Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.creative-tim.com/license">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-				<div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
-                </div>
-            </div>
-        </footer> -->
 
     </div>
 </div>
@@ -334,6 +314,39 @@ session_start();
     <!--   Core JS Files   -->
     <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
 	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript" language="javascript" >
+            $(document).ready(function() {
+                $('#table_data').dataTable( {
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": "units_serverside.php",
+                    "aoColumns": [
+                          { "sName": "UNITS" },
+                           
+                    ],
+                     "columnDefs": [
+                            { 
+                                "targets": 1,
+                                "render": function(data, type, row, meta){
+                                   return '<a style="padding: 0px 5px;" href="editunit.php?id=' + row[1] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a><a style="padding: 0px 5px;" class="ajax-action-links"  href="javascript:delete_id('+ row[1] +')" ><i class="fa fa-trash" style="color:red;"></i></a>';  
+                                }
+                            }            
+                        ]        
+                } );
+            } );
+        </script>
+        <script type="text/javascript">
+function delete_id(id)
+{
+     if(confirm('Sure To Remove This Record ?'))
+     {
+        window.location.href='deleteunit.php?id='+id;
+     }
+}
+</script>
 
 	<!--  Checkbox, Radio & Switch Plugins -->
 	<script src="assets/js/bootstrap-checkbox-radio.js"></script>

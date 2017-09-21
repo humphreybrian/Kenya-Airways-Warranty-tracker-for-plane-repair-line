@@ -1,10 +1,10 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO CATEGORIES (   DEPARTMENT, CATEGORY, TAG, DELETED, CREATEDBY, CREATEDON, LASTEDITEDBY, LASTEDITEDON, LASTEDITED ) VALUES ( :department, :category, :tag, :deleted, :createdby, :createdon, :lasteditedby, :lasteditedon, :lastedited )";
+    $sql = "INSERT INTO CATEGORIES (   DEPARTMENT, CATEGORY, TAG, DELETED, CREATEDBY, CREATEDON, LASTEDITEDBY, LASTEDITEDON, LASTEDITED, POSTEDAT ) VALUES ( :department, :category, :tag, :deleted, :createdby, :createdon, :lasteditedby, :lasteditedon, :lastedited, :postedat )";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':department'=>$_POST['department'], ':category'=>$_POST['category'], ':tag'=>$_POST['tag'], ':deleted'=>$_POST['deleted'], ':createdby'=>$_POST['createdby'], ':createdon'=>$_POST['createdon'], ':lasteditedby'=>$_POST['lasteditedby'], ':lasteditedon'=>$_POST['lasteditedon'], ':lastedited'=>$_POST['lastedited'] ) );
+    $result = $pdo_statement->execute( array( ':department'=>$_POST['department'], ':category'=>$_POST['category'], ':tag'=>$_POST['tag'], ':deleted'=>$_POST['deleted'], ':createdby'=>$_POST['createdby'], ':createdon'=>$_POST['createdon'], ':lasteditedby'=>$_POST['lasteditedby'], ':lasteditedon'=>$_POST['lasteditedon'], ':lastedited'=>$_POST['lastedited'], ':postedat'=>$_POST['postedat'] ) );
     if (!empty($result) ){
       header('location:categories.php');
     }
@@ -25,6 +25,15 @@ session_start();
     //     extract($row);
 
 ?>
+<?php 
+// date_default_timezone_set("UTC"); 
+// echo "UTC:".time(); 
+// echo "<br>"; 
+
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
 
 <html lang="en">
 <head>
@@ -51,6 +60,7 @@ session_start();
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="assets/css/demo.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/> -->
 
 
     <!--  Fonts and icons     -->
@@ -155,6 +165,12 @@ session_start();
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                        
+                         <li>
+                            <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
                         <li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i>
@@ -210,8 +226,9 @@ session_start();
                                             <div class="form-group">
                                                 <label>DEPARTMENT</label>
                                                
-  <select title="department" name="department" id="department"  class="form-control" required="required">
+  <select title="department" name="department" id="department"  class="form-control border-input" required="required">
                                             <!-- <option >Select below</option> -->
+                                            <option value="">Select Department</option>
                                             <option value="avionics">avionics</option>
                                             <option value="mechanical">mechanical</option>
                                             <option value="NDT">NDT</option>
@@ -226,10 +243,20 @@ session_start();
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <!-- <label>USER</label> -->
-                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $_SESSION['displayname']; ?>" readonly="" name="username" placeholder="USERNAME">
+                                                <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo $_SESSION['displayname']; ?>" readonly="" name="createdby" placeholder="USERNAME">
                                             </div>
                                         </div>
+                                        <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <!-- <label>DATEPOSTED</label> -->
+                                                <input type="hidden" value="<?php echo date("d-M-Y"); ?>" class="form-control border-input demo-form-field" name="postedat" placeholder="UNIT">
+                                            </div>
+                                        </div>
+                                        
                                     </div>
+                                    </div>
+                                    
 
                                     
                                     <div class="text-center">
@@ -244,87 +271,35 @@ session_start();
 
                     <!-- start of the second card-->
 
-                    <div class="col-md-12">
-                    <div class="card">
+                     <div class="col-md-12">
+                        <div class="card" >
                             <div class="header">
-                                <h4 class="title">MANAGE CATEGORIES</h4>
-                               <!--  <p class="category">Here is a subtitle for this table</p> -->
+                               <!--  <h4 class="title">ITEMS </h4> -->
+                                <!-- <p class="category">24 Hours performance</p> -->
+                            </div>                           
+                            <div class="container">
+                                <table cellpadding="1" class="table table-striped table-bordered" cellspacing="1" id="table_data" class="display" width="100%">
+                                    <thead>
+                                    <tr>
+                                     
+                                        <th class="table-header" width="20%">DEPARTMENT</th>
+                                      <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
+                                      <th class="table-header" width="20%">CATEGORY</th>
+                                       <th class="table-header" width="20%">TAG</th>
+                                      <!-- <th class="table-header" width="20%">STORESCOMMENT</th> -->
+                                      <!-- <th >DATEOFENTRY</th> -->
+                                      <!-- <th class="table-header" width="20%">DateofEnq</th>
+                                      <th class="table-header" width="20%">InspectionNum</th> -->
+                                      <th class="table-header" width="5%">Actions</th> 
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>  
+
+                     
+                                
                             </div>
-                            <?php   
-    $pdo_statement = $DB_con->prepare("SELECT * FROM Categories ORDER BY id ASC");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
-
-                            <div class="content table-responsive table-full-width">
-                                <div class="container">
-     <!-- <table class='table table-bordered table-responsive'> -->
-    
-<table class="tbl-qa table table table-bordered table-responsive ">
-  <thead>
-    <tr>
-
-    <th class="table-header" width="20%">ID</th>
-      <th class="table-header" width="20%">Category</th>
-      <th class="table-header" width="20%">Tag</th>
-      <th class="table-header" width="20%">Department</th>
-      <!-- <th class="table-header" width="20%">POSITION</th>
-      <th class="table-header" width="20%">QUANTITY</th>
-      <th class="table-header" width="20%">DEFECT</th>
-      <th class="table-header" width="20%">QUANT_POS</th>
-      <th class="table-header" width="20%">STATE</th>-->
-      <th class="table-header" width="5%">Actions</th> 
-    </tr>
-  </thead>
-  <tbody id="table-body">
-    <?php
-    if(!empty($result)) { 
-        foreach($result as $row) {
-    ?>
-      <tr class="table-row">
-      <td><?php echo $row["ID"]; ?></td>
-        <td><?php echo $row["CATEGORY"]; ?></td>
-        <td><?php echo $row["TAG"]; ?></td>
-        <td><?php echo $row["DEPARTMENT"]; ?></td>
-       
-        <td>
-            <a class="ajax-action-links" href='editcat.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/edit.png" title="Edit" /></a>
-            <a class="ajax-action-links" href='deletecat.php?id=<?php echo $row['ID']; ?>'><img src="crud-icon/delete.png" title="Delete" /></a>
-         </td>
-      </tr>
-    <?php
-        }
-    }
-    ?>
-  </tbody>
-</table>
-
-    <!--  <tr>
-     <th>#</th>
-     <th>First Name</th>
-     <th>Last Name</th>
-     <th>E - mail ID</th>
-     <th>Contact No</th>
-     <th colspan="2" align="center">Actions</th>
-     </tr>
-    
- 
-</table> -->
-   
-       
-</div>
-
-                            </div>
-
-                        </div>
-                        <!-- <div class="card">
-                            <div class="header">
-                                <h4 class="title">DISPLAY CATEGORIES</h4>
-                            </div>
-                            <div class="content">
-                               
-                            </div>
-                        </div> -->
+                        <!-- </div> -->
                     </div>
 
                     <!-- end of the secind card-->
@@ -344,6 +319,36 @@ session_start();
     <!--   Core JS Files   -->
     <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
 	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript" language="javascript" >
+            $(document).ready(function() {
+                $('#table_data').dataTable( {
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": "categoriesserverside.php",
+                    "aoColumns": [
+                          { "sName": "DEPARTMENT" },
+                            { "sName": "CATEGORY" },
+                            { "sName": "TAG" },
+                            // { "sName": "DATERCD" },
+                            // { "sName": "DATERMVD" },
+
+
+
+                    ],
+                     "columnDefs": [
+                            { 
+                                "targets": 3,
+                                "render": function(data, type, row, meta){
+                                   return '<a href="editcat.php?id=' + row[3] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a><a class="ajax-action-links"  href="javascript:delete_id('+ row[3] +')" ><i class="fa fa-trash" style="color:red;"></i></a>';  
+                                }
+                            }            
+                        ]        
+                } );
+            } );
+        </script>
 
 	<!--  Checkbox, Radio & Switch Plugins -->
 	<script src="assets/js/bootstrap-checkbox-radio.js"></script>
@@ -359,6 +364,18 @@ session_start();
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="assets/js/paper-dashboard.js"></script>
+    <script src="assets/js/demo.js"></script>
+
+<script type="text/javascript">
+function delete_id(id)
+{
+     if(confirm('Sure To Remove This Record ?'))
+     {
+        window.location.href='deletecat.php?id='+id;
+     }
+}
+</script>
+
 
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>

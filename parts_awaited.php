@@ -25,6 +25,15 @@ session_start();
     //     extract($row);
 
 ?>
+<?php 
+// date_default_timezone_set("UTC"); 
+// echo "UTC:".time(); 
+// echo "<br>"; 
+
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
 
 <html lang="en">
 <head>
@@ -51,6 +60,7 @@ session_start();
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="assets/css/demo.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/> -->
 
 
     <!--  Fonts and icons     -->
@@ -157,6 +167,12 @@ session_start();
                        
                         <li>
                             <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="#">
                             <i class="ti-user">&nbsp</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
@@ -246,10 +262,11 @@ session_start();
                                             </div>
                                         </div>
 
+                                        
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>ENGINEER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="engineer" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
+                                                <label>INSPECTION NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="inspectionno" placeholder="INSPECTION NUMBER">
                                             </div>
                                         </div>
 
@@ -272,30 +289,32 @@ session_start();
                                                 <input type="text" class="form-control border-input demo-form-field" name="storescomment" placeholder="STORES COMMENTS">
                                             </div>
                                         </div>
-
-                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>DATE OF ENTRY</label>
-                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="dateofentry" placeholder="DATE OF ENTRY" required="required">
-                                            </div>
-                                        </div> 
-                                        
-
-                                         <div class="col-md-4">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>REMARKS</label>
                                                 <input type="text" class="form-control border-input demo-form-field" name="remarks" placeholder="REMARKS">
                                             </div>
                                         </div>
+
+                                         
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                                <!-- <label>ENGINEER</label> -->
+                                                <input type="hidden" class="form-control border-input demo-form-field" name="engineer" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
+                                            </div>
+                                        </div>
+                                        
+
+                                         
                                         </div>
 
                                         <div class="row">
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>INSPECTION NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="inspectionno" placeholder="INSPECTION NUMBER">
+                                               <!--  <label>DATE OF ENTRY</label> -->
+                                               <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
+                                               <input type="hidden" class="form-control border-input demo-form-field" value="<?php echo date("d-M-Y"); ?>" name="dateofentry" placeholder="DATE OF ENTRY" required="required">
                                             </div>
                                         </div>
 
@@ -319,95 +338,41 @@ session_start();
 
 
                     <!-- start of the second card-->
+<!-- 
+                    <div class="row"> -->
 
                     <div class="col-md-12">
-                    <div class="card">
+                        <div class="card" >
                             <div class="header">
-                                <h4 class="title">PARTS AWAITED DATA</h4>
-                               <!--  <p class="category">Here is a subtitle for this table</p> -->
+                               <!--  <h4 class="title">ITEMS </h4> -->
+                                <!-- <p class="category">24 Hours performance</p> -->
+                            </div>                           
+                            <div class="container">
+                                <table cellpadding="1" class="table table-striped table-bordered" cellspacing="1" id="table_data" class="display" width="100%">
+                                    <thead>
+                                    <tr>
+                                     
+                                        <th class="table-header" width="20%">SPAREPARTNUMBER</th>
+                                      <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
+                                      <th class="table-header" width="20%">REQNUMBER</th>
+                                       <th class="table-header" width="20%">QUANTITY</th>
+                                      <th class="table-header" width="20%">STORESCOMMENT</th>
+                                      <!-- <th >DATEOFENTRY</th> -->
+                                      <!-- <th class="table-header" width="20%">DateofEnq</th>
+                                      <th class="table-header" width="20%">InspectionNum</th> -->
+                                      <th class="table-header" width="16%">Actions</th> 
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>  
+
+                     
+                                
                             </div>
-                            <?php   
-    $pdo_statement = $DB_con->prepare("SELECT * FROM PARTSAWAITED ORDER BY id ASC");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
-
-                            <div class="content table-responsive table-full-width">
-                                <div class="container">
-     <!-- <table class='table table-bordered table-responsive'> -->
-    
-<table class="tbl-qa table table table-bordered table-responsive ">
-  <thead>
-    <tr>
-
-    <!-- <th class="table-header" width="20%">ID</th> -->
-      <th class="table-header" width="20%">Part_num</th>
-      <!-- <th class="table-header" width="20%">DESCRIPTION</th> -->
-      <th class="table-header" width="20%">Req_number</th>
-       <th class="table-header" width="20%">Req_date</th>
-      <th class="table-header" width="20%">Enginner</th>
-      <th class="table-header" width="20%">Quantity</th>
-      <th class="table-header" width="20%">DateofEnq</th>
-      <th class="table-header" width="20%">InspectionNum</th>
-      <th class="table-header" width="5%">Actions</th> 
-    </tr>
-  </thead>
-  <tbody id="table-body">
-    <?php
-    if(!empty($result)) { 
-        foreach($result as $row) {
-    ?>
-      <tr class="table-row">
-      
-        <td><?php echo $row["SPAREPARTNUMBER"]; ?></td>
-        <td><?php echo $row["REQNUMBER"]; ?></td>
-        <td><?php echo $row["DATEOFREQ"]; ?></td>
-        <td><?php echo $row["ENGINEER"]; ?></td>
-        <td><?php echo $row["QUANTITY"]; ?></td>
-        <td><?php echo $row["DATEOFENTRY"]; ?></td>
-        <td><?php echo $row["INSPECTIONNO"]; ?></td>
-    
-       
-        <td>
-            <a class="ajax-action-links" href='editpart_awaited.php?id=<?php echo $row['ID']; ?>'><!-- <i class="ti-pencil-alt" title="EDIT"></i> --><img src="crud-icon/edit.png" title="Edit" /></a>
-            &nbsp&nbsp&nbsp
-            <a class="ajax-action-links" href='deleteparts_awaited.php?id=<?php echo $row['ID']; ?>'><!-- <i class="ti-close" title="DELETE"></i> --><img src="crud-icon/delete.png" title="Delete" /></a>
-         </td>
-      </tr>
-    <?php
-        }
-    }
-    ?>
-  </tbody>
-</table>
-
-    <!--  <tr>
-     <th>#</th>
-     <th>First Name</th>
-     <th>Last Name</th>
-     <th>E - mail ID</th>
-     <th>Contact No</th>
-     <th colspan="2" align="center">Actions</th>
-     </tr>
-    
- 
-</table> -->
-   
-       
-</div>
-
-                            </div>
-
-                        </div>
-                        <!-- <div class="card">
-                            <div class="header">
-                                <h4 class="title">DISPLAY CATEGORIES</h4>
-                            </div>
-                            <div class="content">
-                               
-                            </div>
-                        </div> -->
+                        <!-- </div> -->
                     </div>
+               <!--  </div> -->
+
 
                     <!-- end of the secind card-->
 
@@ -432,6 +397,36 @@ session_start();
 
 	<!--  Charts Plugin -->
 	<script src="assets/js/chartist.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript" language="javascript" >
+            $(document).ready(function() {
+                $('#table_data').dataTable( {
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": "partsawaitedserverside.php",
+                    "aoColumns": [
+                          { "sName": "SPAREPARTNUMBER" },
+                            { "sName": "REQNUMBER" },
+                            { "sName": "QUANTITY" },
+                            { "sName": "STORESCOMMENT" },
+                            // { "sName": "DATEOFENTRY" },
+
+
+
+                    ],
+                     "columnDefs": [
+                            { 
+                                "targets": 4,
+                                "render": function(data, type, row, meta){
+                                   return '<a style="padding: 0px 5px;" href="editpart_awaited.php?id=' + row[4] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a><a style="padding: 0px 5px;" class="ajax-action-links"  href="javascript:delete_id('+ row[4] +')" ><i class="fa fa-trash" style="color:red;"></i></a><a style="padding: 0px 5px;" class="ajax-action-links"  href="validate_partsawaited.php?id=' + row[5] + '" ><i class="fa fa-check-square-o" style="color:#2E8B57;"></i></a>';  
+                                }
+                            }            
+                        ]        
+                } );
+            } );
+        </script>
 
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
@@ -441,6 +436,17 @@ session_start();
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="assets/js/paper-dashboard.js"></script>
+     <script src="assets/js/demo.js"></script>
+
+<script type="text/javascript">
+function delete_id(id)
+{
+     if(confirm('Sure To Remove This Record ?'))
+     {
+        window.location.href='deleteparts_awaited.php?id='+id;
+     }
+}
+</script>
 
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>

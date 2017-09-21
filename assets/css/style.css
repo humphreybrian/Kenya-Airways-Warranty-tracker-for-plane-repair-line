@@ -7,6 +7,10 @@ body {
 	margin: 0;
 	color: #666;
 }
+.dataTables_filter input, .dataTables_length select{
+	border: 1px #000 solid!important;
+	color: #000;
+}
 
 /* Typography */
 h1#title {

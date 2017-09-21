@@ -16,6 +16,15 @@ session_start();
     //     $row = $query1->fetch(PDO::FETCH_ASSOC);
     //     extract($row);
 ?>
+<?php 
+// date_default_timezone_set("UTC"); 
+// echo "UTC:".time(); 
+// echo "<br>"; 
+
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
 
 <!doctype html>
 <html lang="en">
@@ -54,7 +63,7 @@ session_start();
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/> -->
     <!-- <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script> -->
 
 </head>
@@ -153,6 +162,7 @@ session_start();
                         <span class="icon-bar bar3"></span>
                     </button>
                     <a class="navbar-brand" href="#">DATA TABLE</a>
+                    <a class="btn btn-danger btn-fill btn-wd " href="processedtable.php">Signed Items</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -161,7 +171,13 @@ session_start();
 
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i>
+                            <i class="ti-alarm-clock">&nbsp;</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <i class="ti-user">&nbsp;</i>
                                     <?php echo $_SESSION['displayname']; ?>
                                 </a>
                         </li>
@@ -185,9 +201,28 @@ session_start();
                 <div class="row">
 
                     <div class="col-md-12">
-                        <!-- <div class="card" > -->
+                        <div class="card" >
                             <div class="header">
                                 <h4 class="title">ITEMS </h4>
+                                 <?php 
+
+                                $msg = array(
+                                    1=>"Item Signoff Successful",
+                                    2=>"Please login to access this area",
+                                    3=>"Password Reset successful, Log in"
+                                  );
+
+                                $msg_id = isset($_GET['message']) ? (int)$_GET['message'] : 0;
+
+                                if ($msg_id == 1) {
+                                        echo '<div class="alert alert-success" role="alert">'.$msg[$msg_id].'</div>';
+                                    }elseif ($msg_id == 2) {
+                                        echo '<p class="text-danger">'.$msg[$msg_id].'</p>';
+                                    }
+                                    elseif ($msg_id == 3) {
+                                        echo '<p class="text-success">'.$msg[$msg_id].'</p>';
+                                    }
+                               ?>  
                                 <!-- <p class="category">24 Hours performance</p> -->
                             </div>                           
                             <div class="container">
@@ -213,9 +248,10 @@ session_start();
 
                      
                                 
-                            <!-- </div> -->
+                            </div>
                         <!-- </div> -->
                     </div>
+                    
                 </div>
 
 
@@ -261,7 +297,7 @@ session_start();
                             { 
                                 "targets": 5,
                                 "render": function(data, type, row, meta){
-                                   return '<a href="edititems.php?id=' + row[5] + '"><img src="crud-icon/edit.png" class="ajax-action-links" title="Edit" /></a><a class="ajax-action-links"  href="javascript:delete_id('+ row[5] +')" ><img src="crud-icon/delete.png" title="Delete" /></a>';  
+                                   return '<a style="padding: 0px 5px;" href="edititems.php?id=' + row[5] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a>&nbsp;<a style="padding: 0px 5px;" class="ajax-action-links"  href="javascript:delete_id('+ row[5] +')" ><i class="fa fa-trash" style="color:red;"></i></a>&nbsp;<a style="padding: 0px 5px;" class="ajax-action-links"  href="validate.php?id=' + row[5] + '" ><i class="fa fa-check-square-o" style="color:#2E8B57;"></i></a>';  
                                 }
                             }            
                         ]        
@@ -293,6 +329,15 @@ function delete_id(id)
      if(confirm('Sure To Remove This Record ?'))
      {
         window.location.href='deleteitems.php?id='+id;
+     }
+}
+</script>
+<script type="text/javascript">
+function signoff(id)
+{
+     if(confirm('Sure To Signoff This Item ?'))
+     {
+        window.location.href='validate.php?id='+id;
      }
 }
 </script>

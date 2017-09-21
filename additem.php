@@ -1,10 +1,14 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO ITEMS ( INSPECNO, WORKORDER, UNIT, PARTNUMBER, SERIALNUMBER, DATERCD, DATERMVD, ACTYPE, ACREG, POS, HOURSRUN, QTY, DEFECT, INSPECNO_OLD, WORKDONE, TECH, DATECOMPLETED, AUTHORITY, SENTTO, DELETED, LASTUSERUPDATE, LASTDATEUPDATE, LASTACTIONUPDATE, SCRAPPED, SECTOR, CATEGORY, BLR, DEACTIVATEREASON, QUARANTINE, MODSTATUS, MANHOURS) VALUES ( :inspecno, :workorder, :unit, :partnumber, :serialnumber, :datercd, :datermvd, :actype, :acreg, :pos, :hoursrun, :qty, :defect, :inspecno_old, :workdone, :tech, :datecompleted, :authority, :sentto, :deleted, :lastuserupdate, :lastdateupdate, :lastactionupdate, :scrapped, :sector, :category, :blr, :deactivatereason, :quarantine, :modstatus, :manhours)";
+
+    $datercd = date('d/M/Y',strtotime($_POST['datercd']));
+    $datermvd = date('d/M/Y',strtotime($_POST['datermvd']));
+
+    $sql = "INSERT INTO ITEMS ( INSPECNO, WORKORDER, UNIT, PARTNUMBER, SERIALNUMBER, DATERCD, DATERMVD, ACTYPE, ACREG, POS, HOURSRUN, QTY, DEFECT, INSPECNO_OLD, WORKDONE, TECH, DATECOMPLETED, AUTHORITY, SENTTO, DELETED, LASTUSERUPDATE, LASTDATEUPDATE, LASTACTIONUPDATE, SCRAPPED, SECTOR, CATEGORY, BLR, DEACTIVATEREASON, QUARANTINE, MODSTATUS, MANHOURS, POSTEDAT, SIGNOFF) VALUES ( :inspecno, :workorder, :unit, :partnumber, :serialnumber, :datercd, :datermvd, :actype, :acreg, :pos, :hoursrun, :qty, :defect, :inspecno_old, :workdone, :tech, :datecompleted, :authority, :sentto, :deleted, :lastuserupdate, :lastdateupdate, :lastactionupdate, :scrapped, :sector, :category, :blr, :deactivatereason, :quarantine, :modstatus, :manhours, :postedat, :signoff)";
     $pdo_DATECOMPLETEDment = $DB_con->prepare( $sql );
         
-    $result = $pdo_DATECOMPLETEDment->execute( array( ':inspecno'=>$_POST['inspecno'], ':workorder'=>$_POST['workorder'], ':unit'=>$_POST['unit'], ':partnumber'=>$_POST['partnumber'], ':serialnumber'=>$_POST['serialnumber'], ':datercd'=>$_POST['datercd'], ':datermvd'=>$_POST['datermvd'], 'actype'=>$_POST['actype'], ':acreg'=>$_POST['acreg'], ':pos'=>$_POST['pos'], ':hoursrun'=>$_POST['hoursrun'], ':qty'=>$_POST['qty'], ':defect'=>$_POST['defect'], ':inspecno_old'=>$_POST['inspecno_old'], ':workdone'=>$_POST['workdone'], ':tech'=>$_POST['tech'], ':datecompleted'=>$_POST['datecompleted'], ':authority'=>$_POST['authority'], ':sentto'=>$_POST['sentto'], ':deleted'=>$_POST['deleted'], ':lastuserupdate'=>$_POST['lastuserupdate'], ':lastdateupdate'=>$_POST['lastdateupdate'], ':lastactionupdate'=>$_POST['lastactionupdate'], ':scrapped'=>$_POST['scrapped'], ':sector'=>$_POST['sector'], ':category'=>$_POST['category'], ':blr'=>$_POST['blr'], ':deactivatereason'=>$_POST['deactivatereason'], ':quarantine'=>$_POST['quarantine'], ':modstatus'=>$_POST['modstatus'], ':manhours'=>$_POST['manhours'] ) );
+    $result = $pdo_DATECOMPLETEDment->execute( array( ':inspecno'=>$_POST['inspecno'], ':workorder'=>$_POST['workorder'], ':unit'=>$_POST['unit'], ':partnumber'=>$_POST['partnumber'], ':serialnumber'=>$_POST['serialnumber'], ':datercd'=>$datercd, ':datermvd'=>$datermvd, 'actype'=>$_POST['actype'], ':acreg'=>$_POST['acreg'], ':pos'=>$_POST['pos'], ':hoursrun'=>$_POST['hoursrun'], ':qty'=>$_POST['qty'], ':defect'=>$_POST['defect'], ':inspecno_old'=>$_POST['inspecno_old'], ':workdone'=>$_POST['workdone'], ':tech'=>$_POST['tech'], ':datecompleted'=>$_POST['datecompleted'], ':authority'=>$_POST['authority'], ':sentto'=>$_POST['sentto'], ':deleted'=>$_POST['deleted'], ':lastuserupdate'=>$_POST['lastuserupdate'], ':lastdateupdate'=>$_POST['lastdateupdate'], ':lastactionupdate'=>$_POST['lastactionupdate'], ':scrapped'=>$_POST['scrapped'], ':sector'=>$_POST['sector'], ':category'=>$_POST['category'], ':blr'=>$_POST['blr'], ':deactivatereason'=>$_POST['deactivatereason'], ':quarantine'=>$_POST['quarantine'], ':modstatus'=>$_POST['modstatus'], ':manhours'=>$_POST['manhours'], ':postedat'=>$_POST['postedat'], ':signoff'=>$_POST['signoff'] ) );
     if (!empty($result) ){
       header('location:table.php');
     }
@@ -25,7 +29,15 @@ session_start();
     //     extract($row);
 
 ?>
+<?php 
+// date_default_timezone_set("UTC"); 
+// echo "UTC:".time(); 
+// echo "<br>"; 
 
+date_default_timezone_set("Africa/Nairobi"); 
+// echo "Europe/Helsinki:".time(); 
+// echo "<br>"; 
+?> 
 <!doctype html>
 <html lang="en">
 <head>
@@ -122,7 +134,7 @@ session_start();
                     </a>
                 </li>
                 <li >
-                    <a href="WORKDONE.php">
+                    <a href="parts_awaited.php">
                         <i class="ti-settings"></i>
                         <p>Parts Awaited</p>
                     </a>
@@ -159,6 +171,12 @@ session_start();
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                        
+                        <li>
+                            <a href="#">
+                            <i class="ti-alarm-clock">&nbsp</i>
+                                    <?php echo date("d-M-Y h:i:s a"); ?>
+                                </a>
+                        </li>
                         <li>
                             <a href="#">
                             <i class="ti-user">&nbsp</i>
@@ -207,6 +225,7 @@ session_start();
 ?>
 
                                                <select name="unit" id="UNIT" title="department" class="form-control border-input demo-form-field" placeholder="UNIT" required="required">
+                                               <option value="">Selelct Unit</option>
 <?php foreach ($result as $row): ?>
     <option><?=$row["UNITS"]?></option>
 <?php endforeach ?>
@@ -257,7 +276,9 @@ session_start();
 
                                                
   <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="actype" id="DATECOMPLETED" placeholder="AIRCRAFT TYPE" required="required">
+  <option value="">Selelct Aircraft Type</option>
 <?php foreach ($result as $row): ?>
+    
     <option><?=$row["TYPE"]?></option>
 <?php endforeach ?>
 </select>
@@ -279,7 +300,9 @@ session_start();
 
                                                
   <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="acreg" id="DATECOMPLETED" placeholder="AIRCRAFT REGISTRATION NUMBER" required="required">
+  <option value="">Selelct Aircraft Registration Number</option>
 <?php foreach ($result as $row): ?>
+    
     <option><?=$row["REGNUM"]?></option>
 <?php endforeach ?>
 </select>
@@ -328,7 +351,9 @@ session_start();
 
                                                
   <select name="category" id="category" title="department" class="form-control border-input demo-form-field" id="DATECOMPLETED" placeholder="CATEGORY" required="required">
+    <option value="">Selelct Category</option>
 <?php foreach ($result as $row): ?>
+    
     <option><?=$row["CATEGORY"]?></option>
 <?php endforeach ?>
 </select>
@@ -346,7 +371,7 @@ session_start();
                                                 <label>BEYOND LOCAL REPAIR</label>
                                                
   <select title="department" class="form-control border-input demo-form-field" name="blr" id="DATECOMPLETED" placeholder="BEYOND LOCAL REPAIR" required="required">
-                                            <option >Select below</option>
+                                            <option value="">Select below</option>
                                             <option value="reparable">reparable</option>
                                             <option value="beyond repair">beyond repair</option>
                                             
@@ -476,9 +501,24 @@ session_start();
                                         <!-- </div> -->
                                         <!-- <div class="col-md-4"> -->
                                             <div class="form-group">
+                                                <!-- <label>DATE COMPLETED</label> -->
+                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="signoff" value="0" placeholder="signoff" required="required">
+                                            </div>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-md-4"> -->
+                                            <div class="form-group">
                                                 <!-- <label>MANHOURS</label> -->
                                                 <input type="hidden" class="form-control border-input demo-form-field datepicke" name="manhours" placeholder="DATE REMOVED" required="required">
                                             </div>
+                                            <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <!-- <label>DATEPOSTED</label> -->
+                                                <input type="hidden" value="<?php echo date("d/M/Y"); ?>" class="form-control border-input demo-form-field" name="postedat" placeholder="UNIT">
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
                                         <!-- </div> -->
                                         </div>
                                         <div class="text-center">
