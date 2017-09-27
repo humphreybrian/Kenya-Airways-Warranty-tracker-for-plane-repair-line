@@ -194,7 +194,7 @@ date_default_timezone_set("Africa/Nairobi");
             <div class="container-fluid">
                 <div class="row">
                     
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-md-offset-3">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">EDIT AIRCRAFT REGISTRATION NUMBER</h4>

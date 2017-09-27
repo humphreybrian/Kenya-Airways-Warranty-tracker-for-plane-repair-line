@@ -275,7 +275,7 @@ date_default_timezone_set("Africa/Nairobi");
 ?>
 
                                                
-  <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="actype" id="DATECOMPLETED" placeholder="AIRCRAFT TYPE" required="required">
+  <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="actype" id="DATECOMPLETED" placeholder="AIRCRAFT TYPE">
   <option value="">Selelct Aircraft Type</option>
 <?php foreach ($result as $row): ?>
     
@@ -299,7 +299,7 @@ date_default_timezone_set("Africa/Nairobi");
 ?>
 
                                                
-  <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="acreg" id="DATECOMPLETED" placeholder="AIRCRAFT REGISTRATION NUMBER" required="required">
+  <select id="INSPECNO" title="department" class="form-control border-input demo-form-field" name="acreg" id="DATECOMPLETED" placeholder="AIRCRAFT REGISTRATION NUMBER" >
   <option value="">Selelct Aircraft Registration Number</option>
 <?php foreach ($result as $row): ?>
     

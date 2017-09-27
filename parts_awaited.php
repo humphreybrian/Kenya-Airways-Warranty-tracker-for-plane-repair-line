@@ -1,10 +1,11 @@
 <?php
 if(!empty($_POST["add_record"])) {
     require_once("db.php");
-    $sql = "INSERT INTO PARTSAWAITED (SPAREPARTNUMBER, DESCRIPTION, REQNUMBER, DATEOFREQ, ENGINEER, QUANTITY, STORESCOMMENT, DATEOFENTRY, REMARKS, INSPECTIONNO) VALUES ( :sparepartnumber, :description, :reqnumber, :dateofreq, :engineer, :quantity, :storescomment, :dateofentry, :remarks, :inspectionno)";
+    $dateofreq = date('d/M/Y',strtotime($_POST['dateofreq']));
+    $sql = "INSERT INTO PARTSAWAITED (SPAREPARTNUMBER, DESCRIPTION, REQNUMBER, DATEOFREQ, ENGINEER, QUANTITY, STORESCOMMENT, DATEOFENTRY, REMARKS, INSPECTIONNO, SIGNOFF) VALUES ( :sparepartnumber, :description, :reqnumber, :dateofreq, :engineer, :quantity, :storescomment, :dateofentry, :remarks, :inspectionno, :signoff)";
     $pdo_statement = $DB_con->prepare( $sql );
         
-    $result = $pdo_statement->execute( array( ':sparepartnumber'=>$_POST['sparepartnumber'], ':description'=>$_POST['description'], ':reqnumber'=>$_POST['reqnumber'], ':dateofreq'=>$_POST['dateofreq'], ':engineer'=>$_POST['engineer'], ':quantity'=>$_POST['quantity'], ':storescomment'=>$_POST['storescomment'], ':dateofentry'=>$_POST['dateofentry'], ':remarks'=>$_POST['remarks'], ':inspectionno'=>$_POST['inspectionno'] ) );
+    $result = $pdo_statement->execute( array( ':sparepartnumber'=>$_POST['sparepartnumber'], ':description'=>$_POST['description'], ':reqnumber'=>$_POST['reqnumber'], ':dateofreq'=>$dateofreq, ':engineer'=>$_POST['engineer'], ':quantity'=>$_POST['quantity'], ':storescomment'=>$_POST['storescomment'], ':dateofentry'=>$_POST['dateofentry'], ':remarks'=>$_POST['remarks'], ':inspectionno'=>$_POST['inspectionno'], ':signoff'=>$_POST['signoff'] ) );
     if (!empty($result) ){
       header('location:parts_awaited.php');
     }
@@ -303,6 +304,12 @@ date_default_timezone_set("Africa/Nairobi");
                                                 <input type="hidden" class="form-control border-input demo-form-field" name="engineer" placeholder="ENGINEER" value="<?php echo $_SESSION['displayname']; ?>">
                                             </div>
                                         </div>
+                                        <!-- <div class="col-md-4"> -->
+                                            <div class="form-group">
+                                                <!-- <label>DATE COMPLETED</label> -->
+                                                <input type="hidden" class="form-control border-input demo-form-field datepicke" name="signoff" value="0" placeholder="signoff" required="required">
+                                            </div>
+                                        <!-- </div> -->
                                         
 
                                          
@@ -420,7 +427,7 @@ date_default_timezone_set("Africa/Nairobi");
                             { 
                                 "targets": 4,
                                 "render": function(data, type, row, meta){
-                                   return '<a style="padding: 0px 5px;" href="editpart_awaited.php?id=' + row[4] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a><a style="padding: 0px 5px;" class="ajax-action-links"  href="javascript:delete_id('+ row[4] +')" ><i class="fa fa-trash" style="color:red;"></i></a><a style="padding: 0px 5px;" class="ajax-action-links"  href="validate_partsawaited.php?id=' + row[5] + '" ><i class="fa fa-check-square-o" style="color:#2E8B57;"></i></a>';  
+                                   return '<a style="padding: 0px 5px;" href="editpart_awaited.php?id=' + row[4] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a><a style="padding: 0px 5px;" class="ajax-action-links"  href="javascript:delete_id('+ row[4] +')" ><i class="fa fa-trash" style="color:red;"></i></a><a style="padding: 0px 5px;" class="ajax-action-links"  href="validate_partsawaited.php?id=' + row[4] + '" ><i class="fa fa-check-square-o" style="color:#2E8B57;"></i></a>';  
                                 }
                             }            
                         ]        

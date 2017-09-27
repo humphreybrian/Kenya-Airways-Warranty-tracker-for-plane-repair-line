@@ -76,7 +76,7 @@ $result = $pdo_statement->fetchAll();
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">AIRCRAFT REGISTRATION NUMBER</a>
+                    <a class="navbar-brand" href="#">AIRCRAFT TYPE</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -98,10 +98,10 @@ $result = $pdo_statement->fetchAll();
             <div class="container-fluid">
                 <div class="row">
                     
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-md-offset-3">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">EDIT AIRCRAFT REGISTRATION NUMBER</h4>
+                                <h4 class="title">EDIT AIRCRAFT TYPE</h4>
                             </div>
                             <div class="content">
                                      <form name="frmAdd" action="" method="POST">
@@ -110,7 +110,7 @@ $result = $pdo_statement->fetchAll();
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>AIRCRAFT REGITSRATION NUMBER</label>
+                                                <label>AIRCRAFT TYPE</label>
                                                 <input type="text" class="form-control border-input demo-form-field" value="<?php echo $result[0]['TYPE']; ?>" name="type" placeholder="AIRCRAFT TYPE" ></div>
                                         </div>
                                     </div>

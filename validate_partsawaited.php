@@ -1,10 +1,10 @@
 <?php
 require_once("db.php");
 if(!empty($_POST["save_record"])) {
-	$pdo_statement=$DB_con->prepare("update items set signoff='" . $_POST[ 'validate' ]. "'  where id=" . $_GET["id"]);
+	$pdo_statement=$DB_con->prepare("update partsawaited set signoff='" . $_POST[ 'validate' ]. "'  where id=" . $_GET["id"]);
 	$result = $pdo_statement->execute();
 	if($result) {
-		header('location:table.php?message=1');
+		header('location:parts_awaited.php?message=1');
 	}
 }
 $pdo_statement = $DB_con->prepare("SELECT * FROM partsawaited where id='$_GET[id]'");
@@ -197,15 +197,15 @@ session_start();
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>SERIAL NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" name="serialnumber" value="<?php echo $result1[0]['SERIALNUMBER']; ?>" placeholder="SERIAL NUMBER" required="required" readonly>
+                                                <label>REQUEST NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="serialnumber" value="<?php echo $result1[0]['REQNUMBER']; ?>" placeholder="SERIAL NUMBER" required="required" readonly>
                                             </div>
                                         </div>
                                                                     
                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>DATE RECEIVED</label>
-                                                <input class="form-control border-input demo-form-field" value="<?php echo $result1[0]['DATERCD']; ?>" placeholder="DATE RECEIVED" required="required" readonly>
+                                                <label>DATE OF REQUEST</label>
+                                                <input class="form-control border-input demo-form-field" value="<?php echo $result1[0]['DATEOFREQ']; ?>" placeholder="DATE RECEIVED" required="required" readonly>
                                             </div>
                                         </div>
                                         </div>
@@ -214,21 +214,21 @@ session_start();
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>DATE REMOVED</label>
-                                                <input class="form-control border-input demo-form-field" value="<?php echo $result1[0]['DATERMVD']; ?>" placeholder="DATE REMOVED" required="required" readonly>
+                                                <label>ENGINEER</label>
+                                                <input class="form-control border-input demo-form-field" value="<?php echo $result1[0]['ENGINEER']; ?>" placeholder="DATE REMOVED" required="required" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>DATE COMPLETED</label>
-                                                <input class="form-control border-input demo-form-field datepicke" value="<?php echo $result1[0]['DATECOMPLETED']; ?>" placeholder="DATE REMOVED" required="required" readonly>
+                                                <label>QUANTITY</label>
+                                                <input class="form-control border-input demo-form-field datepicke" value="<?php echo $result1[0]['QUANTITY']; ?>" placeholder="DATE REMOVED" required="required" readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>TECHNICIAN</label>
-                                                <input class="form-control border-input demo-form-field" value="<?php echo $result1[0]['TECH']; ?>" value="<?php echo $_SESSION['displayname']; ?>" placeholder="DEFECT" required="required" readonly>
+                                                <label>REMARKS</label>
+                                                <input class="form-control border-input demo-form-field" value="<?php echo $result1[0]['REMARKS']; ?>" value="<?php echo $_SESSION['displayname']; ?>" placeholder="DEFECT" required="required" readonly>
                                             </div>
                                             </div>
                                        </div>

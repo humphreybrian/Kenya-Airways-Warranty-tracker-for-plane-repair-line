@@ -1,7 +1,8 @@
 <?php
 require_once("db.php");
 if(!empty($_POST["save_record"])) {
-	$pdo_statement=$DB_con->prepare("update partsawaited set sparepartnumber='" . trim($_POST[ 'sparepartnumber' ]) . "', description='" . trim($_POST[ 'description' ]) . "', reqnumber='" . trim($_POST[ 'reqnumber' ]) . "',dateofreq='" . trim($_POST[ 'dateofreq' ]) . "', engineer='" . trim($_POST[ 'engineer' ]) . "', quantity='" . trim($_POST[ 'quantity' ]) . "', storescomment='" . trim($_POST[ 'storescomment' ]) . "', dateofentry='" . trim($_POST[ 'dateofentry' ]) . "', remarks='" . trim($_POST[ 'remarks' ]) . "' , inspectionno='" . trim($_POST[ 'inspectionno' ]) . "', updateddate='" . trim($_POST[ 'updateddate' ]) . "' where id='" . $_GET["id"]."'");
+    $dateofreq = date('d/M/Y',strtotime($_POST['dateofreq']));
+	$pdo_statement=$DB_con->prepare("update partsawaited set sparepartnumber='" . trim($_POST[ 'sparepartnumber' ]) . "', description='" . trim($_POST[ 'description' ]) . "', reqnumber='" . trim($_POST[ 'reqnumber' ]) . "',dateofreq='" . trim($dateofreq) . "', engineer='" . trim($_POST[ 'engineer' ]) . "', quantity='" . trim($_POST[ 'quantity' ]) . "', storescomment='" . trim($_POST[ 'storescomment' ]) . "', dateofentry='" . trim($_POST[ 'dateofentry' ]) . "', remarks='" . trim($_POST[ 'remarks' ]) . "' , inspectionno='" . trim($_POST[ 'inspectionno' ]) . "', updateddate='" . trim($_POST[ 'updateddate' ]) . "' where id='" . $_GET["id"]."'");
 	$result = $pdo_statement->execute();
 	if($result) {
 		header('location:parts_awaited.php');
@@ -159,7 +160,7 @@ date_default_timezone_set("Africa/Nairobi");
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">EDIT CATEGORIES</a>
+                    <a class="navbar-brand" href="#">EDIT PARTSAWAITED</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -235,7 +236,7 @@ date_default_timezone_set("Africa/Nairobi");
                                             <div class="form-group">
                                                 <label>REQUISITION DATE</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
-                                               <input type="date" class="form-control border-input demo-form-field" name="dateofreq" value="<?php echo $result[0]['DATEOFREQ']; ?>" placeholder="DATE RECEIVED" required="required">
+                                               <input type="text" class="form-control border-input demo-form-field" name="dateofreq" value="<?php echo $result[0]['DATEOFREQ']; ?>" placeholder="DATE RECEIVED" required="required" readonly>
                                             </div>
                                         </div>
 
@@ -289,7 +290,7 @@ date_default_timezone_set("Africa/Nairobi");
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <!-- <label>DATEPOSTED</label> -->
-                                                <input type="hidden" value="<?php echo date("d-M-Y"); ?>" class="form-control border-input demo-form-field" name="updateddate" placeholder="UNIT">
+                                                <input type="hidden" value="<?php echo date("d/M/Y"); ?>" class="form-control border-input demo-form-field" name="updateddate" placeholder="UNIT">
                                             </div>
                                         </div>
                                         

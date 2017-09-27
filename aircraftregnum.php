@@ -402,7 +402,7 @@ date_default_timezone_set("Africa/Nairobi");
                             { 
                                 "targets": 1,
                                 "render": function(data, type, row, meta){
-                                   return '<a href="editcat.php?id=' + row[1] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a><a class="ajax-action-links"  href="javascript:delete_id('+ row[1] +')" ><i class="fa fa-trash" style="color:red;"></i></a>';  
+                                   return '<a href="editair_reg.php?id=' + row[1] + '"><i class="fa fa-pencil" style="color:#DAA520;"></i></a><a class="ajax-action-links"  href="javascript:delete_id('+ row[1] +')" ><i class="fa fa-trash" style="color:red;"></i></a>';  
                                 }
                             }            
                         ]        
