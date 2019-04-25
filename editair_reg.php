@@ -1,54 +1,54 @@
 <?php
 require_once("db.php");
-if(!empty($_POST["save_record"])) {
-    $pdo_statement=$DB_con->prepare("update airregnum set regnum='" . trim($_POST[ 'regnum' ]) . "'  where id=" . $_GET["id"]);
+if (!empty($_POST["save_record"])) {
+    $pdo_statement = $DB_con->prepare("update t_airregnum_warranty set regnum='" . trim($_POST['regnum']) . "'  where id=" . $_GET["id"]);
     $result = $pdo_statement->execute();
-    if($result) {
+    if ($result) {
         header('location:aircraftregnum.php');
     }
 }
-$pdo_statement = $DB_con->prepare("SELECT * FROM airregnum where id=" . $_GET["id"]);
+$pdo_statement = $DB_con->prepare("SELECT * FROM t_airregnum_warranty where id=" . $_GET["id"]);
 $pdo_statement->execute();
 $result = $pdo_statement->fetchAll();
 ?>
 <?php
 session_start();
-    if(!isset($_SESSION['sess_username'])){
-      header('Location: index.php?err=2');
-    }
-    // $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
-    //     $query1 = $DB_con->prepare($q1);
-    //     $query1->execute(array(':username' => $_SESSION['sess_username']));
-    //     $row = $query1->fetch(PDO::FETCH_ASSOC);
-    //     extract($row);
+if (!isset($_SESSION['sess_username'])) {
+    header('Location: index.php?err=2');
+}
+// $q1 = 'SELECT * FROM tbl_users WHERE username=:username ';
+//     $query1 = $DB_con->prepare($q1);
+//     $query1->execute(array(':username' => $_SESSION['sess_username']));
+//     $row = $query1->fetch(PDO::FETCH_ASSOC);
+//     extract($row);
 
 ?>
 
-<?php 
+<?php
 // date_default_timezone_set("UTC"); 
 // echo "UTC:".time(); 
 // echo "<br>"; 
 
-date_default_timezone_set("Africa/Nairobi"); 
+date_default_timezone_set("Africa/Nairobi");
 // echo "Europe/Helsinki:".time(); 
 // echo "<br>"; 
 ?>
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
 
-    <title>KQ Tracker System.</title>
+    <title>KQ Workshop Tracker.</title>
 
     <!-- <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" /> -->
 
 
     <!-- Bootstrap core CSS     -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Animation library for notifications   -->
     <link href="assets/css/animate.min.css" rel="stylesheet"/>
@@ -58,7 +58,7 @@ date_default_timezone_set("Africa/Nairobi");
 
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="assets/css/demo.css" rel="stylesheet" />
+    <link href="assets/css/demo.css" rel="stylesheet"/>
 
 
     <!--  Fonts and icons     -->
@@ -70,17 +70,18 @@ date_default_timezone_set("Africa/Nairobi");
 <body>
 
 <div class="wrapper">
-	<div class="sidebar" data-background-color="black" data-active-color="danger">
+    <div class="sidebar" data-background-color="black" data-active-color="danger">
 
-    <!--
-		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-	-->
+        <!--
+            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+        -->
 
-    	<div class="sidebar-wrapper">
+        <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="dashboard.php" class="simple-text"><img src="assets/img/kqicon.png" height="30px" width="30px" />
-                     Workshop
+                <a href="dashboard.php" class="simple-text"><img src="assets/img/kqicon.png" height="30px"
+                                                                 width="30px"/>
+                    Workshop
                 </a>
             </div>
             <ul class="nav">
@@ -96,62 +97,62 @@ date_default_timezone_set("Africa/Nairobi");
                         <p>Categories</p>
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="table.php">
                         <i class="ti-view-list-alt"></i>
                         <p>Table List</p>
                     </a>
                 </li>
-        
-                 <li >
+
+                <li>
                     <a href="additem.php">
                         <i class="ti-save-alt"></i>
                         <p>AddItem</p>
                     </a>
                 </li>
-               <li>
+                <li>
                     <a href="addaircraft.php">
                         <i class="ti-location-arrow"></i>
                         <p>Aircraft Type</p>
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="aircraftregnum.php">
                         <i class="ti-notepad"></i>
                         <p>Aircraft Reg Number</p>
                     </a>
                 </li>
-              <li >
+                <li>
                     <a href="unit.php">
                         <i class="ti-bag"></i>
                         <p>Add Unit</p>
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="parts_awaited.php">
                         <i class="ti-settings"></i>
                         <p>Parts Awaited</p>
                     </a>
                 </li>
-                <li >
-                   <a href="report.php">
-                       <i class="ti-stats-up"></i>
+                <li>
+                    <a href="report.php">
+                        <i class="ti-stats-up"></i>
                         <p>Reports</p>
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="manageusers.php">
-                       <i class="ti-user"></i>
+                        <i class="ti-user"></i>
                         <p>Manage Users</p>
                     </a>
                 </li>
-                
+
             </ul>
-    	</div>
+        </div>
     </div>
 
     <div class="main-panel">
-		<nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
@@ -164,18 +165,18 @@ date_default_timezone_set("Africa/Nairobi");
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        
+
                         <li>
                             <a href="#">
-                            <i class="ti-alarm-clock">&nbsp</i>
-                                    <?php echo date("d-M-Y h:i:s a"); ?>
-                                </a>
+                                <i class="ti-alarm-clock">&nbsp</i>
+                                <?php echo date("d-M-Y h:i:s a"); ?>
+                            </a>
                         </li>
                         <li>
                             <a href="#">
-                            <i class="ti-user">&nbsp</i>
-                                    <?php echo $_SESSION['displayname']; ?>
-                                </a>
+                                <i class="ti-user">&nbsp</i>
+                                <?php echo $_SESSION['displayname']; ?>
+                            </a>
                         </li>
                         <li>
                             <a href="#">
@@ -193,25 +194,29 @@ date_default_timezone_set("Africa/Nairobi");
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    
+
                     <div class="col-md-6 col-md-offset-3">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">EDIT AIRCRAFT REGISTRATION NUMBER</h4>
                             </div>
                             <div class="content">
-                                     <form name="frmAdd" action="" method="POST">
-                                   
+                                <form name="frmAdd" action="" method="POST">
+
 
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>AIRCRAFT REGITSRATION NUMBER</label>
-                                                <input type="text" class="form-control border-input demo-form-field" value="<?php echo $result[0]['REGNUM']; ?>" name="regnum" placeholder="AIRREGNUM" ></div>
+                                                <input type="text" class="form-control border-input demo-form-field"
+                                                       value="<?php echo $result[0]['REGNUM']; ?>" name="regnum"
+                                                       placeholder="AIRREGNUM"></div>
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" name="save_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit" >SAVE CHANGES</button>
+                                        <button type="submit" name="save_record" value="Add"
+                                                class="btn btn-danger btn-fill btn-wd demo-form-submit">SAVE CHANGES
+                                        </button>
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
@@ -222,7 +227,6 @@ date_default_timezone_set("Africa/Nairobi");
 
                     <!-- start of the second card-->
 
-                    
 
                     <!-- end of the secind card-->
 
@@ -238,32 +242,32 @@ date_default_timezone_set("Africa/Nairobi");
 
 </body>
 
-    <!--   Core JS Files   -->
-    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--  Checkbox, Radio & Switch Plugins -->
-	<script src="assets/js/bootstrap-checkbox-radio.js"></script>
+<!--  Checkbox, Radio & Switch Plugins -->
+<script src="assets/js/bootstrap-checkbox-radio.js"></script>
 
-	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
+<!--  Charts Plugin -->
+<script src="assets/js/chartist.min.js"></script>
 
-    <!--  Notifications Plugin    -->
-    <script src="assets/js/bootstrap-notify.js"></script>
+<!--  Notifications Plugin    -->
+<script src="assets/js/bootstrap-notify.js"></script>
 
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
-    <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
-	<script src="assets/js/paper-dashboard.js"></script>
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="assets/js/paper-dashboard.js"></script>
 
-	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-	<script src="assets/js/demo.js"></script>
+<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+<script src="assets/js/demo.js"></script>
 
-    <script>
-        $().ready(function(){
-            demo.initGoogleMaps();
-        });
-    </script>
+<script>
+    $().ready(function () {
+        demo.initGoogleMaps();
+    });
+</script>
 
 </html>

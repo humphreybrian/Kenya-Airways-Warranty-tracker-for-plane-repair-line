@@ -22,7 +22,7 @@
 	$new_password = md5($new_pass);
 	echo $username ." : ".$password;
 
-	$q = 'SELECT COUNT(*) FROM tbl_users WHERE username=:username AND password=:password';
+	$q = 'SELECT COUNT(*) FROM t_users_warranty WHERE username=:username AND password=:password';
 
 	$query = $DB_con->prepare($q);
 
@@ -35,7 +35,7 @@
 		if ($new_pass != $con_pass) {
 			header('Location: reset.php?err=3');
 		}else{
-			$q1 = 'SELECT * FROM tbl_users WHERE username=:username AND password=:password';
+			$q1 = 'SELECT * FROM t_users_warranty WHERE username=:username AND password=:password';
 			$query1 = $DB_con->prepare($q1);
 			$query1->execute(array(':username' => $username, ':password' => $password));
 			$row = $query1->fetch(PDO::FETCH_ASSOC);

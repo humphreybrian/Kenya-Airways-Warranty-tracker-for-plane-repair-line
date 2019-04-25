@@ -25,7 +25,7 @@ date_default_timezone_set("Africa/Nairobi");
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/kqicon.png">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
 
-    <title>KQ Tracker System.</title>
+    <title>KQ Workshop Tracker.</title>
 
     <!-- <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" /> -->
@@ -187,59 +187,93 @@ date_default_timezone_set("Africa/Nairobi");
                             <div class="content">
                                 <form name="frmAdd" action="displayreports.php" method="GET">
                                    
-                                         <div class="row">
-                                          <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+
                                             <div class="form-group">
                                                 <label>CATEGORY</label>
-                                                <?php   
-    $pdo_statement = $DB_con->prepare("SELECT CATEGORY FROM categories");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
+                                                    <?php   
+                                                        $pdo_statement = $DB_con->prepare("SELECT CATEGORY FROM t_categories_warranty");
+                                                        $pdo_statement->execute();
+                                                        $result = $pdo_statement->fetchAll();
+                                                    ?>
 
-                                               
-  <select name="category" id="category" title="department" class="form-control border-input demo-form-field" placeholder="CATEGORY" required="required">
-        <option value="">Select Category</option>
-<?php foreach ($result as $row): ?>
-    <option><?=$row["CATEGORY"]?></option>
-<?php endforeach ?>
-</select>
-  
+                                                                                               
+                                                  <select name="category" id="category" title="department" class="form-control border-input demo-form-field" placeholder="CATEGORY" required="required">
+                                                        <option value="">Select Category</option>
+                                                <?php foreach ($result as $row): ?>
+                                                    <option><?=$row["CATEGORY"]?></option>
+                                                <?php endforeach ?>
+                                                </select>
+                                                  
                                             </div>
+
                                         </div>
+
+
 
                                         <div class="col-md-4">
                                              <div class="form-group">
-                                                <label>AIRCRAFT REGISTRATION NUMBER</label>
-                                                <?php   
-    $pdo_statement = $DB_con->prepare("SELECT REGNUM FROM airregnum");
-    $pdo_statement->execute();
-    $result = $pdo_statement->fetchAll();
-?>
+                                                  <label>AIRCRAFT REGISTRATION NUMBER</label>
+                                                    <?php   
+                                                        $pdo_statement = $DB_con->prepare("SELECT REGNUM FROM t_airregnum_warranty");
+                                                        $pdo_statement->execute();
+                                                        $result = $pdo_statement->fetchAll();
+                                                    ?>
 
-                                               
-  <select name="air_reg" id="category" title="department" class="form-control border-input demo-form-field" placeholder="AIRCRAFT TYPE" >
-    <option value="">Select A Reg No</option>
-<?php foreach ($result as $row): ?>
-    <option><?=$row["REGNUM"]?></option>
-<?php endforeach ?>
-</select>
-  
+                                                                                                   
+                                                      <select name="air_reg" id="category" title="department" class="form-control border-input demo-form-field" placeholder="AIRCRAFT REGISTRATION" >
+                                                        <option value="">Select A Reg No</option>
+                                                    <?php foreach ($result as $row): ?>
+                                                        <option><?=$row["REGNUM"]?></option>
+                                                    <?php endforeach ?>
+                                                    </select>
+              
                                             </div>
                                         </div>
+
+
+
+
+                                        <!-- THis is the section for aircraft type -->
+                                           <div class="col-md-4">
+                                             <div class="form-group">
+                                                                                                <label>AIRCRAFT TYPE</label>
+                                                                                                <?php   
+                                                    $pdo_statement = $DB_con->prepare("SELECT TYPE FROM t_aircrafts_warranty");
+                                                    $pdo_statement->execute();
+                                                    $result = $pdo_statement->fetchAll();
+                                                ?>
+
+                                                                                               
+                                                  <select name="air_type" id="air_type" title="department" class="form-control border-input demo-form-field" placeholder="AIRCRAFT TYPE" >
+                                                    <option value="">Select Aircraft</option>
+                                                <?php foreach ($result as $row): ?>
+                                                    <option><?=$row["TYPE"]?></option>
+                                                <?php endforeach ?>
+                                                </select>
+  
+                                            </div>
+                                        </div> 
                                        
                                     </div>
 
 
                                     <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>PART NUMBER</label>
+                                                <input type="text" class="form-control border-input demo-form-field" name="partnumber" placeholder="PART NUMBER" required="required">
+                                            </div>
+                                        </div>
 
-                                                <div class="col-md-4">
+                                        <div class="col-md-4">
                                                 <div class="form-group">
                                                 <label>FROM</label>
                                                <!-- <input type="text" class="form-control border-input demo-form-field" name="tag" placeholder="REQUISITION DATE">  -->
                                                <input type="date" class="form-control border-input demo-form-field" name="date1" placeholder="DATE RECEIVED" required="required">
                                                 </div>
-                                                 </div>
+                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -248,14 +282,17 @@ date_default_timezone_set("Africa/Nairobi");
                                             </div>
                                         </div>
 
-                                         </div>
+
+
+                                    </div>
 
                                    <div class="row">
-                                     <div class="col-md-6 col-md-offset-3">
-                                    <div class="text-center">
-                                        <button  type="submit" name="search_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">VIEW REPORTS</button>
-                                    </div>
-                                    </div>
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <div class="text-center">
+                                                <button  type="submit" name="search_record" value="Add" class="btn btn-danger btn-fill btn-wd demo-form-submit">VIEW REPORTS</button>
+                                            </div>
+                                    
+                                        </div>
                                     </div>
 
                                     <div class="clearfix"></div>

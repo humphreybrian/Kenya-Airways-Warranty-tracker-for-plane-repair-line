@@ -21,7 +21,7 @@
     $sIndexColumn = "ID";
      
     /* DB table to use */
-    $sTable = "ITEMS";
+    $sTable = "T_ITEMS_WARRANTY";
    
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * If you just want to use the basic configuration for DataTables with PHP server-side, there is
@@ -32,7 +32,7 @@
      * Oracle connection
      */
      
-    $conn = oci_connect('warrantytracker','warranty#tracker','10.2.2.50:1521/dwhdev');
+    $conn = oci_connect('DWH_FOUNDATION','dwh','10.2.155.78:1521/warehouse');
     if (!$conn)
     {
         $e = oci_error();

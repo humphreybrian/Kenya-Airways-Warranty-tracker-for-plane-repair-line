@@ -12,13 +12,13 @@ error_reporting(0);
 /* Array of database columns which should be read and sent back to DataTables. Use a space where
  * you want to insert a non-database field (for example a counter or static image)
  */
-$aColumns = array('REGNUM', 'ID');
+$aColumns = array('USERNAME', 'ROLE', 'CODE','ID');
 
 /* Indexed column (used for fast and accurate table cardinality) */
 $sIndexColumn = "ID";
 
 /* DB table to use */
-$sTable = "T_AIRREGNUM_WARRANTY";
+$sTable = "T_USERS_WARRANTY";
 
 /* Database connection information */
 $gaSql['user'] = "Warranty";
@@ -156,7 +156,7 @@ for ($i = 0; $i < count($aColumns); $i++) {
 
 //If there is still no where clause - set a general - always true where clause
 if ($sWhere == "") {
-    $sWhere = "WHERE 1=1";
+    $sWhere = " WHERE 1=1";
 }
 
 

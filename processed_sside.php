@@ -18,14 +18,14 @@
     $sIndexColumn = "ID";
      
     /* DB table to use */
-    $sTable = "ITEMS";
+    $sTable = "T_ITEMS_WARRANTY";
      
     /* Database connection information */
-    $gaSql['user']     = "warrantytracker";
-    $gaSql['password'] = "warranty#tracker";
-    $gaSql['schema']   = "dwhdev";
+    $gaSql['user']     = "Warranty";
+    $gaSql['password'] = "Welcome#1";
+    $gaSql['schema']   = "addmonitorDB";
     $gaSql['port']     = "1521";
-    $gaSql['server']   = "10.2.2.50";
+    $gaSql['server']   = "10.2.155.37";
      
     $connection_string = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)
     (HOST = {$gaSql['server']  })(PORT = {$gaSql['port'] })))(CONNECT_DATA=(SID={$gaSql['schema']})))";
